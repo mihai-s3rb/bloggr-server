@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    internal class Like
+    public class Like
     {
+        private int Id { get; set; }
+
+        public User Author { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }
