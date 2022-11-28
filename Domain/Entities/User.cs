@@ -9,7 +9,6 @@ namespace Domain.Entities
 {
     public class User : BaseEntity
     {
-
         public string Username { get; set; }
 
         public string? FirstName { get; set; }
@@ -21,8 +20,6 @@ namespace Domain.Entities
         public ICollection<string>? Interests { get; init; }
 
         public DateOnly BirthDate { get; set; }
-
-
 
     }
 }

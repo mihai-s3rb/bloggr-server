@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{C678EC9A-8203-4D6D-AB51-BF02D671857E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggr.Domain", "Domain\Bloggr.Domain.csproj", "{C678EC9A-8203-4D6D-AB51-BF02D671857E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{E128CDF7-34C9-496E-A7EC-A557BA627550}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggr.Application", "Application\Bloggr.Application.csproj", "{E128CDF7-34C9-496E-A7EC-A557BA627550}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{8C79E1A9-FB82-472C-8577-FD913DD8E9D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggr.Infrastructure", "Infrastructure\Bloggr.Infrastructure.csproj", "{8C79E1A9-FB82-472C-8577-FD913DD8E9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{4DE8FB7A-0E21-433E-9871-63E4EBA2AF44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggr.Tests", "Tests\Bloggr.Tests.csproj", "{4DE8FB7A-0E21-433E-9871-63E4EBA2AF44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{45EE5B7D-8CD2-4A77-83DC-8BA1784A829C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggr.WebUI", "API\Bloggr.WebUI.csproj", "{45EE5B7D-8CD2-4A77-83DC-8BA1784A829C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
