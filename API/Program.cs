@@ -8,9 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 //add BloggrContext to API
 
+
 builder.Services.AddDbContext<BloggrContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("Bloggr.Infrastructure"));
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

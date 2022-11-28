@@ -1,6 +1,8 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace Domain.Entities
 {
     public class User : BaseEntity
     {
+        [Key]
         public string Username { get; set; }
 
         public string? FirstName { get; set; }
@@ -17,9 +20,9 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
-        public ICollection<string>? Interests { get; init; }
+        public ICollection<Interest>? Interests { get; init; }
 
-        public DateOnly BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
     }
 }
