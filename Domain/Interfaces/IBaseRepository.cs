@@ -9,6 +9,6 @@ namespace Bloggr.Domain.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        public void Add(TEntity entity);
+        public Task<TEntity> Add(TEntity entity);
     }
 }
