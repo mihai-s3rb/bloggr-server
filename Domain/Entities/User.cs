@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Abstracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
-        private int Id { get; set; }
 
         public string Username { get; set; }
 
@@ -18,7 +18,7 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
-        public List<string>? Interests { get; set; }
+        public ICollection<string>? Interests { get; init; }
 
         public DateOnly BirthDate { get; set; }
 
