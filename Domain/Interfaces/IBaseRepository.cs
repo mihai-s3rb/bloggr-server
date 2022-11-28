@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Domain.Interfaces
 {
-    internal interface IBaseRepository<TEntity> where TEntity : BaseEntity
+    public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        void AddPost(TEntity entity);
+        public void Add(TEntity entity);
     }
 }
