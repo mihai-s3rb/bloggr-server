@@ -11,7 +11,6 @@ namespace Domain.Entities
 {
     public class User : BaseEntity
     {
-        [Key]
         public string Username { get; set; }
 
         public string? FirstName { get; set; }
