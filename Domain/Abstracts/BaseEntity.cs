@@ -9,7 +9,7 @@ namespace Domain.Abstracts
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public DateTime CreationDate { get; set; }
 

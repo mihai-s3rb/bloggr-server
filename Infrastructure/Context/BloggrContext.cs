@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Bloggr.Infrastructure.Configurations;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseEntityConfiguration).Assembly);
         }
 
         public DbSet<User> Users { get; set; }

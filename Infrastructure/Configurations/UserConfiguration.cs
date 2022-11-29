@@ -24,6 +24,8 @@ namespace Bloggr.Infrastructure.Configurations
                 .HasMaxLength(30);
             builder.Property(t => t.Bio)
                 .HasMaxLength(1000);
+            builder.Property(t => t.CreatedBy)
+                .HasDefaultValue("null");
         }
     }
 }
