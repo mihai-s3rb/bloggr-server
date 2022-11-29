@@ -18,7 +18,7 @@ namespace Bloggr.Infrastructure.Repositories
             _dbSet = ctx.Set<TEntity>();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity?> GetById(int id)
         {
             TEntity? result = await _dbSet.FindAsync(id);
             return result;
@@ -44,23 +44,29 @@ namespace Bloggr.Infrastructure.Repositories
             return entities;
         }
 
-        public async Task<TEntity> RemoveById(int id)
+        public async Task<TEntity?> RemoveById(int id)
         {
-            TEntity existing = await _dbSet.FindAsync(id);
-            _ctx.Remove(existing);
+            TEntity? existing = await _dbSet.FindAsync(id);
+            if(existing is not null)
+            {
+                _ctx.Remove(existing);
+            }
+            await _ctx.SaveChangesAsync();
             return existing;
         }
 
-        public async Task<TEntity> RemoveRange(TEntity entity)
+        public async Task<IEnumerable<TEntity>> RemoveRange(IEnumerable<TEntity> entities)
         {
-            _ctx.Remove(entity);
-            return entity;
+            _ctx.RemoveRange(entities);
+            await _ctx.SaveChangesAsync();
+            return entities;
         }
 
         public async Task<TEntity> Update(TEntity entity)
         {
             _dbSet.Attach(entity);
             _ctx.Entry(entity).State = EntityState.Modified;
+            await _ctx.SaveChangesAsync();
             return entity;
         }
 

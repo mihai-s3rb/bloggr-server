@@ -15,6 +15,11 @@ namespace Infrastructure.Context
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Post> Posts { get; set; }
