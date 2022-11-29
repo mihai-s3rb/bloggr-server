@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    [Migration("20221129145953_Second")]
-    partial class Second
+    [Migration("20221129153804_MigrateWithConfiguration")]
+    partial class MigrateWithConfiguration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Bloggr.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Abstracts.BaseEntity", b =>
+            modelBuilder.Entity("Bloggr.Domain.Entities.Interest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,129 +33,127 @@ namespace Bloggr.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BaseEntity");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseEntity");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("Bloggr.Domain.Entities.Interest", b =>
-                {
-                    b.HasBaseType("Domain.Abstracts.BaseEntity");
-
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
-                    b.HasDiscriminator().HasValue("Interest");
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
-                    b.HasBaseType("Domain.Abstracts.BaseEntity");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable(t =>
-                        {
-                            t.Property("CreatedById")
-                                .HasColumnName("Comment_CreatedById");
-                        });
-
-                    b.HasDiscriminator().HasValue("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Domain.Entities.Like", b =>
                 {
-                    b.HasBaseType("Domain.Abstracts.BaseEntity");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable(t =>
-                        {
-                            t.Property("CreatedById")
-                                .HasColumnName("Like_CreatedById");
-
-                            t.Property("PostId")
-                                .HasColumnName("Like_PostId");
-                        });
-
-                    b.HasDiscriminator().HasValue("Like");
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
-                    b.HasBaseType("Domain.Abstracts.BaseEntity");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Testing")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable(t =>
-                        {
-                            t.Property("Content")
-                                .HasColumnName("Post_Content");
-
-                            t.Property("CreatedById")
-                                .HasColumnName("Post_CreatedById");
-                        });
-
-                    b.HasDiscriminator().HasValue("Post");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.HasBaseType("Domain.Abstracts.BaseEntity");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Bio")
                         .HasMaxLength(1000)
@@ -166,6 +164,11 @@ namespace Bloggr.Infrastructure.Migrations
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(30)
@@ -180,19 +183,14 @@ namespace Bloggr.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("[Username] IS NOT NULL");
+                        .IsUnique();
 
-                    b.ToTable(t =>
-                        {
-                            t.Property("CreatedById")
-                                .HasColumnName("User_CreatedById");
-                        });
-
-                    b.HasDiscriminator().HasValue("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Bloggr.Domain.Entities.Interest", b =>

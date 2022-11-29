@@ -13,10 +13,6 @@ namespace Domain.Entities
 
         public string Content { get; set; }
 
-        public DateTime Date { get; set; }
-
-        public string Testing { get; set; }
-
         public ICollection<Like>? Likes { get; init; }
 
         public ICollection<Comment>? Comments { get; init; }

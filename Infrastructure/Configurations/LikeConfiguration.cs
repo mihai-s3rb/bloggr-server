@@ -1,4 +1,4 @@
-﻿using Domain.Abstracts;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Infrastructure.Configurations
 {
-    public class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
+    public class LikeConfiguration : BaseEntityConfiguration<Like>
     {
-        public virtual void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<Like> builder)
         {
-            builder.Property(t => t.CreationDate)
-                .HasDefaultValueSql("getdate()");
+            base.Configure(builder);
         }
     }
 }

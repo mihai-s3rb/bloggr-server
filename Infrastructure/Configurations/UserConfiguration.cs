@@ -11,7 +11,7 @@ namespace Bloggr.Infrastructure.Configurations
 {
     public class UserConfiguration : BaseEntityConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
             base.Configure(builder);
             builder.Property(t => t.Username)

@@ -23,9 +23,11 @@ namespace Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
             new UserConfiguration().Configure(modelBuilder.Entity<User>());
-            new BaseEntityConfiguration<User>().Configure(modelBuilder.Entity<User>());
+            new PostConfiguration().Configure(modelBuilder.Entity<Post>());
+            new CommentConfiguration().Configure(modelBuilder.Entity<Comment>());
+            new LikeConfiguration().Configure(modelBuilder.Entity<Like>());
+            new InterestConfiguration().Configure(modelBuilder.Entity<Interest>());
 
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseEntityConfiguration).Assembly);
         }
 
         public DbSet<User> Users { get; set; }
@@ -34,9 +36,10 @@ namespace Infrastructure.Context
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         public DbSet<Interest> Interests { get; set; }
 
-        public DbSet<Like> Likes { get; set; }
 
     }
 }
