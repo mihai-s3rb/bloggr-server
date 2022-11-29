@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Infrastructure.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : BaseEntityConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            base.Configure(builder);
             builder.Property(t => t.Username)
                 .IsRequired()
                 .HasMaxLength(20);
@@ -24,8 +25,7 @@ namespace Bloggr.Infrastructure.Configurations
                 .HasMaxLength(30);
             builder.Property(t => t.Bio)
                 .HasMaxLength(1000);
-            builder.Property(t => t.CreatedBy)
-                .HasDefaultValue("null");
+            
         }
     }
 }

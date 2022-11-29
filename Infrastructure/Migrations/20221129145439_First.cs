@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bloggr.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,74 +15,79 @@ namespace Bloggr.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUsername = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatedById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Username);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Users_CreatedByUsername",
-                        column: x => x.CreatedByUsername,
+                        name: "FK_Users_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
-                        principalColumn: "Username");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Interest",
+                name: "Interests",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUsername = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatedById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Interest", x => x.Id);
+                    table.PrimaryKey("PK_Interests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Interest_Users_CreatedByUsername",
-                        column: x => x.CreatedByUsername,
+                        name: "FK_Interests_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
-                        principalColumn: "Username");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Testing = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUsername = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatedById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_CreatedByUsername",
-                        column: x => x.CreatedByUsername,
+                        name: "FK_Posts_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
-                        principalColumn: "Username");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUsername = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatedById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -93,20 +98,21 @@ namespace Bloggr.Infrastructure.Migrations
                         principalTable: "Posts",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comments_Users_CreatedByUsername",
-                        column: x => x.CreatedByUsername,
+                        name: "FK_Comments_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
-                        principalColumn: "Username");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUsername = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatedById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -117,16 +123,16 @@ namespace Bloggr.Infrastructure.Migrations
                         principalTable: "Posts",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Likes_Users_CreatedByUsername",
-                        column: x => x.CreatedByUsername,
+                        name: "FK_Likes_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
-                        principalColumn: "Username");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_CreatedByUsername",
+                name: "IX_Comments_CreatedById",
                 table: "Comments",
-                column: "CreatedByUsername");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -134,14 +140,14 @@ namespace Bloggr.Infrastructure.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interest_CreatedByUsername",
-                table: "Interest",
-                column: "CreatedByUsername");
+                name: "IX_Interests_CreatedById",
+                table: "Interests",
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_CreatedByUsername",
+                name: "IX_Likes_CreatedById",
                 table: "Likes",
-                column: "CreatedByUsername");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_PostId",
@@ -149,14 +155,20 @@ namespace Bloggr.Infrastructure.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_CreatedByUsername",
+                name: "IX_Posts_CreatedById",
                 table: "Posts",
-                column: "CreatedByUsername");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_CreatedByUsername",
+                name: "IX_Users_CreatedById",
                 table: "Users",
-                column: "CreatedByUsername");
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -166,7 +178,7 @@ namespace Bloggr.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Interest");
+                name: "Interests");
 
             migrationBuilder.DropTable(
                 name: "Likes");

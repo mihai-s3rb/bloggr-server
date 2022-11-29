@@ -9,6 +9,6 @@ namespace Domain.Entities
 {
     public class Comment : BaseEntity
     {
-        public string Content { get; set; }
+        public string? Content { get; set; }
     }
 }

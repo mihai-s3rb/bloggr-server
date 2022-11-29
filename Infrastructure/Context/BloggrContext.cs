@@ -1,9 +1,12 @@
-﻿using Bloggr.Infrastructure.Configurations;
+﻿using Bloggr.Domain.Entities;
+using Bloggr.Infrastructure.Configurations;
+using Domain.Abstracts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +21,11 @@ namespace Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseEntityConfiguration).Assembly);
+            base.OnModelCreating(modelBuilder);
+            new UserConfiguration().Configure(modelBuilder.Entity<User>());
+            new BaseEntityConfiguration<User>().Configure(modelBuilder.Entity<User>());
+
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseEntityConfiguration).Assembly);
         }
 
         public DbSet<User> Users { get; set; }
@@ -27,8 +34,9 @@ namespace Infrastructure.Context
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Like> Likes{ get; set; }
+        public DbSet<Interest> Interests { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
 
     }
 }

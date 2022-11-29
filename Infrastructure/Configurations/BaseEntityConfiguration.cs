@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Infrastructure.Configurations
 {
-    public class BaseEntityConfiguration : IEntityTypeConfiguration<BaseEntity>
+    public class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
     {
-        public void Configure(EntityTypeBuilder<BaseEntity> builder)
+        public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             builder.Property(t => t.CreationDate)
-                .HasDefaultValueSql("GetDate()");
+                .IsRequired();
         }
     }
 }
