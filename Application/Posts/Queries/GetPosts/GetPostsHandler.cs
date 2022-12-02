@@ -11,20 +11,16 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 {
     public class GetPostsHandler : IRequestHandler<GetPostsQuery, IEnumerable<BaseEntity>>
     {
-        private readonly IBaseRepository<BaseEntity> _baseRepository;
+        private readonly IBaseRepository<Post> _baseRepository;
 
-        public GetPostsHandler(IBaseRepository<BaseEntity> baseRepository)
+        public GetPostsHandler(IBaseRepository<Post> baseRepository)
         {
             _baseRepository = baseRepository;
         }
         public async Task<IEnumerable<BaseEntity>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            var obj = new Post { Id = 1 };
-            var list = new List<BaseEntity>();
-            list.Add(obj);
 
-            //return await _baseRepository.GetAll();
-            return list;
+            return await _baseRepository.GetAll();
         }
     }
 }

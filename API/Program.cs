@@ -19,8 +19,11 @@ builder.Services.AddDbContext<BloggrContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("Bloggr.Infrastructure"));
 });
-builder.Services.AddScoped(typeof(IBaseRepository<BaseEntity>), typeof(BaseRepository<BaseEntity>));
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
+
+builder.Services.AddMediatR(assembly);
+
 builder.Services.AddMediatR(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
