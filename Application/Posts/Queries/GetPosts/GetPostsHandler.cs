@@ -17,9 +17,14 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
         {
             _baseRepository = baseRepository;
         }
-        public Task<IEnumerable<BaseEntity>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<BaseEntity>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
-            return _baseRepository.GetAll();
+            var obj = new Post { Id = 1 };
+            var list = new List<BaseEntity>();
+            list.Add(obj);
+
+            //return await _baseRepository.GetAll();
+            return list;
         }
     }
 }

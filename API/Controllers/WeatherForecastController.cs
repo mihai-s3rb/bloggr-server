@@ -1,3 +1,5 @@
+using Bloggr.Application.Posts.Queries.GetPosts;
+using Domain.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,15 +23,10 @@ namespace API.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<BaseEntity>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var posts = await _mediator.Send(new GetPostsQuery());
+            return posts;
         }
     }
 }
