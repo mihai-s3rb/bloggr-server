@@ -72,7 +72,7 @@ namespace Bloggr.Infrastructure.Repositories
 
         public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> results = _dbSet.Where(expression);
+            IEnumerable<TEntity> results = await _dbSet.Where(expression).ToListAsync();
             return results;
         }
     }

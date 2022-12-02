@@ -11,9 +11,17 @@
     <Folder Include="Comments\Queries\" />
     <Folder Include="Likes\Commands\" />
     <Folder Include="Likes\Queries\" />
-    <Folder Include="Posts\Queries\" />
     <Folder Include="Users\Commands\" />
     <Folder Include="Users\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Bloggr.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Bloggr.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

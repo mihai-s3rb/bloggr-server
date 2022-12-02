@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace Domain.Entities
         public string Title { get; set; }
 
         public string Content { get; set; }
+
+        public string Caption { get; set; }
+
+        public ICollection<Interest>? Interests { get; init; }
 
         public ICollection<Like>? Likes { get; init; }
 
