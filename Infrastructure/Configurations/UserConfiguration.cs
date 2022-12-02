@@ -25,7 +25,10 @@ namespace Bloggr.Infrastructure.Configurations
                 .HasMaxLength(30);
             builder.Property(t => t.Bio)
                 .HasMaxLength(1000);
-            
+            builder.HasMany<Post>(g => g.Posts)
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

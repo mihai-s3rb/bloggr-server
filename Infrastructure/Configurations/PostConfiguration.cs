@@ -20,6 +20,19 @@ namespace Bloggr.Infrastructure.Configurations
             builder.Property(t => t.Content)
                 .IsRequired()
                 .HasMaxLength(10000);
+            builder.HasMany<Comment>(g => g.Comments)
+                .WithOne(s => s.Post)
+                .HasForeignKey(s => s.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(p => p.Comments)
+            //    .WithMany()
+            //    .OnDelete(DeleteBehavior.SetNull);
+            //builder.HasOne(p => p.Likes)
+            //    .WithMany()
+            //    .OnDelete(DeleteBehavior.SetNull);
+            //builder.HasOne(p => p.Interests)
+            //    .WithMany()
+            //    .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

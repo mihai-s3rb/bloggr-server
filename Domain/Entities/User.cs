@@ -19,9 +19,16 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
-        public ICollection<Interest>? Interests { get; init; }
-
         public DateTime BirthDate { get; set; }
+
+        public ICollection<Interest>? Interests { get; set; }
+
+        public ICollection<Post>? Posts { get; set; }
+
+        public ICollection<Comment>? Comments { get; set; }
+
+        public ICollection<Like>? Likes { get; set; }
+
 
     }
 }

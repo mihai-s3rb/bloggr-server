@@ -13,6 +13,5 @@ namespace Domain.Abstracts
 
         public DateTime CreationDate { get; set; }
 
-        public User? CreatedBy { get; set; }
     }
 }
