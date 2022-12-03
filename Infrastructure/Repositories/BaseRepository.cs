@@ -44,6 +44,13 @@ namespace Bloggr.Infrastructure.Repositories
             return entities;
         }
 
+        public async Task<TEntity> Remove(TEntity entity)
+        {
+            _ctx.Remove(entity);
+            await _ctx.SaveChangesAsync();
+            return entity;
+        }
+
         public async Task<TEntity?> RemoveById(int id)
         {
             TEntity? existing = await _dbSet.FindAsync(id);
