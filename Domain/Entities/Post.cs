@@ -16,9 +16,9 @@ namespace Domain.Entities
 
         public string Caption { get; set; }
 
-        //public ICollection<Interest>? Interests { get; init; }
+        public ICollection<Interest>? Interests { get; init; }
 
-        //public ICollection<Like>? Likes { get; init; }
+        public ICollection<Like>? Likes { get; init; }
 
         public ICollection<Comment>? Comments { get; init; }
 

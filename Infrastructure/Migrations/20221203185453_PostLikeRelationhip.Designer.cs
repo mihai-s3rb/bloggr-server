@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    partial class BloggrContextModelSnapshot : ModelSnapshot
+    [Migration("20221203185453_PostLikeRelationhip")]
+    partial class PostLikeRelationhip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,21 +187,6 @@ namespace Bloggr.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("InterestPost", b =>
-                {
-                    b.Property<int>("InterestsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("InterestsId", "PostsId");
-
-                    b.HasIndex("PostsId");
-
-                    b.ToTable("InterestPost");
-                });
-
             modelBuilder.Entity("InterestUser", b =>
                 {
                     b.Property<int>("InterestsId")
@@ -261,21 +249,6 @@ namespace Bloggr.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InterestPost", b =>
-                {
-                    b.HasOne("Bloggr.Domain.Entities.Interest", null)
-                        .WithMany()
-                        .HasForeignKey("InterestsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("InterestUser", b =>

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Bloggr.Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -20,19 +21,18 @@ namespace Bloggr.Infrastructure.Configurations
             builder.Property(t => t.Content)
                 .IsRequired()
                 .HasMaxLength(10000);
-            builder.HasMany<Comment>(g => g.Comments)
-                .WithOne(s => s.Post)
-                .HasForeignKey(s => s.PostId)
+
+            //relationships
+            builder.HasMany<Comment>(p => p.Comments)
+                .WithOne(c => c.Post)
+                .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
-            //builder.HasOne(p => p.Comments)
-            //    .WithMany()
-            //    .OnDelete(DeleteBehavior.SetNull);
-            //builder.HasOne(p => p.Likes)
-            //    .WithMany()
-            //    .OnDelete(DeleteBehavior.SetNull);
-            //builder.HasOne(p => p.Interests)
-            //    .WithMany()
-            //    .OnDelete(DeleteBehavior.SetNull);
+            builder.HasMany<Like>(p => p.Likes)
+                .WithOne(l => l.Post)
+                .HasForeignKey(l => l.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany<Interest>(p => p.Interests)
+                .WithMany(i => i.Posts);
         }
     }
 }
