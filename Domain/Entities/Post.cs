@@ -22,8 +22,8 @@ namespace Domain.Entities
 
         public ICollection<Comment>? Comments { get; init; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public class GetPostsHandler : IRequestHandler<GetPostsQuery, IEnumerable<BaseEntity>>
+    public class GetPostsHandler : IRequestHandler<GetPostsQuery, IEnumerable<Post>>
     {
         private readonly IBaseRepository<Post> _baseRepository;
 
@@ -17,7 +17,7 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
         {
             _baseRepository = baseRepository;
         }
-        public async Task<IEnumerable<BaseEntity>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Post>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
 
             return await _baseRepository.GetAll();

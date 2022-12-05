@@ -20,10 +20,10 @@ builder.Services.AddDbContext<BloggrContext>(options =>
         b => b.MigrationsAssembly("Bloggr.Infrastructure"));
 });
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddAutoMapper(typeof(Program));
+
 var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
-
 builder.Services.AddMediatR(assembly);
-
 builder.Services.AddMediatR(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

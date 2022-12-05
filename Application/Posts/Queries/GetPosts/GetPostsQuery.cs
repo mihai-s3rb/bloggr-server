@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public record class GetPostsQuery() : IRequest<IEnumerable<BaseEntity>>;
+    public record class GetPostsQuery() : IRequest<IEnumerable<Post>>;
 }
