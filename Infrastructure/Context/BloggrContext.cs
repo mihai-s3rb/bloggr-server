@@ -1,5 +1,4 @@
-﻿using Bloggr.Domain.Entities;
-using Bloggr.Infrastructure.Configurations;
+﻿using Bloggr.Infrastructure.Configurations;
 using Domain.Abstracts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,6 @@
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Domain.Interfaces;
+using Bloggr.Infrastructure;
 using Bloggr.Infrastructure.Repositories;
 using Domain.Abstracts;
 using Infrastructure.Context;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<BloggrContext>(options =>
         b => b.MigrationsAssembly("Bloggr.Infrastructure"));
 });
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 builder.Services.AddAutoMapper(typeof(Program));
 
 var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");

@@ -1,5 +1,4 @@
-﻿using Bloggr.Domain.Entities;
-using Domain.Abstracts;
+﻿using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +18,7 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTimeOffset BirthDate { get; set; }
 
         public ICollection<Interest>? Interests { get; set; }
 

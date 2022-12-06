@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Domain.Entities
+namespace Domain.Entities
 {
     public class Interest : BaseEntity
     {

@@ -11,16 +11,16 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 {
     public class GetPostsHandler : IRequestHandler<GetPostsQuery, IEnumerable<Post>>
     {
-        private readonly IBaseRepository<Post> _baseRepository;
+        private readonly IUnitOfWork _UOW;
 
-        public GetPostsHandler(IBaseRepository<Post> baseRepository)
+        public GetPostsHandler(IUnitOfWork UOW)
         {
-            _baseRepository = baseRepository;
+            _UOW = UOW;
         }
         public async Task<IEnumerable<Post>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
 
-            return await _baseRepository.GetAll();
+            return await _UOW.Posts.GetAll();
         }
     }
 }

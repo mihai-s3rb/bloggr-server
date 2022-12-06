@@ -1,5 +1,4 @@
-﻿using Bloggr.Domain.Entities;
-using Domain.Abstracts;
+﻿using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

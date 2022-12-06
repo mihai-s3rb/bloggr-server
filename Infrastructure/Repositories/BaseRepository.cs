@@ -33,14 +33,12 @@ namespace Bloggr.Infrastructure.Repositories
         public async Task<TEntity> Add(TEntity entity)
         {
             _dbSet.Add(entity);
-            await _ctx.SaveChangesAsync();
             return entity;
         }
 
         public async Task<IEnumerable<TEntity>> AddRange(IEnumerable<TEntity> entities)
         {
             _dbSet.AddRange(entities);
-            await _ctx.SaveChangesAsync();
             return entities;
         }
 
@@ -58,14 +56,12 @@ namespace Bloggr.Infrastructure.Repositories
             {
                 _ctx.Remove(existing);
             }
-            await _ctx.SaveChangesAsync();
             return existing;
         }
 
         public async Task<IEnumerable<TEntity>> RemoveRange(IEnumerable<TEntity> entities)
         {
             _ctx.RemoveRange(entities);
-            await _ctx.SaveChangesAsync();
             return entities;
         }
 
@@ -73,7 +69,6 @@ namespace Bloggr.Infrastructure.Repositories
         {
             _dbSet.Attach(entity);
             _ctx.Entry(entity).State = EntityState.Modified;
-            await _ctx.SaveChangesAsync();
             return entity;
         }
 

@@ -1,5 +1,4 @@
-﻿using Bloggr.Domain.Entities;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -18,7 +17,6 @@ namespace Bloggr.Infrastructure.Configurations
             builder.Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(20);
-            
         }
     }
 }

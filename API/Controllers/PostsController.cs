@@ -20,6 +20,11 @@ namespace Bloggr.WebUI.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Post>?> GetById(int id)
+        {
+            return null;
+        }
 
         [HttpGet(Name = "GetAllPosts")]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
@@ -33,6 +38,17 @@ namespace Bloggr.WebUI.Controllers
         {
             Post mappedPost = _mapper.Map<Post>(post);
             return Ok(await _mediator.Send(new CreatePostCommand(mappedPost)));
+        }
+
+        [HttpPut(Name = "UpdatePost")]
+        public async Task<ActionResult<Post>> Update([FromBody]UpdatePostDTO post)
+        {
+            //get the post with post.id
+            //var newPost = _mediator.Send(new Get)
+            //map the props
+
+            //actually update
+            return Ok(post);
         }
     }
 }
