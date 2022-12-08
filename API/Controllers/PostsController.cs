@@ -26,7 +26,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Post?>> GetById(int id)
         {
-            var result = await _mediator.Send(new GetByIdQuery(id));
+            var result = await _mediator.Send(new GetPostByIdQuery(id));
             return result;
         }
 
@@ -47,7 +47,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> Delete(int id)
         {
-            var result = await _mediator.Send(new RemoveByIdCommand(id));
+            var result = await _mediator.Send(new RemovePostByIdCommand(id));
             return Ok(result);
         }
 
@@ -58,7 +58,7 @@ namespace Bloggr.WebUI.Controllers
             var postId = post.Id;
 
             //var newPost = _mediator.Send(new Get)
-            var postFromDb = await _mediator.Send(new GetByIdQuery(postId));
+            var postFromDb = await _mediator.Send(new GetPostByIdQuery(postId));
             //map the props
             var mappedPost = _mapper.Map<UpdatePostDTO, Post>(post, postFromDb);
             //actually update

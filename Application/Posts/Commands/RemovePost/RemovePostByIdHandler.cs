@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Commands.RemovePost
 {
-    public class RemoveByIdHandler : IRequestHandler<RemoveByIdCommand, Post>
+    public class RemovePostByIdHandler : IRequestHandler<RemovePostByIdCommand, Post>
     {
         private readonly IUnitOfWork _UOW;
 
-        public RemoveByIdHandler(IUnitOfWork UOW)
+        public RemovePostByIdHandler(IUnitOfWork UOW)
         {
             _UOW = UOW;
         }
-        public async Task<Post?> Handle(RemoveByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Post?> Handle(RemovePostByIdCommand request, CancellationToken cancellationToken)
         {
             var result = await _UOW.Posts.RemoveById(request.id);
             await _UOW.Save();

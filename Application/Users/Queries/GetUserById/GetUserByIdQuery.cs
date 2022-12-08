@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Posts.Queries.GetById
+namespace Bloggr.Application.Users.Queries.GetUserById
 {
-    public record class GetByIdQuery(int id) : IRequest<Post>;
+    public record class GetUserByIdQuery(int id) : IRequest<User>;
 }

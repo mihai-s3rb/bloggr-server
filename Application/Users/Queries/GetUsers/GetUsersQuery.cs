@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Posts.Commands.RemovePost
+namespace Bloggr.Application.Users.Queries.GetUsers
 {
-    public record class RemoveByIdCommand(int id) : IRequest<Post>;
+    public record class GetUsersQuery : IRequest<IEnumerable<User>>;
 }

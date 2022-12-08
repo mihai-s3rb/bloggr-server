@@ -11,8 +11,6 @@
     <Folder Include="Comments\Queries\" />
     <Folder Include="Likes\Commands\" />
     <Folder Include="Likes\Queries\" />
-    <Folder Include="Users\Commands\" />
-    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
