@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//namespace Bloggr.Application.Posts.Queries.GetById
-//{
-//    public class GetByIdHandler : IRequestHandler<GetByIdQuery, Post>
-//    {
-//        private readonly IBaseRepository<Post> _baseRepository;
+namespace Bloggr.Application.Posts.Queries.GetById
+{
+    public class GetByIdHandler : IRequestHandler<GetByIdQuery, Post>
+    {
+        private readonly IUnitOfWork _UOW;
 
-//        public GetByIdHandler(IBaseRepository<Post> baseRepository)
-//        {
-//            _baseRepository = baseRepository;
-//        }
-//        public Post Handle(GetByIdQuery request, CancellationToken cancellationToken)
-//        {
-//            var post = new Post { };
-//            return post;
-//        }
-//    }
-//}
+        public GetByIdHandler(IUnitOfWork UOW)
+        {
+            _UOW = UOW;
+        }
+        public async Task<Post>? Handle(GetByIdQuery request, CancellationToken cancellationToken)
+        {
+            var result = await _UOW.Posts.GetById(request.id);
+            return result;
+        }
+    }
+}

@@ -10,19 +10,16 @@ namespace Application.Posts.Commands.CreatePost
 {
     public class CreatePostHandler : IRequestHandler<CreatePostCommand, Post>
     {
-        private readonly IBaseRepository<Post> _baseRepository;
-        public CreatePostHandler(IBaseRepository<Post> baseRepository)
+        private readonly IUnitOfWork _UOW;
+        public CreatePostHandler(IUnitOfWork UOW)
         {
-            _baseRepository = baseRepository;
+            _UOW = UOW;
         }
-        public Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            Post test = new Post
-            {
-                Title = "Bla bl bla",
-                Content = "Ha ha ha"
-            };
-            return _baseRepository.Add(request.post);
+            var result = await _UOW.Posts.Add(request.post);
+            await _UOW.Save();
+            return result;
         }
     }
 }

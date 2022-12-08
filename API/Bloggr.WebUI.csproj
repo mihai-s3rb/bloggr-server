@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Infrastructure\Bloggr.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Profiles\" />
-  </ItemGroup>
-
 </Project>

@@ -3,12 +3,14 @@ using Domain.Abstracts;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace Bloggr.Infrastructure.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
+        private ILogger _logger;
         private BloggrContext _ctx;
         private DbSet<TEntity> _dbSet;
 
@@ -26,7 +28,7 @@ namespace Bloggr.Infrastructure.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            IEnumerable<TEntity> results = await _dbSet.ToListAsync();
+            IEnumerable<TEntity> results = await _dbSet.AsNoTracking().ToListAsync();
             return results;
         }
 
@@ -45,17 +47,14 @@ namespace Bloggr.Infrastructure.Repositories
         public async Task<TEntity> Remove(TEntity entity)
         {
             _ctx.Remove(entity);
-            await _ctx.SaveChangesAsync();
             return entity;
         }
 
         public async Task<TEntity?> RemoveById(int id)
         {
             TEntity? existing = await _dbSet.FindAsync(id);
-            if(existing is not null)
-            {
-                _ctx.Remove(existing);
-            }
+            System.Console.WriteLine(existing.Id);
+            _ctx.Remove(existing);
             return existing;
         }
 

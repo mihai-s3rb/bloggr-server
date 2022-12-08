@@ -34,7 +34,7 @@ namespace Bloggr.Infrastructure
             _context.Dispose();
         }
 
-        public async void Save()
+        public async Task Save()
         {
             await _context.SaveChangesAsync();
         }

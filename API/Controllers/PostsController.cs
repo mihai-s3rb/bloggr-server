@@ -1,6 +1,9 @@
 ﻿using Application.Models;
 using Application.Posts.Commands.CreatePost;
 using AutoMapper;
+using Bloggr.Application.Posts.Commands.RemovePost;
+using Bloggr.Application.Posts.Commands.UpdatePost;
+using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Domain.Entities;
 using MediatR;
@@ -21,9 +24,10 @@ namespace Bloggr.WebUI.Controllers
             _mapper = mapper;
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>?> GetById(int id)
+        public async Task<ActionResult<Post?>> GetById(int id)
         {
-            return null;
+            var result = await _mediator.Send(new GetByIdQuery(id));
+            return result;
         }
 
         [HttpGet(Name = "GetAllPosts")]
@@ -40,15 +44,26 @@ namespace Bloggr.WebUI.Controllers
             return Ok(await _mediator.Send(new CreatePostCommand(mappedPost)));
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Post>> Delete(int id)
+        {
+            var result = await _mediator.Send(new RemoveByIdCommand(id));
+            return Ok(result);
+        }
+
         [HttpPut(Name = "UpdatePost")]
         public async Task<ActionResult<Post>> Update([FromBody]UpdatePostDTO post)
         {
             //get the post with post.id
-            //var newPost = _mediator.Send(new Get)
-            //map the props
+            var postId = post.Id;
 
+            //var newPost = _mediator.Send(new Get)
+            var postFromDb = await _mediator.Send(new GetByIdQuery(postId));
+            //map the props
+            var mappedPost = _mapper.Map<UpdatePostDTO, Post>(post, postFromDb);
             //actually update
-            return Ok(post);
+            var result = await _mediator.Send(new UpdatePostCommand(mappedPost));
+            return Ok(result);
         }
     }
 }

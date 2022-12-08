@@ -20,7 +20,7 @@ namespace Bloggr.Domain.Interfaces
 
         public void Dispose();
 
-        public void Save();
+        public Task Save();
 
     }
 }
