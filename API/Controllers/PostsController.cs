@@ -23,6 +23,7 @@ namespace Bloggr.WebUI.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Post?>> GetById(int id)
         {

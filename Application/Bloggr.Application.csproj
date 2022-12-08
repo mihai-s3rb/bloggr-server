@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Comments\Commands\" />
-    <Folder Include="Comments\Queries\" />
-    <Folder Include="Likes\Commands\" />
-    <Folder Include="Likes\Queries\" />
+    <Folder Include="Comments\Queries\GetUserComments\" />
+    <Folder Include="Likes\Commands\CreateLike\" />
+    <Folder Include="Likes\Commands\RemoveLike\" />
+    <Folder Include="Likes\Queries\GetUserLikes\" />
   </ItemGroup>
 
   <ItemGroup>

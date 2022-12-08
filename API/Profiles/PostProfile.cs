@@ -9,6 +9,7 @@ namespace Bloggr.WebUI.Profiles
         public PostProfile()
         {
             CreateMap<AddPostDTO, Post>();
+            CreateMap<UpdatePostDTO, Post>();
         }
     }
 }
