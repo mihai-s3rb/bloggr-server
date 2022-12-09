@@ -6,9 +6,11 @@ using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bloggr.WebUI.Controllers
 {
@@ -18,10 +20,13 @@ namespace Bloggr.WebUI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        public PostsController(IMediator mediator, IMapper mapper)
+        private readonly IValidator<AddPostDTO> _validator;
+
+        public PostsController(IMediator mediator, IMapper mapper, IValidator<AddPostDTO> validator)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _validator = validator;
         }
 
         [HttpGet("{id}")]
@@ -41,6 +46,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpPost(Name = "AddPost")]
         public async Task<ActionResult<Post>> Create([FromBody]AddPostDTO post)
         {
+            var result = await _validator.ValidateAsync(post);
             Post mappedPost = _mapper.Map<Post>(post);
             return Ok(await _mediator.Send(new CreatePostCommand(mappedPost)));
         }

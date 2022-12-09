@@ -12,7 +12,7 @@ namespace Bloggr.Domain.Interfaces
     {
         public Task<TEntity?> GetById(int id);
 
-        public IQueryable<TEntity> GetQuery(int id);
+        public IQueryable<TEntity> Query();
 
         public Task<IEnumerable<TEntity>> GetAll();
 

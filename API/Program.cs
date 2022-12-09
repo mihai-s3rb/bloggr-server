@@ -1,17 +1,21 @@
 using Bloggr.Application.Posts.Queries.GetPosts;
+using Bloggr.Application.Validators.Posts;
 using Bloggr.Domain.Interfaces;
 using Bloggr.Infrastructure;
 using Bloggr.Infrastructure.Repositories;
 using Domain.Abstracts;
+using FluentValidation;
 using Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 //add BloggrContext to API
 
 
@@ -21,6 +25,7 @@ builder.Services.AddDbContext<BloggrContext>(options =>
         b => b.MigrationsAssembly("Bloggr.Infrastructure"));
 });
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddValidatorsFromAssemblyContaining<PostValidator>();
 builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 builder.Services.AddAutoMapper(typeof(Program));
 

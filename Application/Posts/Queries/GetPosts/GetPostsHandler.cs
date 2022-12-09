@@ -1,6 +1,7 @@
 ﻿using Bloggr.Domain.Interfaces;
 using Domain.Abstracts;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
         public async Task<IEnumerable<Post>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
 
-            return await _UOW.Posts.GetAll();
+            var query = _UOW.Posts.Query().Include(p => p.User);
+            var result = await query.ToListAsync();
+            return result;
         }
     }
 }

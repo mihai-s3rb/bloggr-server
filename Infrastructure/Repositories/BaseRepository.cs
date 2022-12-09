@@ -25,9 +25,9 @@ namespace Bloggr.Infrastructure.Repositories
             TEntity? result = await _dbSet.FindAsync(id);
             return result;
         }
-        public IQueryable<TEntity> GetQuery(int id)
+        public IQueryable<TEntity> Query()
         { 
-            return _dbSet.Where(entity => entity.Id == id);
+            return _dbSet;
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
