@@ -12,6 +12,8 @@ namespace Bloggr.Domain.Interfaces
     {
         public Task<TEntity?> GetById(int id);
 
+        public IQueryable<TEntity> GetQuery(int id);
+
         public Task<IEnumerable<TEntity>> GetAll();
 
         public Task<TEntity> Add(TEntity entity);

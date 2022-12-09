@@ -1,4 +1,5 @@
 ﻿using Bloggr.Application.Posts.Queries.GetPosts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace Bloggr.Application.Posts.Queries.GetById
         }
         public async Task<Post>? Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _UOW.Posts.GetById(request.id);
+            var query = _UOW.Posts.GetQuery(request.id).Include(post => post.User);
+            var result = await query.FirstOrDefaultAsync();
             return result;
         }
     }
