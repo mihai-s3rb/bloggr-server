@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Likes.Queries.GetPostLikes
 {
-    public record class GetPostLikesQuery(int postId) : IRequest<IEnumerable<Like>>
-    {
-    }
+    public record class GetPostLikesQuery(int postId) : IRequest<IEnumerable<Like>>;
 }

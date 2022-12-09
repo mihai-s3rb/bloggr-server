@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Quries.GetInterests
 {
-    internal class GetInterestsQuery
-    {
-    }
+    public record class GetInterestsQuery : IRequest<IEnumerable<Interest>>;
 }

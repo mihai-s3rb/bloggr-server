@@ -257,7 +257,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("User");
                 });

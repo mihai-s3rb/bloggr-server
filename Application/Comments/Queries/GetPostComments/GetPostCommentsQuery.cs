@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Comments.Queries.GetPostComments
 {
-    internal class GetPostCommentsByIdHandler
-    {
-    }
+    public record class GetPostCommentsQuery(int postId) : IRequest<IEnumerable<Comment>>;
 }

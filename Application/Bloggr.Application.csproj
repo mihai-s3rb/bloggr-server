@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Comments\Queries\GetUserComments\" />
-    <Folder Include="Likes\Commands\CreateLike\" />
-    <Folder Include="Likes\Commands\RemoveLike\" />
-    <Folder Include="Likes\Queries\GetUserLikes\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 

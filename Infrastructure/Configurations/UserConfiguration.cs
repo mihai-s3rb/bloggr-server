@@ -30,15 +30,17 @@ namespace Bloggr.Infrastructure.Configurations
             builder.HasMany<Post>(u => u.Posts)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasMany<Interest>(u => u.Interests)
                 .WithMany(i => i.Users);
             builder.HasMany<Like>(u => u.Likes)
                 .WithOne(l => l.User)
-                .HasForeignKey(l => l.UserId);
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasMany<Comment>(u => u.Comments)
                 .WithOne(c => c.User)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Comments.Commands.UpdateComment
 {
-    internal class UpdateCommentCommand
-    {
-    }
+    public record class UpdateCommentCommand(Comment comment) : IRequest<Comment>;
 }

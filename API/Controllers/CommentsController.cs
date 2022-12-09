@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Comments.Commands.CreateComment;
+using Bloggr.Application.Comments.Commands.RemoveComment;
 using Bloggr.Application.Comments.Queries.GetComments;
+using Bloggr.Application.Models.Comment;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +31,10 @@ namespace Bloggr.WebUI.Controllers
 
         // POST api/<CommentsController>
         [HttpPost]
-        public async Task<ActionResult<Comment>> Post([FromBody] Comment comment)
+        public async Task<ActionResult<Comment>> Post([FromBody] AddCommentDTO comment)
         {
-            var result = await _mediator.Send(new CreateCommentCommand(comment));
+            var mappedComment = _mapper.Map<Comment>(comment);
+            var result = await _mediator.Send(new CreateCommentCommand(mappedComment));
             return result;
         }
 
@@ -45,7 +48,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> Delete(int id)
         {
-            var result = await _mediator.Send(new RemoveCommentById());
+            var result = await _mediator.Send(new RemoveCommentByIdCommand(id));
             return Ok(result);
         }
     }

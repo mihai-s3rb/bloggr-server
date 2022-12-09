@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.RemoveInterest
 {
-    internal class RemoveInterestCommand
-    {
-    }
+    public record class RemoveInterestByIdCommand(int id) : IRequest<Interest>;
 }

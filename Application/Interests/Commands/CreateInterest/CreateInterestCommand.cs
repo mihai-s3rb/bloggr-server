@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.CreateInterest
 {
-    internal class CreateInterestCommand
-    {
-    }
+    public record class CreateInterestCommand(Interest interest) : IRequest<Interest>;
 }
