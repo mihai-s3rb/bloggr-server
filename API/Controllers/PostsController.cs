@@ -5,6 +5,7 @@ using Bloggr.Application.Posts.Commands.RemovePost;
 using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Application.Posts.Queries.GetPosts;
+using Bloggr.Domain.Interfaces;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -21,12 +22,14 @@ namespace Bloggr.WebUI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IValidator<AddPostDTO> _validator;
+        private readonly IUnitOfWork _UOW;
 
-        public PostsController(IMediator mediator, IMapper mapper, IValidator<AddPostDTO> validator)
+        public PostsController(IMediator mediator, IMapper mapper, IValidator<AddPostDTO> validator, IUnitOfWork UOW)
         {
             _mediator = mediator;
             _mapper = mapper;
             _validator = validator;
+            _UOW = UOW;
         }
 
         [HttpGet("{id}")]
@@ -37,9 +40,9 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpGet(Name = "GetAllPosts")]
-        public async Task<ActionResult<IEnumerable<Post>>> Get()
+        public async Task<ActionResult<IEnumerable<Post>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy)
         {
-            var posts = await _mediator.Send(new GetPostsQuery());
+            var posts = await _mediator.Send(new GetPostsQuery(input, interests, orderBy));
             return Ok(posts);
         }
 
@@ -48,6 +51,7 @@ namespace Bloggr.WebUI.Controllers
         {
             var result = await _validator.ValidateAsync(post);
             Post mappedPost = _mapper.Map<Post>(post);
+            mappedPost.Interests = await _UOW.Interests.Query().Where(interest => post.Interests.Contains(interest.Id)).ToListAsync();
             return Ok(await _mediator.Send(new CreatePostCommand(mappedPost)));
         }
 

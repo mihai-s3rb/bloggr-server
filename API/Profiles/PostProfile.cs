@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using AutoMapper;
+using Bloggr.Domain.Interfaces;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles
@@ -8,7 +9,8 @@ namespace Bloggr.WebUI.Profiles
     {
         public PostProfile()
         {
-            CreateMap<AddPostDTO, Post>();
+            CreateMap<AddPostDTO, Post>()
+                .ForMember(dest => dest.Interests, opt => opt.Ignore());
             CreateMap<UpdatePostDTO, Post>();
         }
     }

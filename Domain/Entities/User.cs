@@ -18,6 +18,10 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
+        public string ProfileImageUrl { get; set; }
+
+        public string BackgroundImageUrl { get; set; }
+
         public DateTimeOffset BirthDate { get; set; }
 
         public ICollection<Interest>? Interests { get; set; }

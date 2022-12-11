@@ -32,7 +32,9 @@ namespace Bloggr.Infrastructure.Configurations
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
             builder.HasMany<Interest>(u => u.Interests)
-                .WithMany(i => i.Users);
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasMany<Like>(u => u.Likes)
                 .WithOne(l => l.User)
                 .HasForeignKey(l => l.UserId)

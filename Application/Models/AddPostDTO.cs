@@ -11,5 +11,7 @@ namespace Application.Models
         public string Caption { get; set; }
 
         public int UserId { get; set; }
+
+        public int[]? Interests { get; set; }
     }
 }
