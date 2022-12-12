@@ -1,5 +1,5 @@
-﻿using Application.Models;
-using AutoMapper;
+﻿using AutoMapper;
+using Bloggr.Application.Models.Post;
 using Bloggr.Domain.Interfaces;
 using Domain.Entities;
 

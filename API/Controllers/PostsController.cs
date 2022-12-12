@@ -1,6 +1,6 @@
-﻿using Application.Models;
-using Application.Posts.Commands.CreatePost;
+﻿using Application.Posts.Commands.CreatePost;
 using AutoMapper;
+using Bloggr.Application.Models.Post;
 using Bloggr.Application.Posts.Commands.RemovePost;
 using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Bloggr.WebUI.Controllers
 {
@@ -56,7 +57,7 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> Delete(int id)
+        public async Task<ActionResult<Post>> Delete(int id, HttpRequest request)
         {
             var result = await _mediator.Send(new RemovePostByIdCommand(id));
             return Ok(result);

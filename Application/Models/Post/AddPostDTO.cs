@@ -1,6 +1,4 @@
-﻿
-
-namespace Application.Models
+﻿namespace Bloggr.Application.Models.Post
 {
     public class AddPostDTO
     {

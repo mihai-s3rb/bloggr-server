@@ -1,10 +1,12 @@
-﻿using Bloggr.Domain.Interfaces;
+﻿using Bloggr.Domain.Exceptions;
+using Bloggr.Domain.Interfaces;
 using Domain.Abstracts;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
+using System.Web.Http;
 
 namespace Bloggr.Infrastructure.Repositories
 {
@@ -23,6 +25,10 @@ namespace Bloggr.Infrastructure.Repositories
         public async Task<TEntity?> GetById(int id)
         {
             TEntity? result = await _dbSet.FindAsync(id);
+            if(result == null)
+            {
+                throw EntityNotFoundException.OfType<TEntity>();
+            }
             return result;
         }
         public IQueryable<TEntity> Query()

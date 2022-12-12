@@ -3,6 +3,7 @@ using Bloggr.Application.Validators.Posts;
 using Bloggr.Domain.Interfaces;
 using Bloggr.Infrastructure;
 using Bloggr.Infrastructure.Repositories;
+using Bloggr.WebUI.Extensions;
 using Domain.Abstracts;
 using FluentValidation;
 using Infrastructure.Context;
@@ -48,6 +49,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.ConfigureCustomExceptionHandler();
 
 app.MapControllers();
 

@@ -1,4 +1,4 @@
-﻿using Application.Models;
+﻿using Bloggr.Application.Models.Post;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
