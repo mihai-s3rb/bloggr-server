@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace Bloggr.Infrastructure.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private ILogger _logger;
         private BloggrContext _ctx;
         private DbSet<TEntity> _dbSet;
 
@@ -22,7 +22,7 @@ namespace Bloggr.Infrastructure.Repositories
             _dbSet = ctx.Set<TEntity>();
         }
 
-        public async Task<TEntity?> GetById(int id)
+        public async Task<TEntity> GetById(int id)
         {
             TEntity? result = await _dbSet.FindAsync(id);
             if(result == null)
@@ -63,7 +63,10 @@ namespace Bloggr.Infrastructure.Repositories
         public async Task<TEntity?> RemoveById(int id)
         {
             TEntity? existing = await _dbSet.FindAsync(id);
-            System.Console.WriteLine(existing.Id);
+            if (existing == null)
+            {
+                throw EntityNotFoundException.OfType<TEntity>();
+            }
             _ctx.Remove(existing);
             return existing;
         }
@@ -76,6 +79,11 @@ namespace Bloggr.Infrastructure.Repositories
 
         public async Task<TEntity> Update(TEntity entity)
         {
+            TEntity? existing = await _dbSet.FindAsync(entity.Id);
+            if (existing == null)
+            {
+                throw EntityNotFoundException.OfType<TEntity>();
+            }
             _dbSet.Attach(entity);
             _ctx.Entry(entity).State = EntityState.Modified;
             return entity;

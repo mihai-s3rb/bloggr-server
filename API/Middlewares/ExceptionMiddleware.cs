@@ -18,37 +18,40 @@ namespace Bloggr.WebUI.Middlewares
             try
             {
                 await _next(httpContext);
+            } catch(EntityNotFoundException ex)
+            {
+                await HandleException(httpContext, ex.Message, 404);
             }
             catch (Exception ex)
             {
-                await HandleException(httpContext, ex);
+                await HandleException(httpContext, "An internal server error occured", 500);
             }
 
         }
 
-        private async Task HandleException(HttpContext httpContext, Exception exception)
+        private async Task HandleException(HttpContext httpContext, string message, int statusCode)
         {
 
-            var errorDetails = new { message = "", statusCode = 0 };
-            errorDetails = exception switch
-            {
-                EntityNotFoundException => (new {
-                    message = exception.Message,
-                    statusCode = 404
-                }),
-                _ => (new
-                {
-                    message = "An internal server error has occured",
-                    statusCode = 500
-                })
-            };
+            //var errorDetails = new { message = "", statusCode = 0 };
+            //errorDetails = exception switch
+            //{
+            //    EntityNotFoundException => (new {
+            //        message = exception.Message,
+            //        statusCode = 404
+            //    }),
+            //    _ => (new
+            //    {
+            //        message = "An internal server error has occured",
+            //        statusCode = 500
+            //    })
+            //};
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)errorDetails.statusCode;
+            httpContext.Response.StatusCode = statusCode;
 
             await httpContext.Response.WriteAsync(new ErrorDetails()
             {
                 StatusCode = httpContext.Response.StatusCode,
-                Message = errorDetails.message
+                Message = message
             }.ToString());
         }
     }
