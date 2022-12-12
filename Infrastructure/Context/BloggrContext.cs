@@ -1,4 +1,5 @@
-﻿using Bloggr.Infrastructure.Configurations;
+﻿using Bloggr.Domain.Entities;
+using Bloggr.Infrastructure.Configurations;
 using Domain.Abstracts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,8 @@ namespace Infrastructure.Context
             new CommentConfiguration().Configure(modelBuilder.Entity<Comment>());
             new LikeConfiguration().Configure(modelBuilder.Entity<Like>());
             new InterestConfiguration().Configure(modelBuilder.Entity<Interest>());
+            new InterestPostConfiguration().Configure(modelBuilder.Entity<InterestPost>());
+            new InterestUserConfiguration().Configure(modelBuilder.Entity<InterestUser>());
 
         }
 
@@ -39,6 +42,9 @@ namespace Infrastructure.Context
 
         public DbSet<Interest> Interests { get; set; }
 
+        public DbSet<InterestPost> InterestPosts { get; set; }
+
+        public DbSet<InterestUser> InterestUsers { get; set; }
 
     }
 }

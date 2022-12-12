@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,13 +19,15 @@ namespace Domain.Entities
 
         public string? Bio { get; set; }
 
-        public string ProfileImageUrl { get; set; }
+        public string? ProfileImageUrl { get; set; }
 
-        public string BackgroundImageUrl { get; set; }
+        public string? BackgroundImageUrl { get; set; }
 
         public DateTimeOffset BirthDate { get; set; }
 
-        public ICollection<Interest>? Interests { get; set; }
+        public ICollection<Interest>? CreatedInterests { get; set; }
+
+        public ICollection<InterestUser>? InterestUsers { get; set; }
 
         public ICollection<Post>? Posts { get; set; }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.User
+namespace Bloggr.Application.Models.UserModel
 {
     public class UpdateUserDTO
     {

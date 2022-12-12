@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    [Migration("20221209104742_Initial")]
+    [Migration("20221212153851_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,26 @@ namespace Bloggr.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Bloggr.Domain.Entities.InterestUser", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InterestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.HasKey("UserId", "InterestId");
+
+                    b.HasIndex("InterestId");
+
+                    b.ToTable("InterestUsers");
+                });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
@@ -76,9 +96,34 @@ namespace Bloggr.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Interests");
+                });
+
+            modelBuilder.Entity("Domain.Entities.InterestPost", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InterestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.HasKey("PostId", "InterestId");
+
+                    b.HasIndex("InterestId");
+
+                    b.ToTable("InterestPosts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Like", b =>
@@ -121,6 +166,9 @@ namespace Bloggr.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CaptionImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(10000)
@@ -154,6 +202,9 @@ namespace Bloggr.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BackgroundImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Bio")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -174,6 +225,9 @@ namespace Bloggr.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<string>("ProfileImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -187,34 +241,23 @@ namespace Bloggr.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("InterestPost", b =>
+            modelBuilder.Entity("Bloggr.Domain.Entities.InterestUser", b =>
                 {
-                    b.Property<int>("InterestsId")
-                        .HasColumnType("int");
+                    b.HasOne("Domain.Entities.Interest", "Interest")
+                        .WithMany("InterestUsers")
+                        .HasForeignKey("InterestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Property<int>("PostsId")
-                        .HasColumnType("int");
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("InterestUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasKey("InterestsId", "PostsId");
+                    b.Navigation("Interest");
 
-                    b.HasIndex("PostsId");
-
-                    b.ToTable("InterestPost");
-                });
-
-            modelBuilder.Entity("InterestUser", b =>
-                {
-                    b.Property<int>("InterestsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("InterestsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("InterestUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
@@ -228,12 +271,42 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Interest", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("CreatedInterests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.InterestPost", b =>
+                {
+                    b.HasOne("Domain.Entities.Interest", "Interest")
+                        .WithMany("InterestPosts")
+                        .HasForeignKey("InterestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("InterestPosts")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Interest");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Domain.Entities.Like", b =>
@@ -247,7 +320,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -265,39 +338,18 @@ namespace Bloggr.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("InterestPost", b =>
+            modelBuilder.Entity("Domain.Entities.Interest", b =>
                 {
-                    b.HasOne("Domain.Entities.Interest", null)
-                        .WithMany()
-                        .HasForeignKey("InterestsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("InterestPosts");
 
-                    b.HasOne("Domain.Entities.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InterestUser", b =>
-                {
-                    b.HasOne("Domain.Entities.Interest", null)
-                        .WithMany()
-                        .HasForeignKey("InterestsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("InterestUsers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("InterestPosts");
 
                     b.Navigation("Likes");
                 });
@@ -305,6 +357,10 @@ namespace Bloggr.Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("CreatedInterests");
+
+                    b.Navigation("InterestUsers");
 
                     b.Navigation("Likes");
 

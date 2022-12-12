@@ -25,8 +25,6 @@ namespace Bloggr.Infrastructure.Configurations
                 .WithOne(l => l.Post)
                 .HasForeignKey(l => l.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasMany<Interest>(p => p.Interests)
-                .WithMany(i => i.Posts);
         }
     }
 }

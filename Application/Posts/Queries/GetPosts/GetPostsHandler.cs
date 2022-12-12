@@ -34,10 +34,10 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
                     query = query.OrderByDescending(post => post.CreationDate);
             }
             var test = request.interests;
-            if (request.interests.Any())
-            {
-                query = query.Where(post => post.Interests.All(interest => request.interests.Contains(interest.Name)));
-            }
+            //if (request.interests.Any())
+            //{
+            //    query = query.Where(post => post.Interests.All(interest => request.interests.Contains(interest.Name)));
+            //}
             var result = await query.ToListAsync();
             return result; 
         }

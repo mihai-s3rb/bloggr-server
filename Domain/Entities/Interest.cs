@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace Domain.Entities
 
         public int UserId { get; set; }
 
-        public ICollection<Post>? Posts { get; set; }
+        public ICollection<InterestPost> InterestPosts { get; set; }
+
+        public ICollection<InterestUser> InterestUsers { get; set; }
 
     }
 }

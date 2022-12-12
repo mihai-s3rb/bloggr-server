@@ -9,8 +9,7 @@ namespace Bloggr.WebUI.Profiles
     {
         public PostProfile()
         {
-            CreateMap<AddPostDTO, Post>()
-                .ForMember(dest => dest.Interests, opt => opt.Ignore());
+            CreateMap<AddPostDTO, Post>();
             CreateMap<UpdatePostDTO, Post>();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Bloggr.Domain.Interfaces;
+﻿using Bloggr.Domain.Entities;
+using Bloggr.Domain.Interfaces;
 using Bloggr.Infrastructure.Repositories;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -17,6 +18,7 @@ namespace Bloggr.Infrastructure
             Comments = new BaseRepository<Comment>(_context);
             Likes = new BaseRepository<Like>(_context);
             Interests = new BaseRepository<Interest>(_context);
+            InterestPosts = new BaseRepository<InterestPost>(_context);
         }
 
         public IBaseRepository<User> Users { get; private set; }
@@ -28,6 +30,11 @@ namespace Bloggr.Infrastructure
         public IBaseRepository<Like> Likes { get; private set; }
 
         public IBaseRepository<Interest> Interests { get; private set; }
+
+        public IBaseRepository<InterestPost> InterestPosts { get; private set; }
+
+        public IBaseRepository<InterestUser> InterestUsers { get; private set; }
+
 
         public void Dispose()
         {

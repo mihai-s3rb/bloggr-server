@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.User
+namespace Bloggr.Application.Models.UserModel
 {
     public class AddUserDTO
     {
@@ -17,5 +17,7 @@ namespace Bloggr.Application.Models.User
         public string? Bio { get; set; }
 
         public DateTimeOffset BirthDate { get; set; }
+
+        public int[]? Interests { get; set; }
     }
 }

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Application.Posts.Commands.CreatePost
 {
-    public record class CreatePostCommand(Post post) : IRequest<Post>;
+    public record class CreatePostCommand(Post post, int[]? interests) : IRequest<Post>;
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.User;
+using Bloggr.Application.Models.UserModel;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles

@@ -18,7 +18,18 @@ namespace Application.Posts.Commands.CreatePost
         public async Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
             var result = await _UOW.Posts.Add(request.post);
-            await _UOW.Save();
+            result.InterestPosts = new List<InterestPost>();
+            if (request.interests != null && request.interests.Any())
+            {
+                foreach (int id in request.interests)
+                {
+                    result.InterestPosts.Add(new InterestPost
+                    {
+                        InterestId = id
+                    });
+                }
+            }
+                await _UOW.Save();
             return result;
         }
     }

@@ -12,20 +12,6 @@ namespace Bloggr.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Interests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Interests", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -35,6 +21,8 @@ namespace Bloggr.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BackgroundImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
@@ -44,27 +32,23 @@ namespace Bloggr.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InterestUser",
+                name: "Interests",
                 columns: table => new
                 {
-                    InterestsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InterestUser", x => new { x.InterestsId, x.UsersId });
+                    table.PrimaryKey("PK_Interests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InterestUser_Interests_InterestsId",
-                        column: x => x.InterestsId,
-                        principalTable: "Interests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InterestUser_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Interests_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -76,6 +60,7 @@ namespace Bloggr.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", maxLength: 10000, nullable: false),
                     Caption = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CaptionImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
@@ -84,6 +69,29 @@ namespace Bloggr.Infrastructure.Migrations
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Posts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InterestUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    InterestId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestUsers", x => new { x.UserId, x.InterestId });
+                    table.ForeignKey(
+                        name: "FK_InterestUsers_Interests_InterestId",
+                        column: x => x.InterestId,
+                        principalTable: "Interests",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InterestUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -113,32 +121,30 @@ namespace Bloggr.Infrastructure.Migrations
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "InterestPost",
+                name: "InterestPosts",
                 columns: table => new
                 {
-                    InterestsId = table.Column<int>(type: "int", nullable: false),
-                    PostsId = table.Column<int>(type: "int", nullable: false)
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    InterestId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InterestPost", x => new { x.InterestsId, x.PostsId });
+                    table.PrimaryKey("PK_InterestPosts", x => new { x.PostId, x.InterestId });
                     table.ForeignKey(
-                        name: "FK_InterestPost_Interests_InterestsId",
-                        column: x => x.InterestsId,
+                        name: "FK_InterestPosts_Interests_InterestId",
+                        column: x => x.InterestId,
                         principalTable: "Interests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_InterestPost_Posts_PostsId",
-                        column: x => x.PostsId,
+                        name: "FK_InterestPosts_Posts_PostId",
+                        column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -164,8 +170,7 @@ namespace Bloggr.Infrastructure.Migrations
                         name: "FK_Likes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -179,14 +184,19 @@ namespace Bloggr.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterestPost_PostsId",
-                table: "InterestPost",
-                column: "PostsId");
+                name: "IX_InterestPosts_InterestId",
+                table: "InterestPosts",
+                column: "InterestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterestUser_UsersId",
-                table: "InterestUser",
-                column: "UsersId");
+                name: "IX_Interests_UserId",
+                table: "Interests",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestUsers_InterestId",
+                table: "InterestUsers",
+                column: "InterestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_PostId",
@@ -217,10 +227,10 @@ namespace Bloggr.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "InterestPost");
+                name: "InterestPosts");
 
             migrationBuilder.DropTable(
-                name: "InterestUser");
+                name: "InterestUsers");
 
             migrationBuilder.DropTable(
                 name: "Likes");

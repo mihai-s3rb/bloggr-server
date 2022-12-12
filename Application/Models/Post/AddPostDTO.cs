@@ -1,4 +1,6 @@
-﻿namespace Bloggr.Application.Models.Post
+﻿using Bloggr.Application.Models.Interest;
+
+namespace Bloggr.Application.Models.Post
 {
     public class AddPostDTO
     {

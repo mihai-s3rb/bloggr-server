@@ -18,6 +18,8 @@ namespace Bloggr.Domain.Interfaces
 
         IBaseRepository<Interest> Interests { get; }
 
+        IBaseRepository<InterestPost> InterestPosts { get; }
+
         public void Dispose();
 
         public Task Save();

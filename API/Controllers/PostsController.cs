@@ -52,8 +52,7 @@ namespace Bloggr.WebUI.Controllers
         {
             var result = await _validator.ValidateAsync(post);
             Post mappedPost = _mapper.Map<Post>(post);
-            mappedPost.Interests = await _UOW.Interests.Query().Where(interest => post.Interests.Contains(interest.Id)).ToListAsync();
-            return Ok(await _mediator.Send(new CreatePostCommand(mappedPost)));
+            return Ok(await _mediator.Send(new CreatePostCommand(mappedPost, post.Interests)));
         }
 
         [HttpDelete("{id}")]

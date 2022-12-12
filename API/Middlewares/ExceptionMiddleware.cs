@@ -31,20 +31,6 @@ namespace Bloggr.WebUI.Middlewares
 
         private async Task HandleException(HttpContext httpContext, string message, int statusCode)
         {
-
-            //var errorDetails = new { message = "", statusCode = 0 };
-            //errorDetails = exception switch
-            //{
-            //    EntityNotFoundException => (new {
-            //        message = exception.Message,
-            //        statusCode = 404
-            //    }),
-            //    _ => (new
-            //    {
-            //        message = "An internal server error has occured",
-            //        statusCode = 500
-            //    })
-            //};
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode;
 
