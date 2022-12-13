@@ -12,29 +12,29 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.ConfigureCustomServices();
+//// Add services to the container.
 
-// Add services to the container.
-
-builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-//add BloggrContext to API
+//builder.Services.AddControllers().AddJsonOptions(x =>
+//                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+////add BloggrContext to API
 
 
-builder.Services.AddDbContext<BloggrContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly("Bloggr.Infrastructure"));
-});
-builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-builder.Services.AddValidatorsFromAssemblyContaining<PostValidator>();
-builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddDbContext<BloggrContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+//        b => b.MigrationsAssembly("Bloggr.Infrastructure"));
+//});
+//builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+//builder.Services.AddValidatorsFromAssemblyContaining<PostValidator>();
+//builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+//builder.Services.AddAutoMapper(typeof(Program));
 
-var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
-builder.Services.AddMediatR(assembly);
-builder.Services.AddMediatR(typeof(Program));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+//var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
+//builder.Services.AddMediatR(assembly);
+//builder.Services.AddMediatR(typeof(Program));
+//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

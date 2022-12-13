@@ -50,7 +50,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpPost(Name = "AddPost")]
         public async Task<ActionResult<Post>> Create([FromBody]AddPostDTO post)
         {
-            var result = await _validator.ValidateAsync(post);
+            _validator.ValidateAndThrow(post);
             Post mappedPost = _mapper.Map<Post>(post);
             return Ok(await _mediator.Send(new CreatePostCommand(mappedPost, post.Interests)));
         }

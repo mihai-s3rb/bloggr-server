@@ -40,7 +40,7 @@ namespace Bloggr.WebUI.Controllers
         public async Task<ActionResult<User>> Create([FromBody] AddUserDTO user)
         {
             User mappedUser = _mapper.Map<User>(user);
-            return Ok(await _mediator.Send(new CreateUserCommand(mappedUser)));
+            return Ok(await _mediator.Send(new CreateUserCommand(mappedUser, user.Interests)));
         }
 
         [HttpDelete("{id}")]

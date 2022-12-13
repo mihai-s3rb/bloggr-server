@@ -10,7 +10,7 @@ namespace Bloggr.Application.Models.Post
 
         public string Caption { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public int[]? Interests { get; set; }
     }

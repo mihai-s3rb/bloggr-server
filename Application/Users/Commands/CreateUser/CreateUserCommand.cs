@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Commands.CreateUser
 {
-    public record class CreateUserCommand(User user) : IRequest<User>;
+    public record class CreateUserCommand(User user, int[]? interests) : IRequest<User>;
 }

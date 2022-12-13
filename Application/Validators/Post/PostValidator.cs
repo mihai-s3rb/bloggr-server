@@ -1,10 +1,5 @@
 ﻿using Bloggr.Application.Models.Post;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bloggr.Application.Validators.Posts
 {
@@ -12,7 +7,9 @@ namespace Bloggr.Application.Validators.Posts
     {
         public PostValidator()
         {
-            RuleFor(p => p.Title).NotNull().Length(10, 100);
+            RuleFor(p => p.Title).NotEmpty().Length(10, 400);
+            RuleFor(p => p.Content).NotEmpty().Length(100, 20000);
+            RuleFor(p => p.Caption).NotEmpty().Length(100, 1000);
         }
     }
 }
