@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetById
 {
-    public record class GetPostByIdQuery(int id) : IRequest<Post>;
+    public record class GetPostByIdQuery(int id) : IRequest<PostQueryDto>;
 }

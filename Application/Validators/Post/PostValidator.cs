@@ -1,9 +1,9 @@
-﻿using Bloggr.Application.Models.Post;
+﻿using Bloggr.Application.Posts.Commands.CreatePost;
 using FluentValidation;
 
-namespace Bloggr.Application.Validators.Posts
+namespace Bloggr.Application.Validators.Post
 {
-    public class PostValidator : AbstractValidator<AddPostDTO>
+    public class PostValidator : AbstractValidator<CreatePostDto>
     {
         public PostValidator()
         {

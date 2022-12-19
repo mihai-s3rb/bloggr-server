@@ -1,4 +1,5 @@
-﻿using Bloggr.Domain.Entities;
+﻿using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

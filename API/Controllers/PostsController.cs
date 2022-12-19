@@ -1,11 +1,12 @@
-﻿using Application.Posts.Commands.CreatePost;
-using AutoMapper;
-using Bloggr.Application.Models.Post;
+﻿using AutoMapper;
+using Bloggr.Application.Models;
+using Bloggr.Application.Posts.Commands.CreatePost;
 using Bloggr.Application.Posts.Commands.RemovePost;
 using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
+using Bloggr.Application.Posts.Queries.GetPage;
 using Bloggr.Application.Posts.Queries.GetPosts;
-using Bloggr.Domain.Interfaces;
+using Bloggr.Domain.Models;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -22,59 +23,71 @@ namespace Bloggr.WebUI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IValidator<AddPostDTO> _validator;
-        private readonly IUnitOfWork _UOW;
+        private readonly IValidator<CreatePostDto> _validator;
 
-        public PostsController(IMediator mediator, IMapper mapper, IValidator<AddPostDTO> validator, IUnitOfWork UOW)
+        public PostsController(IMediator mediator, IMapper mapper, IValidator<CreatePostDto> validator)
         {
             _mediator = mediator;
             _mapper = mapper;
             _validator = validator;
-            _UOW = UOW;
         }
 
+        //GET post by ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post?>> GetById(int id)
+        public async Task<ActionResult<PostQueryDto>> GetById(int id)
         {
             var result = await _mediator.Send(new GetPostByIdQuery(id));
             return result;
         }
 
+        //GET all POSTS
         [HttpGet(Name = "GetAllPosts")]
-        public async Task<ActionResult<IEnumerable<Post>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy)
+        public async Task<ActionResult<IEnumerable<PostsQueryDto>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy)
         {
             var posts = await _mediator.Send(new GetPostsQuery(input, interests, orderBy));
             return Ok(posts);
         }
-
-        [HttpPost(Name = "AddPost")]
-        public async Task<ActionResult<Post>> Create([FromBody]AddPostDTO post)
+        //GET posts by page
+        [HttpGet("GetPage")]
+        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> GetPage([FromQuery] int pageNumber = 1)
         {
-            _validator.ValidateAndThrow(post);
-            Post mappedPost = _mapper.Map<Post>(post);
-            return Ok(await _mediator.Send(new CreatePostCommand(mappedPost, post.Interests)));
+            var pageDto = new PageModel
+            {
+               PageSize = 10,
+               PageNumber = pageNumber
+    };
+            var pagedResult = await _mediator.Send(new GetPostsPageQuery(pageDto));
+            return pagedResult;
+        }
+        //Create POST
+        [HttpPost(Name = "AddPost")]
+        public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
+        {
+            //_validator.ValidateAndThrow(post);
+            return Ok(await _mediator.Send(new CreatePostCommand(post, post.Interests)));
         }
 
+        //DELETE POST
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> Delete(int id, HttpRequest request)
+        public async Task<ActionResult<PostQueryDto>> Delete(int id)
         {
             var result = await _mediator.Send(new RemovePostByIdCommand(id));
             return Ok(result);
         }
 
         [HttpPut(Name = "UpdatePost")]
-        public async Task<ActionResult<Post>> Update([FromBody]UpdatePostDTO post)
+        public async Task<ActionResult<PostQueryDto>> Update([FromBody]UpdatePostDto post)
         {
             //get the post with post.id
-            var postId = post.Id;
+            //var postId = post.Id;
 
-            //var newPost = _mediator.Send(new Get)
-            var postFromDb = await _mediator.Send(new GetPostByIdQuery(postId));
-            //map the props
-            var mappedPost = _mapper.Map<UpdatePostDTO, Post>(post, postFromDb);
+            ////var newPost = _mediator.Send(new Get)
+            //var postFromDb = await _mediator.Send(new GetPostByIdQuery(postId));
+            ////map the props
+            //var mappedPost = _mapper.Map<UpdatePostDTO, PostQueryDto>(post, postFromDb);
             //actually update
-            var result = await _mediator.Send(new UpdatePostCommand(mappedPost));
-            return Ok(result);
+            //var result = await _mediator.Send(new UpdatePostCommand(mappedPost));
+            return Ok();
         }
     }
 }

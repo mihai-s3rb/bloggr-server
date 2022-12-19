@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Domain.Interfaces
+namespace Bloggr.Infrastructure.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {

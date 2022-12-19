@@ -1,4 +1,5 @@
-﻿using Bloggr.Application.Comments.Commands.CreateComment;
+﻿using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Application.Comments.Commands.CreateComment;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Bloggr.Application.Models;
+﻿using Bloggr.Domain.Models;
 using Bloggr.Domain.Exceptions;
 using System.Net;
 
@@ -22,10 +22,10 @@ namespace Bloggr.WebUI.Middlewares
             {
                 await HandleException(httpContext, ex.Message, 404);
             }
-            catch (Exception ex)
-            {
-                await HandleException(httpContext, "An internal server error occured", 500);
-            }
+            //catch (Exception ex)
+            //{
+            //    await HandleException(httpContext, "An internal server error occured", 500);
+            //}
 
         }
 

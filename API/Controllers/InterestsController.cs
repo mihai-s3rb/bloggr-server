@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Commands.CreateInterest;
 using Bloggr.Application.Interests.Commands.RemoveInterest;
-using Bloggr.Application.Interests.Quries.GetInterests;
+using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Models.Interest;
 using Domain.Entities;
 using MediatR;

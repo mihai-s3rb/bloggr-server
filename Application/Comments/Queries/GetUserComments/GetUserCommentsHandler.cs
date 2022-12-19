@@ -1,4 +1,5 @@
-﻿using Bloggr.Application.Comments.Queries.GetPostComments;
+﻿using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Application.Comments.Queries.GetPostComments;
 using System;
 using System.Collections.Generic;
 using System.Linq;

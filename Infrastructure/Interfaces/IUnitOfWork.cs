@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Domain.Interfaces
+namespace Bloggr.Infrastructure.Interfaces
 {
     public interface IUnitOfWork
     {
         IBaseRepository<User> Users { get; }
 
-        IBaseRepository<Post> Posts { get; }
+        IPostRepository Posts { get; }
 
         IBaseRepository<Comment> Comments { get; }
 

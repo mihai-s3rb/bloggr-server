@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.UserModel;
+using Bloggr.Application.Models.User;
 using Bloggr.Application.Users.Commands.CreateUser;
 using Bloggr.Application.Users.Commands.RemoveUser;
 using Bloggr.Application.Users.Commands.UpdateUser;

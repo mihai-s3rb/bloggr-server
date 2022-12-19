@@ -1,4 +1,7 @@
-﻿using Bloggr.Domain.Interfaces;
+﻿using AutoMapper;
+using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Posts.Queries.GetById;
+using Bloggr.Infrastructure.Interfaces;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,31 +9,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Posts.Commands.CreatePost
+namespace Bloggr.Application.Posts.Commands.CreatePost
 {
-    public class CreatePostHandler : IRequestHandler<CreatePostCommand, Post>
+    public class CreatePostHandler : IRequestHandler<CreatePostCommand, PostQueryDto>
     {
         private readonly IUnitOfWork _UOW;
-        public CreatePostHandler(IUnitOfWork UOW)
+        private readonly IMapper _mapper;
+
+        public CreatePostHandler(IUnitOfWork UOW, IMapper mapper)
         {
             _UOW = UOW;
+            _mapper = mapper;
         }
-        public async Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<PostQueryDto> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            var result = await _UOW.Posts.Add(request.post);
+            var post = _mapper.Map<Post>(request.post);
+            var result = await _UOW.Posts.Add(post);
+            //make a service for this
             result.InterestPosts = new List<InterestPost>();
             if (request.interests != null && request.interests.Any())
             {
-                foreach (int id in request.interests)
+                foreach (InterestQueryDto interest in request.interests)
                 {
                     result.InterestPosts.Add(new InterestPost
                     {
-                        InterestId = id
+                        InterestId = interest.Id
                     });
                 }
             }
-                await _UOW.Save();
-            return result;
+            await _UOW.Save();
+            var mappedResult = _mapper.Map<PostQueryDto>(result);
+            return mappedResult;
         }
     }
 }

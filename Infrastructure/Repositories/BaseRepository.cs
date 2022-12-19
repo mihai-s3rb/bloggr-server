@@ -1,5 +1,5 @@
 ﻿using Bloggr.Domain.Exceptions;
-using Bloggr.Domain.Interfaces;
+using Bloggr.Infrastructure.Interfaces;
 using Domain.Abstracts;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ namespace Bloggr.Infrastructure.Repositories
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         private BloggrContext _ctx;
-        private DbSet<TEntity> _dbSet;
+        protected DbSet<TEntity> _dbSet;
 
         public BaseRepository(BloggrContext ctx)
         {

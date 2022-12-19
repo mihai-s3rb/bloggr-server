@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Interests.Quries.GetInterests
+namespace Bloggr.Application.Interests.Queries.GetInterests
 {
     public record class GetInterestsQuery : IRequest<IEnumerable<Interest>>;
 }

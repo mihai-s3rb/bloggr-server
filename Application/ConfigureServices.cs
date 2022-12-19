@@ -1,7 +1,7 @@
 ﻿global using MediatR;
 global using Domain.Entities;
-global using Bloggr.Domain.Interfaces;
-namespace Application
+
+namespace Bloggr.Application
 {
     public class ConfigureServices
     {

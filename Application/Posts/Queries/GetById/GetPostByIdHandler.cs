@@ -1,4 +1,7 @@
-﻿using Bloggr.Application.Posts.Queries.GetPosts;
+﻿using AutoMapper;
+using Bloggr.Application.Posts.Queries.GetPosts;
+using Bloggr.Domain.Exceptions;
+using Bloggr.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +10,21 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetById
 {
-    public class GetPostByIdHandler : IRequestHandler<GetPostByIdQuery, Post>
+    public class GetPostByIdHandler : IRequestHandler<GetPostByIdQuery, PostQueryDto>
     {
         private readonly IUnitOfWork _UOW;
+        private readonly IMapper _mapper;
 
-        public GetPostByIdHandler(IUnitOfWork UOW)
+        public GetPostByIdHandler(IUnitOfWork UOW, IMapper mapper)
         {
             _UOW = UOW;
+            _mapper = mapper;
         }
-        public async Task<Post>? Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
+        public async Task<PostQueryDto>? Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _UOW.Posts.GetById(request.id);
-            return result;
+            var result = await _UOW.Posts.GetPostAllIncludedAsync(request.id);
+            var mappedResult = _mapper.Map<PostQueryDto>(result);
+            return mappedResult;
         }
     }
 }

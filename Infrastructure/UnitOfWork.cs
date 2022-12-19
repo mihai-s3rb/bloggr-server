@@ -1,5 +1,5 @@
 ﻿using Bloggr.Domain.Entities;
-using Bloggr.Domain.Interfaces;
+using Bloggr.Infrastructure.Interfaces;
 using Bloggr.Infrastructure.Repositories;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -14,16 +14,17 @@ namespace Bloggr.Infrastructure
         {
             _context = context;
             Users = new BaseRepository<User>(_context);
-            Posts = new BaseRepository<Post>(_context);
+            Posts = new PostRepository(_context);
             Comments = new BaseRepository<Comment>(_context);
             Likes = new BaseRepository<Like>(_context);
             Interests = new BaseRepository<Interest>(_context);
             InterestPosts = new BaseRepository<InterestPost>(_context);
+            InterestUsers = new BaseRepository<InterestUser>(_context);
         }
 
         public IBaseRepository<User> Users { get; private set; }
 
-        public IBaseRepository<Post> Posts { get; private set; }
+        public IPostRepository Posts { get; private set; }
         
         public IBaseRepository<Comment> Comments { get; private set; }
 

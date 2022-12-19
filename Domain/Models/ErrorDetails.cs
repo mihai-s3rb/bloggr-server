@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models
+namespace Bloggr.Domain.Models
 {
     public class ErrorDetails
     {

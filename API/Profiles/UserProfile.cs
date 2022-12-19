@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.UserModel;
+using Bloggr.Application.Models.User;
+using Bloggr.Application.Users.Queries.GetUsers;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles
@@ -10,6 +11,7 @@ namespace Bloggr.WebUI.Profiles
         {
             CreateMap<AddUserDTO, User>();
             CreateMap<UpdateUserDTO, User>();
+            CreateMap<User, UsersQueryDto>();
         }
     }
 }

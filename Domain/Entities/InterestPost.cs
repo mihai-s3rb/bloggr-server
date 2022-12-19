@@ -12,7 +12,7 @@ namespace Domain.Entities
 
         public Post Post { get; set; }
 
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
 
         public Interest Interest { get; set; }
 

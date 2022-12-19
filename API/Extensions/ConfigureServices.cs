@@ -1,12 +1,12 @@
-﻿using Bloggr.Application.Validators.Posts;
-using Bloggr.Domain.Interfaces;
-using Bloggr.Infrastructure.Repositories;
+﻿using Bloggr.Infrastructure.Repositories;
 using Bloggr.Infrastructure;
 using Infrastructure.Context;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using MediatR;
+using Bloggr.Application.Validators.Post;
+using Bloggr.Infrastructure.Interfaces;
 
 namespace Bloggr.WebUI.Extensions
 {
@@ -14,6 +14,18 @@ namespace Bloggr.WebUI.Extensions
     {
         public static void ConfigureCustomServices(this WebApplicationBuilder builder)
         {
+            string policyName = "_myAllowSpecificOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: policyName, builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             // Add services to the container.
 
             builder.Services.AddControllers().AddJsonOptions(x =>

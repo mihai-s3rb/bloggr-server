@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public record class GetPostsQuery(string? input, string[]? interests, string? orderBy) : IRequest<IEnumerable<Post>>;
+    public record class GetPostsQuery(string? input, string[]? interests, string? orderBy) : IRequest<IEnumerable<PostsQueryDto>>;
 }
