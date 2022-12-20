@@ -25,11 +25,10 @@ namespace Bloggr.WebUI.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<CreatePostDto> _validator;
 
-        public PostsController(IMediator mediator, IMapper mapper, IValidator<CreatePostDto> validator)
+        public PostsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _validator = validator;
         }
 
         //GET post by ID
@@ -64,6 +63,10 @@ namespace Bloggr.WebUI.Controllers
         public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
         {
             //_validator.ValidateAndThrow(post);
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
             return Ok(await _mediator.Send(new CreatePostCommand(post, post.Interests)));
         }
 

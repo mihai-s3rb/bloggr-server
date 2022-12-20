@@ -34,7 +34,7 @@ namespace Bloggr.WebUI.Middlewares
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode;
 
-            await httpContext.Response.WriteAsync(new ErrorDetails()
+            await httpContext.Response.WriteAsync(new ErrorModel()
             {
                 StatusCode = httpContext.Response.StatusCode,
                 Message = message
