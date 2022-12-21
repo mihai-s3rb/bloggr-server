@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.Comment;
+using Bloggr.Application.Comments.Commands.CreateComment;
+using Bloggr.Application.Comments.Queries.GetPostComments;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles
@@ -8,7 +9,8 @@ namespace Bloggr.WebUI.Profiles
     {
         public CommentProfile()
         {
-            CreateMap<AddCommentDTO, Comment>();
+            CreateMap<CreateCommentDto, Comment>();
+            CreateMap<Comment, CommentQueryDto>();
         }
     }
 }

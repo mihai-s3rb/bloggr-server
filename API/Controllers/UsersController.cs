@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.User;
+using Bloggr.Application.Interests.Commands.CreateInterest;
+using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Interests.Queries.GetPostInterests;
 using Bloggr.Application.Users.Commands.CreateUser;
 using Bloggr.Application.Users.Commands.RemoveUser;
 using Bloggr.Application.Users.Commands.UpdateUser;
 using Bloggr.Application.Users.Queries.GetUserById;
+using Bloggr.Application.Users.Queries.GetUserByUsername;
 using Bloggr.Application.Users.Queries.GetUsers;
 using Domain.Entities;
 using MediatR;
@@ -23,45 +26,61 @@ namespace Bloggr.WebUI.Controllers
             _mapper = mapper;
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<User?>> GetById(int id)
+        public async Task<ActionResult<UsersQueryDto?>> GetById(int id)
         {
             var result = await _mediator.Send(new GetUserByIdQuery(id));
-            return result;
+            return Ok(result);
+        }
+        [HttpGet("{id}/posts")]
+        public async Task<ActionResult<UsersQueryDto?>> GetUserPosts(int id)
+        {
+            var result = await _mediator.Send(new GetUserByIdQuery(id));
+            return Ok(result);
+        }
+        [HttpGet("username/${username}")]
+        public async Task<ActionResult<UsersQueryDto>> GetByUsername(string username)
+        {
+            return Ok(await _mediator.Send(new GetUserByUsernameQuery(username)));
         }
 
         [HttpGet(Name = "GetAllUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<UsersQueryDto>>> Get()
         {
             var users = await _mediator.Send(new GetUsersQuery());
             return Ok(users);
         }
 
         [HttpPost(Name = "AddUser")]
-        public async Task<ActionResult<User>> Create([FromBody] AddUserDTO user)
+        public async Task<ActionResult<UsersQueryDto>> Create([FromBody] CreateUserDto user)
         {
-            User mappedUser = _mapper.Map<User>(user);
-            return Ok(await _mediator.Send(new CreateUserCommand(mappedUser, user.Interests)));
+            return Ok(await _mediator.Send(new CreateUserCommand(user, user.Interests)));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> Delete(int id)
+        public async Task<ActionResult<UsersQueryDto>> Delete(int id)
         {
             var result = await _mediator.Send(new RemoveUserByIdCommand(id));
             return Ok(result);
         }
 
-        [HttpPut(Name = "UpdateUser")]
-        public async Task<ActionResult<Post>> Update([FromBody] UpdateUserDTO user)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UsersQueryDto>> Update([FromBody] UpdateUserDto user, int id)
         {
-            //get the post with post.id
-            var userId = user.Id;
-            //var newPost = _mediator.Send(new Get)
-            var userFromDb = await _mediator.Send(new GetUserByIdQuery(userId));
-            //map the props
-            var mappedUser = _mapper.Map<UpdateUserDTO, User>(user, userFromDb);
-            //actually update
-            var result = await _mediator.Send(new UpdateUserCommand(mappedUser));
-            return Ok(result);
+            return Ok(await _mediator.Send(new UpdateUserCommand(user, user.Interests, id)));
+        }
+
+        //related
+        [HttpGet("{id}/createdInterests")]
+        public async Task<ActionResult<InterestQueryDto>> GetUserInterests(int id)
+        {
+            return Ok();
+            //return Ok(await _mediator.Send(new GetPostInterestsQuery(id)));
+        }
+
+        [HttpPost("{id}/createdInterests")]
+        public async Task<ActionResult<InterestQueryDto>> CreateUserInterest(CreateInterestDto interest, int id)
+        {
+            return Ok(await _mediator.Send(new CreateInterestCommand(interest, id)));
         }
     }
 }

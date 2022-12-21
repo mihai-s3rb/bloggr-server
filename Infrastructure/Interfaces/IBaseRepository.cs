@@ -1,4 +1,6 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Models;
+using Bloggr.Infrastructure.Services;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace Bloggr.Infrastructure.Interfaces
         public IQueryable<TEntity> Query();
 
         public Task<IEnumerable<TEntity>> GetAll();
+
+        public Task<PagedResult<TEntity>> Paginate(IQueryable<TEntity> query, PageModel pageDto);
 
         public Task<TEntity> Add(TEntity entity);
 

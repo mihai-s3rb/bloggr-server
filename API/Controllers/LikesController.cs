@@ -2,7 +2,6 @@
 using Bloggr.Application.Interests.Commands.RemoveInterest;
 using Bloggr.Application.Likes.Commands.CreateLike;
 using Bloggr.Application.Likes.Queries.GetLikes;
-using Bloggr.Application.Models.Like;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,20 +29,20 @@ namespace Bloggr.WebUI.Controllers
         }
 
         // POST api/<CommentsController>
-        [HttpPost]
-        public async Task<ActionResult<Like>> Post([FromBody] AddLikeDTO like)
-        {
-            var mappedLike = _mapper.Map<Like>(like);
-            var result = await _mediator.Send(new CreateLikeCommand(mappedLike));
-            return Ok(result);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<Like>> Post([FromBody] AddLikeDTO like)
+        //{
+        //    var mappedLike = _mapper.Map<Like>(like);
+        //    var result = await _mediator.Send(new CreateLikeCommand(mappedLike));
+        //    return Ok(result);
+        //}
 
-        // DELETE api/<CommentsController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Like>> Delete(int id)
-        {
-            var result = await _mediator.Send(new RemoveInterestByIdCommand(id));
-            return Ok(result);
-        }
+        //// DELETE api/<CommentsController>/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Like>> Delete(int id)
+        //{
+        //    var result = await _mediator.Send(new RemoveInterestByIdCommand(id));
+        //    return Ok(result);
+        //}
     }
 }

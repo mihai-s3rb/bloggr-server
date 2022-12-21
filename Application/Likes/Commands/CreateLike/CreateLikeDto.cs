@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.Like
+namespace Bloggr.Application.Likes.Commands.CreateLike
 {
-    public class AddLikeDTO
+    public class CreateLikeDto
     {
         public int UserId { get; set; }
-
-        public int PostId { get; set; }
     }
 }

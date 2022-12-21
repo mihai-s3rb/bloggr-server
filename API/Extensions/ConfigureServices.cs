@@ -1,5 +1,4 @@
 ﻿using Bloggr.Infrastructure.Repositories;
-using Bloggr.Infrastructure;
 using Infrastructure.Context;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using MediatR;
 using Bloggr.Application.Validators.Post;
 using Bloggr.Infrastructure.Interfaces;
 using Bloggr.WebUI.Filters;
+using Bloggr.Infrastructure.Services;
 
 namespace Bloggr.WebUI.Extensions
 {

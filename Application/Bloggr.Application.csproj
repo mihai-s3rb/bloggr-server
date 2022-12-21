@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Infrastructure\Bloggr.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interests\Queries\GetUserInterests\" />
+  </ItemGroup>
+
 </Project>

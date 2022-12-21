@@ -1,5 +1,7 @@
 ﻿using Bloggr.Domain.Exceptions;
+using Bloggr.Domain.Models;
 using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Infrastructure.Services;
 using Domain.Abstracts;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ namespace Bloggr.Infrastructure.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private BloggrContext _ctx;
+        protected BloggrContext _ctx;
         protected DbSet<TEntity> _dbSet;
 
         public BaseRepository(BloggrContext ctx)
@@ -40,6 +42,11 @@ namespace Bloggr.Infrastructure.Repositories
         {
             IEnumerable<TEntity> results = await _dbSet.AsNoTracking().ToListAsync();
             return results;
+        }
+        public async Task<PagedResult<TEntity>> Paginate(IQueryable<TEntity> query, PageModel pageDto)
+        {
+            var pagedResult = await PagedResult<TEntity>.FromAsync(query, pageDto);
+            return pagedResult;
         }
 
         public async Task<TEntity> Add(TEntity entity)
@@ -77,15 +84,16 @@ namespace Bloggr.Infrastructure.Repositories
             return entities;
         }
 
-        public async Task<TEntity> Update(TEntity entity)
+        public virtual async Task<TEntity> Update(TEntity entity)
         {
             TEntity? existing = await _dbSet.FindAsync(entity.Id);
             if (existing == null)
             {
                 throw EntityNotFoundException.OfType<TEntity>();
             }
-            _dbSet.Attach(entity);
-            _ctx.Entry(entity).State = EntityState.Modified;
+            //_dbSet.Attach(entity);
+            //_ctx.Entry(entity).State = EntityState.Modified;
+            _ctx.Entry(existing).CurrentValues.SetValues(entity);
             return entity;
         }
 

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Queries.GetUsers
 {
-    public record class GetUsersQuery : IRequest<IEnumerable<User>>;
+    public record class GetUsersQuery : IRequest<IEnumerable<UsersQueryDto>>;
 }

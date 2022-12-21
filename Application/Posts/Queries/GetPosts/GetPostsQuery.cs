@@ -1,4 +1,6 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Application.Models;
+using Bloggr.Domain.Models;
+using Domain.Abstracts;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,5 +10,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public record class GetPostsQuery(string? input, string[]? interests, string? orderBy) : IRequest<IEnumerable<PostsQueryDto>>;
+    public record class GetPostsQuery(PageModel pageDto, string? input, string[]? interests, string? orderBy) : IRequest<PagedResultDto<PostsQueryDto>>;
 }

@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    partial class BloggrContextModelSnapshot : ModelSnapshot
+    [Migration("20221221101501_RemoveInterestUsers")]
+    partial class RemoveInterestUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,26 +24,6 @@ namespace Bloggr.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Bloggr.Domain.Entities.InterestUser", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InterestId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.HasKey("UserId", "InterestId");
-
-                    b.HasIndex("InterestId");
-
-                    b.ToTable("InterestUser");
-                });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
@@ -238,25 +221,6 @@ namespace Bloggr.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Bloggr.Domain.Entities.InterestUser", b =>
-                {
-                    b.HasOne("Domain.Entities.Interest", "Interest")
-                        .WithMany("InterestUsers")
-                        .HasForeignKey("InterestId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("InterestUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Interest");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
                     b.HasOne("Domain.Entities.Post", "Post")
@@ -338,8 +302,6 @@ namespace Bloggr.Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Interest", b =>
                 {
                     b.Navigation("InterestPosts");
-
-                    b.Navigation("InterestUsers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Post", b =>
@@ -356,8 +318,6 @@ namespace Bloggr.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("CreatedInterests");
-
-                    b.Navigation("InterestUsers");
 
                     b.Navigation("Likes");
 

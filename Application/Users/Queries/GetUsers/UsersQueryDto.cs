@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bloggr.Application.Interests.Queries.GetInterests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,7 @@ namespace Bloggr.Application.Users.Queries.GetUsers
         public string? Bio { get; set; }
 
         public DateTimeOffset BirthDate { get; set; }
+
+        public IEnumerable<InterestQueryDto> Interests { get; set; }
     }
 }

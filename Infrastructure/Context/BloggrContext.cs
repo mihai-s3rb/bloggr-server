@@ -29,7 +29,6 @@ namespace Infrastructure.Context
             new InterestConfiguration().Configure(modelBuilder.Entity<Interest>());
             new InterestPostConfiguration().Configure(modelBuilder.Entity<InterestPost>());
             new InterestUserConfiguration().Configure(modelBuilder.Entity<InterestUser>());
-
         }
 
         public DbSet<User> Users { get; set; }
@@ -43,8 +42,6 @@ namespace Infrastructure.Context
         public DbSet<Interest> Interests { get; set; }
 
         public DbSet<InterestPost> InterestPosts { get; set; }
-
-        public DbSet<InterestUser> InterestUsers { get; set; }
 
     }
 }

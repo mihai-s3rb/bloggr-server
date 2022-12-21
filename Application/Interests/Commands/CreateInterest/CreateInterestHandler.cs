@@ -1,4 +1,6 @@
-﻿using Bloggr.Infrastructure.Interfaces;
+﻿using AutoMapper;
+using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +9,25 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.CreateInterest
 {
-    public class CreateInterestHandler : IRequestHandler<CreateInterestCommand, Interest>
+    public class CreateInterestHandler : IRequestHandler<CreateInterestCommand, InterestQueryDto>
     {
         private readonly IUnitOfWork _UOW;
-        public CreateInterestHandler(IUnitOfWork UOW)
+        private readonly IMapper _mapper;
+
+        public CreateInterestHandler(IUnitOfWork UOW, IMapper mapper)
         {
             _UOW = UOW;
+            _mapper = mapper;
         }
 
-        public async Task<Interest> Handle(CreateInterestCommand request, CancellationToken cancellationToken)
+        public async Task<InterestQueryDto> Handle(CreateInterestCommand request, CancellationToken cancellationToken)
         {
-            Interest interest = await _UOW.Interests.Add(request.interest);
+            var interest = _mapper.Map<Interest>(request.interest);
+            interest.UserId = request.userId;
+            var result = await _UOW.Interests.Add(interest);
             await _UOW.Save();
-            return interest;
+            var mappedResult = _mapper.Map<InterestQueryDto>(result);
+            return mappedResult;
         }
     }
 }

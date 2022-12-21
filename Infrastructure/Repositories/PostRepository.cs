@@ -28,11 +28,21 @@ namespace Bloggr.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<PagedResult<Post>> GetPostsWithUserAndInterestsPageAsync(PageModel pageDto)
+        public IQueryable<Post> IncludeUserAndInterests(IQueryable<Post> query)
         {
-            var query = _dbSet.Include(post => post.InterestPosts).ThenInclude(interestpost => interestpost.Interest).Include(post => post.User);
-            var pagedResult = await PagedResult<Post>.FromAsync(query, pageDto);
-            return pagedResult;
+            return query.Include(post => post.InterestPosts).ThenInclude(interestpost => interestpost.Interest).Include(post => post.User);
+        }
+
+        public override async Task<Post> Update(Post entity)
+        {
+            var existing =  await _dbSet.Where(post => post.Id == entity.Id).Include(post => post.InterestPosts).ThenInclude(interestpost => interestpost.Interest).FirstOrDefaultAsync();
+            if (existing == null)
+            {
+                throw EntityNotFoundException.OfType<Post>();
+            }
+            _ctx.Entry(existing).CurrentValues.SetValues(entity);
+            existing.InterestPosts = entity.InterestPosts;
+            return entity;
         }
     }
 }

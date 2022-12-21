@@ -20,5 +20,6 @@ namespace Domain.Entities
 
         public ICollection<InterestUser> InterestUsers { get; set; }
 
+
     }
 }

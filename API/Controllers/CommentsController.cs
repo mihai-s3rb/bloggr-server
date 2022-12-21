@@ -2,7 +2,6 @@
 using Bloggr.Application.Comments.Commands.CreateComment;
 using Bloggr.Application.Comments.Commands.RemoveComment;
 using Bloggr.Application.Comments.Queries.GetComments;
-using Bloggr.Application.Models.Comment;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,13 +29,13 @@ namespace Bloggr.WebUI.Controllers
         }
 
         // POST api/<CommentsController>
-        [HttpPost]
-        public async Task<ActionResult<Comment>> Post([FromBody] AddCommentDTO comment)
-        {
-            var mappedComment = _mapper.Map<Comment>(comment);
-            var result = await _mediator.Send(new CreateCommentCommand(mappedComment));
-            return result;
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<Comment>> Post([FromBody] AddCommentDTO comment)
+        //{
+        //    var mappedComment = _mapper.Map<Comment>(comment);
+        //    var result = await _mediator.Send(new CreateCommentCommand(mappedComment));
+        //    return result;
+        //}
 
         // PUT api/<CommentsController>/5
         //[HttpPut("{id}")]

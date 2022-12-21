@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Queries.GetInterests
 {
-    public record class GetInterestsQuery : IRequest<IEnumerable<Interest>>;
+    public record class GetInterestsQuery : IRequest<IEnumerable<InterestQueryDto>>;
 }

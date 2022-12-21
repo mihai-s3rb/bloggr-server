@@ -1,4 +1,4 @@
-﻿using Bloggr.Application.Models.User;
+﻿using Bloggr.Application.Users.Commands.CreateUser;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Validators.User
 {
-    public class UserValidator : AbstractValidator<AddUserDTO>
+    public class UserValidator : AbstractValidator<CreateUserDto>
     {
         public UserValidator()
         {

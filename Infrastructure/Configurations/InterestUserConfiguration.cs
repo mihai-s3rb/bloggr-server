@@ -17,7 +17,8 @@ namespace Bloggr.Infrastructure.Configurations
             base.Configure(builder);
 
             builder.Ignore(intuser => intuser.Id);
-            builder.HasKey(intuser => new { intuser.UserId, intuser.InterestId });
+                    builder.HasKey(intuser => new { intuser.UserId, intuser.InterestId
+        });
 
             builder.HasOne(intuser => intuser.User)
                  .WithMany(p => p.InterestUsers)
@@ -25,10 +26,10 @@ namespace Bloggr.Infrastructure.Configurations
                  .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(intuser => intuser.Interest)
-                 .WithMany(i => i.InterestUsers)
-                 .HasForeignKey(intuser => intuser.InterestId)
-                 .OnDelete(DeleteBehavior.NoAction);
+             .WithMany(i => i.InterestUsers)
+             .HasForeignKey(intuser => intuser.InterestId)
+             .OnDelete(DeleteBehavior.NoAction);
 
-        }
+                }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.RemoveInterest
 {
-    public class RemoveInterestByIdHandler : IRequestHandler<RemoveInterestByIdCommand, Interest?>
+    public class RemoveInterestByIdHandler : IRequestHandler<RemoveInterestByIdCommand, Interest>
     {
         private readonly IUnitOfWork _UOW;
         public RemoveInterestByIdHandler(IUnitOfWork UOW)
@@ -15,9 +15,9 @@ namespace Bloggr.Application.Interests.Commands.RemoveInterest
             _UOW = UOW;
         }
 
-        public async Task<Interest?> Handle(RemoveInterestByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Interest> Handle(RemoveInterestByIdCommand request, CancellationToken cancellationToken)
         {
-            Interest? interest = await _UOW.Interests.RemoveById(request.id);
+            Interest interest = await _UOW.Interests.RemoveById(request.id);
             return interest;
         }
     }

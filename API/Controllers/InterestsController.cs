@@ -2,7 +2,6 @@
 using Bloggr.Application.Interests.Commands.CreateInterest;
 using Bloggr.Application.Interests.Commands.RemoveInterest;
 using Bloggr.Application.Interests.Queries.GetInterests;
-using Bloggr.Application.Models.Interest;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,28 +21,28 @@ namespace Bloggr.WebUI.Controllers
         }
 
         // GET: api/<CommentsController>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Interest>>> Get()
-        {
-            var result = await _mediator.Send(new GetInterestsQuery());
-            return Ok(result);
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<global::Domain.Entities.InterestQueryDto>>> Get()
+        //{
+        //    var result = await _mediator.Send(new GetInterestsQuery());
+        //    return Ok(result);
+        //}
 
-        // POST api/<CommentsController>
-        [HttpPost]
-        public async Task<ActionResult<Interest>> Post([FromBody] AddInterestDTO interest)
-        {
-            var mappedInterest = _mapper.Map<Interest>(interest);
-            var result = await _mediator.Send(new CreateInterestCommand(mappedInterest));
-            return result;
-        }
+        //// POST api/<CommentsController>
+        //[HttpPost]
+        //public async Task<ActionResult<global::Domain.Entities.InterestQueryDto>> Post([FromBody] AddInterestDTO interest)
+        //{
+        //    var mappedInterest = _mapper.Map<global::Domain.Entities.InterestQueryDto>(interest);
+        //    var result = await _mediator.Send(new CreateInterestCommand(mappedInterest));
+        //    return result;
+        //}
 
-        // DELETE api/<CommentsController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Interest>> Delete(int id)
-        {
-            var result = await _mediator.Send(new RemoveInterestByIdCommand(id));
-            return Ok(result);
-        }
+        //// DELETE api/<CommentsController>/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<global::Domain.Entities.InterestQueryDto>> Delete(int id)
+        //{
+        //    var result = await _mediator.Send(new RemoveInterestByIdCommand(id));
+        //    return Ok(result);
+        //}
     }
 }

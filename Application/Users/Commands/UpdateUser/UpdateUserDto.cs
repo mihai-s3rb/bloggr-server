@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Bloggr.Application.Interests.Queries.GetInterests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.User
+namespace Bloggr.Application.Users.Commands.UpdateUser
 {
-    public class AddUserDTO
+    public class UpdateUserDto
     {
-        public string Username { get; set; }
-
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
@@ -18,6 +17,6 @@ namespace Bloggr.Application.Models.User
 
         public DateTimeOffset BirthDate { get; set; }
 
-        public int[]? Interests { get; set; }
+        public IEnumerable<InterestQueryDto>? Interests { get; set; }
     }
 }

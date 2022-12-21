@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.Interest
+namespace Bloggr.Application.Comments.Commands.CreateComment
 {
-    public class AddInterestDTO
+    public class CreateCommentDto
     {
-        public string Name { get; set; }
+        public string Content { get; set; }
 
         public int UserId { get; set; }
-
-        public int? PostId { get; set; }
-
     }
 }

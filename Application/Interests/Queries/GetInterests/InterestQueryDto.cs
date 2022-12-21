@@ -10,6 +10,6 @@ namespace Bloggr.Application.Interests.Queries.GetInterests
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Interests.Commands.CreateInterest
+namespace Bloggr.Application.Interests.Queries.GetPostInterests
 {
-    public record class CreateInterestCommand(CreateInterestDto interest, int userId) : IRequest<InterestQueryDto>;
+    public record class GetPostInterestsQuery(int postId) : IRequest<IEnumerable<InterestQueryDto>>;
 }

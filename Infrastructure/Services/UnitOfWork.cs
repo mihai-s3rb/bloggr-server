@@ -4,7 +4,7 @@ using Bloggr.Infrastructure.Repositories;
 using Domain.Entities;
 using Infrastructure.Context;
 
-namespace Bloggr.Infrastructure
+namespace Bloggr.Infrastructure.Services
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
@@ -13,7 +13,7 @@ namespace Bloggr.Infrastructure
         public UnitOfWork(BloggrContext context)
         {
             _context = context;
-            Users = new BaseRepository<User>(_context);
+            Users = new UserRepository(_context);
             Posts = new PostRepository(_context);
             Comments = new BaseRepository<Comment>(_context);
             Likes = new BaseRepository<Like>(_context);
@@ -22,10 +22,10 @@ namespace Bloggr.Infrastructure
             InterestUsers = new BaseRepository<InterestUser>(_context);
         }
 
-        public IBaseRepository<User> Users { get; private set; }
+        public IUserRepository Users { get; private set; }
 
         public IPostRepository Posts { get; private set; }
-        
+
         public IBaseRepository<Comment> Comments { get; private set; }
 
         public IBaseRepository<Like> Likes { get; private set; }
@@ -35,6 +35,7 @@ namespace Bloggr.Infrastructure
         public IBaseRepository<InterestPost> InterestPosts { get; private set; }
 
         public IBaseRepository<InterestUser> InterestUsers { get; private set; }
+
 
 
         public void Dispose()

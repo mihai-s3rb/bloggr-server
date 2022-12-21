@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using Bloggr.Application.Comments.Commands.CreateComment;
+using Bloggr.Application.Comments.Queries.GetPostComments;
+using Bloggr.Application.Interests.Queries.GetPostInterests;
+using Bloggr.Application.Likes.Commands.CreateLike;
+using Bloggr.Application.Likes.Queries.GetPostLikes;
 using Bloggr.Application.Models;
 using Bloggr.Application.Posts.Commands.CreatePost;
 using Bloggr.Application.Posts.Commands.RemovePost;
 using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
-using Bloggr.Application.Posts.Queries.GetPage;
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Domain.Models;
 using Domain.Entities;
@@ -23,7 +27,6 @@ namespace Bloggr.WebUI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IValidator<CreatePostDto> _validator;
 
         public PostsController(IMediator mediator, IMapper mapper)
         {
@@ -41,32 +44,32 @@ namespace Bloggr.WebUI.Controllers
 
         //GET all POSTS
         [HttpGet(Name = "GetAllPosts")]
-        public async Task<ActionResult<IEnumerable<PostsQueryDto>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy)
-        {
-            var posts = await _mediator.Send(new GetPostsQuery(input, interests, orderBy));
-            return Ok(posts);
-        }
-        //GET posts by page
-        [HttpGet("GetPage")]
-        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> GetPage([FromQuery] int pageNumber = 1)
+        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
         {
             var pageDto = new PageModel
             {
-               PageSize = 10,
-               PageNumber = pageNumber
-    };
-            var pagedResult = await _mediator.Send(new GetPostsPageQuery(pageDto));
-            return pagedResult;
+                PageSize = 10,
+                PageNumber = pageNumber
+            };
+            var posts = await _mediator.Send(new GetPostsQuery(pageDto, input, interests, orderBy));
+            return Ok(posts);
         }
+        //GET posts by page
+    //    [HttpGet("GetPage")]
+    //    public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> GetPage([FromQuery] int pageNumber = 1)
+    //    {
+    //        var pageDto = new PageModel
+    //        {
+    //           PageSize = 10,
+    //           PageNumber = pageNumber
+    //};
+    //        var pagedResult = await _mediator.Send(new GetPostsPageQuery(pageDto));
+    //        return pagedResult;
+    //    }
         //Create POST
         [HttpPost(Name = "AddPost")]
         public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
         {
-            //_validator.ValidateAndThrow(post);
-            if (!ModelState.IsValid)
-            {
-                return NotFound();
-            }
             return Ok(await _mediator.Send(new CreatePostCommand(post, post.Interests)));
         }
 
@@ -78,19 +81,56 @@ namespace Bloggr.WebUI.Controllers
             return Ok(result);
         }
 
-        [HttpPut(Name = "UpdatePost")]
-        public async Task<ActionResult<PostQueryDto>> Update([FromBody]UpdatePostDto post)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<PostQueryDto>> Update([FromBody]UpdatePostDto post, int id)
         {
-            //get the post with post.id
-            //var postId = post.Id;
-
-            ////var newPost = _mediator.Send(new Get)
-            //var postFromDb = await _mediator.Send(new GetPostByIdQuery(postId));
-            ////map the props
-            //var mappedPost = _mapper.Map<UpdatePostDTO, PostQueryDto>(post, postFromDb);
-            //actually update
-            //var result = await _mediator.Send(new UpdatePostCommand(mappedPost));
-            return Ok();
+            return Ok(await _mediator.Send(new UpdatePostCommand(post, post.Interests, id)));
         }
+        //related routes
+        [HttpGet("{id}/comments")]
+        public async Task<ActionResult<PostQueryDto>> GetPostComments(int id, int pageNumber)
+        {
+            var pageDto = new PageModel
+            {
+                PageSize = 10,
+                PageNumber = pageNumber
+            };
+            return Ok(await _mediator.Send(new GetPostCommentsQuery(pageDto, id)));
+        }
+
+        [HttpPost("{id}/comments")]
+        public async Task<ActionResult<PostQueryDto>> AddComment(CreateCommentDto comment, int id)
+        {
+            return Ok(await _mediator.Send(new CreateCommentCommand(comment, id)));
+        }
+
+        //[HttpDelete("{id}/comments/{commentId}")]
+        //public async Task<ActionResult<PostQueryDto>> RemoveComment()
+        //{
+        //    return Ok();
+        //}
+
+        [HttpGet("{id}/likes")]
+        public async Task<ActionResult<PostQueryDto>> GetPostLikes(int id)
+        {
+            return Ok(await _mediator.Send(new GetPostLikesQuery(id)));
+        }
+
+        [HttpPost("{id}/likes")]
+        public async Task<ActionResult<PostQueryDto>> AddLike(CreateLikeDto like, int id)
+        {
+            return Ok(await _mediator.Send(new CreateLikeCommand(like, id)));
+        }
+
+        //[HttpDelete("{id}/likes/{likeId}")]
+        //public async Task<ActionResult<PostQueryDto>> RemoveLike()
+        //{
+        //    return Ok();
+        //}
+        //[HttpGet("{id}/interests")]
+        //public async Task<ActionResult<PostQueryDto>> GetPostInterests(int id)
+        //{
+        //    return Ok(await _mediator.Send(new GetPostInterestsQuery(id)));
+        //}
     }
 }

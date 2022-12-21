@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Bloggr.Application.Interests.Commands.CreateInterest;
 using Bloggr.Application.Interests.Queries.GetInterests;
-using Bloggr.Application.Models.Interest;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles
@@ -9,7 +9,7 @@ namespace Bloggr.WebUI.Profiles
     {
         public InterestProfile()
         {
-            CreateMap<AddInterestDTO, Interest>();
+            CreateMap<CreateInterestDto, Interest>();
             CreateMap<Interest, InterestQueryDto>();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Infrastructure.Interfaces;
 using System;
@@ -21,13 +22,25 @@ namespace Bloggr.Application.Posts.Commands.UpdatePost
         }
         public async Task<PostQueryDto> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
-            var post = _mapper.Map<Post>(request.post);
+            var updatedPost = _mapper.Map<Post>(request.post);
+            updatedPost.Id = request.postId;
+            updatedPost.InterestPosts = new List<InterestPost>();
+            if (request.interests != null && request.interests.Any())
+            {
+                foreach (InterestQueryDto interest in request.interests)
+                {
+                    updatedPost.InterestPosts.Add(new InterestPost
+                    {
+                        InterestId = interest.Id
+                    });
+                }
+            }
             //get the currrent post by id
 
             //delete interests that don't exist in that array
 
             //map
-            var result = await _UOW.Posts.Update(post);
+            var result = await _UOW.Posts.Update(updatedPost);
             await _UOW.Save();
             var mappedResult = _mapper.Map<PostQueryDto>(result);
             return mappedResult;

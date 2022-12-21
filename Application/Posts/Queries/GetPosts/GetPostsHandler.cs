@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Models;
 using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Infrastructure.Services;
 using Domain.Abstracts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public class GetPostsHandler : IRequestHandler<GetPostsQuery, IEnumerable<PostsQueryDto>>
+    public class GetPostsHandler : IRequestHandler<GetPostsQuery, PagedResultDto<PostsQueryDto>>
     {
         private readonly IUnitOfWork _UOW;
         private readonly IMapper _mapper;
@@ -22,7 +24,7 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             _UOW = UOW;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<PostsQueryDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResultDto<PostsQueryDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
 
             //filtering
@@ -42,9 +44,8 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             //{
             //    query = query.Where(post => post.Interests.All(interest => request.interests.Contains(interest.Name)));
             //}
-            var q = query.Include(post => post.InterestPosts).ThenInclude(ip => ip.Interest).Include(post => post.User);
-            var result = await q.ToListAsync();
-            var mappedResult = _mapper.Map<IEnumerable<PostsQueryDto>>(result);
+            var pagedResult = await _UOW.Posts.Paginate(query, request.pageDto);
+            var mappedResult = PagedResultDto<PostsQueryDto>.From(pagedResult, _mapper);
             return mappedResult; 
         }
     }

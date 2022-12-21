@@ -12,6 +12,9 @@ namespace Bloggr.Infrastructure.Interfaces
     public interface IPostRepository : IBaseRepository<Post>
     {
         public Task<Post> GetPostAllIncludedAsync(int id);
-        public Task<PagedResult<Post>> GetPostsWithUserAndInterestsPageAsync(PageModel pageDto);
+
+        public IQueryable<Post> IncludeUserAndInterests(IQueryable<Post> query);
+
+        public Task<Post> Update(Post entity);
     }
 }

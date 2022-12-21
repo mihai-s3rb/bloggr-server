@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Models.Comment
+namespace Bloggr.Application.Comments.Queries.GetPostComments
 {
-    public class AddCommentDTO
+    public class CommentQueryDto
     {
         public string Content { get; set; }
 
-        public int UserId { get; set; }
-
-        public int PostId { get; set; }
-
+        public User User { get; set; }
     }
 }

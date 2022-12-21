@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Users.Queries.GetUserById
+namespace Bloggr.Application.Users.Queries.GetUserByUsername
 {
-    public record class GetUserByIdQuery(int id) : IRequest<UsersQueryDto>;
+    public record class GetUserByUsernameQuery(string username) : IRequest<UsersQueryDto>;
 }

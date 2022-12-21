@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.CreateInterest
 {
-    internal class CreateInterestDto
+    public class CreateInterestDto
     {
+        public string Name { get; set; }
     }
 }

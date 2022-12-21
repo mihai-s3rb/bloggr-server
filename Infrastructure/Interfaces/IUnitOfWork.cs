@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Bloggr.Domain.Entities;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Bloggr.Infrastructure.Interfaces
 {
     public interface IUnitOfWork
     {
-        IBaseRepository<User> Users { get; }
+        IUserRepository Users { get; }
 
         IPostRepository Posts { get; }
 
@@ -20,6 +21,8 @@ namespace Bloggr.Infrastructure.Interfaces
         IBaseRepository<Interest> Interests { get; }
 
         IBaseRepository<InterestPost> InterestPosts { get; }
+
+        IBaseRepository<InterestUser> InterestUsers { get; }
 
         public void Dispose();
 

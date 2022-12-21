@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Bloggr.Application.Models.Like;
+using Bloggr.Application.Likes.Commands.CreateLike;
+using Bloggr.Application.Likes.Queries.GetPostLikes;
 using Domain.Entities;
 
 namespace Bloggr.WebUI.Profiles
@@ -8,7 +9,8 @@ namespace Bloggr.WebUI.Profiles
     {
         public LikeProfile()
         {
-            CreateMap<AddLikeDTO, Like>();
+            CreateMap<CreateLikeDto, Like>();
+            CreateMap<Like, LikeQueryDto>();
         }
     }
 }
