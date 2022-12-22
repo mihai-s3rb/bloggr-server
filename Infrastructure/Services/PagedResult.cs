@@ -18,7 +18,7 @@ namespace Bloggr.Infrastructure.Services
 
         public int PageNumber { get; set; }
 
-        public IList<TEntity> Result { get; set; }
+        public List<TEntity> Result { get; set; }
 
         public static async Task<PagedResult<TEntity>> FromAsync(IQueryable<TEntity> query, PageModel pageDto)
         {

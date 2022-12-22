@@ -16,5 +16,9 @@ namespace Bloggr.Infrastructure.Interfaces
         public IQueryable<Post> IncludeUserAndInterests(IQueryable<Post> query);
 
         public Task<Post> Update(Post entity);
+
+        public Task<Post> SetPostProps(Post entity);
+
+        public Task<List<Post>> SetPostListProps(List<Post> entities);
     }
 }

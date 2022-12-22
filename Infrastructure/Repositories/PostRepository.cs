@@ -44,5 +44,23 @@ namespace Bloggr.Infrastructure.Repositories
             existing.InterestPosts = entity.InterestPosts;
             return entity;
         }
+
+
+        //helpers
+        public async Task<Post> SetPostProps(Post entity)
+        {
+            entity.NumberOfLikes = await _ctx.Likes.Where(like => like.PostId == entity.Id).CountAsync();
+            entity.NumberOfComments = await _ctx.Comments.Where(like => like.PostId == entity.Id).CountAsync();
+
+            return entity;
+        }
+
+        public async Task<List<Post>> SetPostListProps(List<Post> entities)
+        {
+            foreach (var entity in entities)
+                await SetPostProps(entity);
+
+            return entities;
+        }
     }
 }

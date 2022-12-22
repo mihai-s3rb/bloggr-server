@@ -18,6 +18,10 @@ namespace Bloggr.Application.Posts.Queries.GetById
 
         public string Caption { get; set; }
 
+        public int NumberOfLikes { get; set; }
+
+        public int NumberOfComments { get; set; }
+
         public int? UserId { get; set; }
 
         public UsersQueryDto User { get; set; }

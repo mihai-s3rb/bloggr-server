@@ -18,13 +18,13 @@ namespace Bloggr.Application.Models
 
         public int PageNumber { get; set; }
 
-        public IList<TViewModel> Result { get; set; }
+        public List<TViewModel> Result { get; set; }
 
         public static PagedResultDto<TViewModel> From<TEntity>(PagedResult<TEntity> pagedResult, IMapper mapper) where TEntity : class
         {
             var result = new PagedResultDto<TViewModel>
             {
-                Result = mapper.Map<IList<TViewModel>>(pagedResult.Result),
+                Result = mapper.Map<List<TViewModel>>(pagedResult.Result),
                 TotalCount = pagedResult.TotalCount,
                 PageSize = pagedResult.PageSize,
                 PageNumber = pagedResult.PageNumber,

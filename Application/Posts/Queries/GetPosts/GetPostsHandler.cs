@@ -45,6 +45,7 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             //    query = query.Where(post => post.Interests.All(interest => request.interests.Contains(interest.Name)));
             //}
             var pagedResult = await _UOW.Posts.Paginate(query, request.pageDto);
+            await _UOW.Posts.SetPostListProps(pagedResult.Result);
             var mappedResult = PagedResultDto<PostsQueryDto>.From(pagedResult, _mapper);
             return mappedResult; 
         }

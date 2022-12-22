@@ -23,6 +23,7 @@ namespace Bloggr.Application.Posts.Queries.GetById
         public async Task<PostQueryDto>? Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await _UOW.Posts.GetPostAllIncludedAsync(request.id);
+            await _UOW.Posts.SetPostProps(result);
             var mappedResult = _mapper.Map<PostQueryDto>(result);
             return mappedResult;
         }
