@@ -35,11 +35,6 @@ namespace Bloggr.Application.Posts.Commands.UpdatePost
                     });
                 }
             }
-            //get the currrent post by id
-
-            //delete interests that don't exist in that array
-
-            //map
             var result = await _UOW.Posts.Update(updatedPost);
             await _UOW.Save();
             var mappedResult = _mapper.Map<PostQueryDto>(result);

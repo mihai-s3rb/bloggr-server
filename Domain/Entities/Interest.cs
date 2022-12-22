@@ -12,9 +12,9 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         public ICollection<InterestPost> InterestPosts { get; set; }
 

@@ -10,5 +10,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
 {
-    public record class GetPostsQuery(PageModel pageDto, string? input, string[]? interests, string? orderBy) : IRequest<PagedResultDto<PostsQueryDto>>;
+    public record class GetPostsQuery(PageModel pageDto,int? userId, string? input, string[]? interests, string? orderBy) : IRequest<PagedResultDto<PostsQueryDto>>;
 }

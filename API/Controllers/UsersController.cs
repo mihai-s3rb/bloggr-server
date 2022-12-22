@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Commands.CreateInterest;
+using Bloggr.Application.Interests.Commands.RemoveInterest;
 using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Interests.Queries.GetPostInterests;
+using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Application.Users.Commands.CreateUser;
 using Bloggr.Application.Users.Commands.RemoveUser;
 using Bloggr.Application.Users.Commands.UpdateUser;
 using Bloggr.Application.Users.Queries.GetUserById;
 using Bloggr.Application.Users.Queries.GetUserByUsername;
 using Bloggr.Application.Users.Queries.GetUsers;
+using Bloggr.Domain.Models;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +30,6 @@ namespace Bloggr.WebUI.Controllers
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<UsersQueryDto?>> GetById(int id)
-        {
-            var result = await _mediator.Send(new GetUserByIdQuery(id));
-            return Ok(result);
-        }
-        [HttpGet("{id}/posts")]
-        public async Task<ActionResult<UsersQueryDto?>> GetUserPosts(int id)
         {
             var result = await _mediator.Send(new GetUserByIdQuery(id));
             return Ok(result);
@@ -81,6 +78,12 @@ namespace Bloggr.WebUI.Controllers
         public async Task<ActionResult<InterestQueryDto>> CreateUserInterest(CreateInterestDto interest, int id)
         {
             return Ok(await _mediator.Send(new CreateInterestCommand(interest, id)));
+        }
+
+        [HttpDelete("{id}/createdInterests")]
+        public async Task<ActionResult<InterestQueryDto>> RemoveUserInterest(int id)
+        {
+            return Ok(await _mediator.Send(new RemoveInterestByIdCommand(id)));
         }
     }
 }

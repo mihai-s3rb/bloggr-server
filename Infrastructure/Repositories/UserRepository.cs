@@ -19,13 +19,13 @@ namespace Bloggr.Infrastructure.Repositories
         }
         public override async Task<User> Update(User entity)
         {
-            var existing = await _dbSet.Where(user => user.Id == entity.Id).Include(user => user.CreatedInterests).FirstOrDefaultAsync();
+            var existing = await _dbSet.Where(user => user.Id == entity.Id).Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).FirstOrDefaultAsync();
             if (existing == null)
             {
                 throw EntityNotFoundException.OfType<Post>();
             }
             _ctx.Entry(existing).CurrentValues.SetValues(entity);
-            existing.CreatedInterests = entity.CreatedInterests;
+            existing.InterestUsers = entity.InterestUsers;
             return entity;
         }
 

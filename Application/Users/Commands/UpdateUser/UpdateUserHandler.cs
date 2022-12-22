@@ -2,6 +2,7 @@
 using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Domain.Entities;
 using Bloggr.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,10 @@ namespace Bloggr.Application.Users.Commands.UpdateUser
 
         public async Task<User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var updatedUser = _mapper.Map<User>(request.user);
-            updatedUser.Id = request.userId;
+            var userFromDb = await _UOW.Users.Query().Where(user => user.Id == request.userId).FirstOrDefaultAsync();
+
+            User updatedUser = _mapper.Map<UpdateUserDto, User>(request.user, userFromDb);
+
             updatedUser.InterestUsers = new List<InterestUser>();
             if (request.interests != null && request.interests.Any())
             {

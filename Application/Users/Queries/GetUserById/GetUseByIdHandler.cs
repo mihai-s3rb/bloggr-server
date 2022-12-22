@@ -22,7 +22,7 @@ namespace Bloggr.Application.Users.Queries.GetUserById
 
         public async Task<UsersQueryDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            User user = await _UOW.Users.GetUserWithInterests(request.id);
+            var user = await _UOW.Users.GetUserWithInterests(request.id);
             var mappedUser = _mapper.Map<UsersQueryDto>(user);
             return mappedUser;
         }

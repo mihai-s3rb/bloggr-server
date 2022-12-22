@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Comments.Commands.CreateComment;
+using Bloggr.Application.Comments.Commands.RemoveComment;
 using Bloggr.Application.Comments.Queries.GetPostComments;
 using Bloggr.Application.Interests.Queries.GetPostInterests;
 using Bloggr.Application.Likes.Commands.CreateLike;
+using Bloggr.Application.Likes.Commands.RemoveLike;
 using Bloggr.Application.Likes.Queries.GetPostLikes;
 using Bloggr.Application.Models;
 using Bloggr.Application.Posts.Commands.CreatePost;
@@ -18,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Web.Http.Results;
 
 namespace Bloggr.WebUI.Controllers
 {
@@ -44,28 +47,16 @@ namespace Bloggr.WebUI.Controllers
 
         //GET all POSTS
         [HttpGet(Name = "GetAllPosts")]
-        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
+        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] int? id, [FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
         {
             var pageDto = new PageModel
             {
                 PageSize = 10,
                 PageNumber = pageNumber
             };
-            var posts = await _mediator.Send(new GetPostsQuery(pageDto, input, interests, orderBy));
+            var posts = await _mediator.Send(new GetPostsQuery(pageDto, id, input, interests, orderBy));
             return Ok(posts);
         }
-        //GET posts by page
-    //    [HttpGet("GetPage")]
-    //    public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> GetPage([FromQuery] int pageNumber = 1)
-    //    {
-    //        var pageDto = new PageModel
-    //        {
-    //           PageSize = 10,
-    //           PageNumber = pageNumber
-    //};
-    //        var pagedResult = await _mediator.Send(new GetPostsPageQuery(pageDto));
-    //        return pagedResult;
-    //    }
         //Create POST
         [HttpPost(Name = "AddPost")]
         public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
@@ -88,7 +79,7 @@ namespace Bloggr.WebUI.Controllers
         }
         //related routes
         [HttpGet("{id}/comments")]
-        public async Task<ActionResult<PostQueryDto>> GetPostComments(int id, int pageNumber)
+        public async Task<ActionResult<PagedResultDto<CommentQueryDto>>> GetPostComments(int id, int pageNumber)
         {
             var pageDto = new PageModel
             {
@@ -99,38 +90,35 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public async Task<ActionResult<PostQueryDto>> AddComment(CreateCommentDto comment, int id)
+        public async Task<ActionResult<CommentQueryDto>> AddComment(CreateCommentDto comment, int id)
         {
             return Ok(await _mediator.Send(new CreateCommentCommand(comment, id)));
         }
 
-        //[HttpDelete("{id}/comments/{commentId}")]
-        //public async Task<ActionResult<PostQueryDto>> RemoveComment()
-        //{
-        //    return Ok();
-        //}
+        [HttpDelete("{id}/comments/{commentId}")]
+        public async Task<ActionResult<CommentQueryDto>> RemoveComment(int commentId)
+        {
+            var result = await _mediator.Send(new RemoveCommentByIdCommand(commentId));
+            return Ok(result);
+        }
 
         [HttpGet("{id}/likes")]
-        public async Task<ActionResult<PostQueryDto>> GetPostLikes(int id)
+        public async Task<ActionResult<IEnumerable<LikeQueryDto>>> GetPostLikes(int id)
         {
             return Ok(await _mediator.Send(new GetPostLikesQuery(id)));
         }
 
         [HttpPost("{id}/likes")]
-        public async Task<ActionResult<PostQueryDto>> AddLike(CreateLikeDto like, int id)
+        public async Task<ActionResult<LikeQueryDto>> AddLike(CreateLikeDto like, int id)
         {
             return Ok(await _mediator.Send(new CreateLikeCommand(like, id)));
         }
 
-        //[HttpDelete("{id}/likes/{likeId}")]
-        //public async Task<ActionResult<PostQueryDto>> RemoveLike()
-        //{
-        //    return Ok();
-        //}
-        //[HttpGet("{id}/interests")]
-        //public async Task<ActionResult<PostQueryDto>> GetPostInterests(int id)
-        //{
-        //    return Ok(await _mediator.Send(new GetPostInterestsQuery(id)));
-        //}
+        [HttpDelete("{id}/likes/{likeId}")]
+        public async Task<ActionResult<LikeQueryDto>> RemoveLike(int likeId)
+        {
+            var result = await _mediator.Send(new RemoveLikeByIdCommand(likeId));
+            return Ok(result);
+        }
     }
 }

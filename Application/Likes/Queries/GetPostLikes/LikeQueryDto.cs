@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bloggr.Application.Users.Queries.GetUsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,10 @@ namespace Bloggr.Application.Likes.Queries.GetPostLikes
 {
     public class LikeQueryDto
     {
-        public User User { get; set; }
+        public int Id { get; set; }
 
-        public Post Post { get; set; }
+        public UsersQueryDto User { get; set; }
+
+        public int PostId { get; set; }
     }
 }

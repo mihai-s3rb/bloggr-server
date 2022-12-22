@@ -29,6 +29,10 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 
             //filtering
             var query = _UOW.Posts.Query();
+            if (request.userId is not null)
+            {
+                query = query.Where(post => post.UserId == request.userId);
+            }
             if(!string.IsNullOrEmpty(request.input))
             {
                 query = query.Where(post => post.Title.Contains(request.input));
@@ -40,11 +44,13 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
                 else if (request.orderBy == "desc")
                     query = query.OrderByDescending(post => post.CreationDate);
             }
-            //if (request.interests.Any())
-            //{
-            //    query = query.Where(post => post.Interests.All(interest => request.interests.Contains(interest.Name)));
-            //}
-            var pagedResult = await _UOW.Posts.Paginate(query, request.pageDto);
+            if (request.interests.Any())
+            {
+                //.All(interest => request.interests.Contains(interest.Name));
+                query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).All(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
+            }
+            var includeQuery = query.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);
+            var pagedResult = await _UOW.Posts.Paginate(includeQuery, request.pageDto);
             await _UOW.Posts.SetPostListProps(pagedResult.Result);
             var mappedResult = PagedResultDto<PostsQueryDto>.From(pagedResult, _mapper);
             return mappedResult; 
