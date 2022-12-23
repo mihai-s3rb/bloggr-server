@@ -1,10 +1,18 @@
+using Bloggr.Application.Posts.Queries.GetPosts;
+using Bloggr.Infrastructure;
+using Bloggr.Infrastructure.Repositories;
+using Bloggr.WebUI.Extensions;
+using Domain.Abstracts;
+using FluentValidation;
+using Infrastructure.Context;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.ConfigureCustomServices();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -18,7 +26,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("_myAllowSpecificOrigins");
+
 app.UseAuthorization();
+
+app.ConfigureCustomExceptionHandler();
 
 app.MapControllers();
 

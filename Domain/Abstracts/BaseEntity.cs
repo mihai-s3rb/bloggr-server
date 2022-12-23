@@ -9,10 +9,9 @@ namespace Domain.Abstracts
 {
     public abstract class BaseEntity
     {
-        private Guid Id { get; set; }
+        public int Id { get; set; }
 
         public DateTime CreationDate { get; set; }
 
-        public User? CreatedBy { get; set; }
     }
 }

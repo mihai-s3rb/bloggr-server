@@ -1,6 +1,7 @@
 ﻿using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,24 @@ namespace Domain.Entities
 
         public string Content { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Caption { get; set; }
+
+        public string? CaptionImageUrl { get; set; }
+
+        [NotMapped]
+        public int NumberOfLikes { get; set; }
+
+        [NotMapped]
+        public int NumberOfComments { get; set; }
+
+        public ICollection<InterestPost> InterestPosts { get; set; }
 
         public ICollection<Like>? Likes { get; init; }
 
         public ICollection<Comment>? Comments { get; init; }
 
+        public int? UserId { get; set; }
 
+        public User? User { get; set; }
     }
 }
