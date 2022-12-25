@@ -3,7 +3,6 @@ using Bloggr.Domain.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Web.Http.ModelBinding;
 
 namespace Bloggr.WebUI.Filters
 {

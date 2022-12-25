@@ -12,6 +12,7 @@ using Bloggr.Application.Posts.Commands.RemovePost;
 using Bloggr.Application.Posts.Commands.UpdatePost;
 using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Application.Posts.Queries.GetPosts;
+using Bloggr.Domain.Exceptions;
 using Bloggr.Domain.Models;
 using Domain.Entities;
 using FluentValidation;
@@ -20,7 +21,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using System.Web.Http.Results;
 
 namespace Bloggr.WebUI.Controllers
 {
@@ -49,6 +49,7 @@ namespace Bloggr.WebUI.Controllers
         [HttpGet(Name = "GetAllPosts")]
         public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] int? id, [FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
         {
+            //throw EntityNotFoundException.OfType<Post>();
             var pageDto = new PageModel
             {
                 PageSize = 10,
@@ -79,7 +80,7 @@ namespace Bloggr.WebUI.Controllers
         }
         //related routes
         [HttpGet("{id}/comments")]
-        public async Task<ActionResult<PagedResultDto<CommentQueryDto>>> GetPostComments(int id, int pageNumber)
+        public async Task<ActionResult<PagedResultDto<CommentQueryDto>>> GetPostComments(int id, int pageNumber = 1)
         {
             var pageDto = new PageModel
             {
