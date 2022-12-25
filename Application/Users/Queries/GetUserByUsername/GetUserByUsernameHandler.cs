@@ -22,7 +22,7 @@ namespace Bloggr.Application.Users.Queries.GetUserByUsername
         }
         public async Task<UsersQueryDto> Handle(GetUserByUsernameQuery request, CancellationToken cancellationToken)
         {
-            var user = await _UOW.Users.Query().Where(user => user.Username == request.username).Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).FirstOrDefaultAsync();
+            var user = await _UOW.Users.Query().Where(user => user.UserName == request.username).Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).FirstOrDefaultAsync();
             var mappedUser = _mapper.Map<UsersQueryDto>(user);
             return mappedUser;
 

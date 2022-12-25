@@ -1,5 +1,7 @@
 ﻿using Bloggr.Domain.Entities;
+using Bloggr.Domain.Interfaces;
 using Domain.Abstracts;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class User : BaseEntity
+    public class User : IdentityUser<int>, IBaseEntity
     {
-        public string Username { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public string? FirstName { get; set; }
 

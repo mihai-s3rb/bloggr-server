@@ -1,18 +1,15 @@
-﻿using Bloggr.Domain.Interfaces;
-using Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Abstracts
+namespace Bloggr.Domain.Interfaces
 {
-    public abstract class BaseEntity : IBaseEntity
+    public interface IBaseEntity
     {
         public int Id { get; set; }
 
         public DateTime CreationDate { get; set; }
-
     }
 }

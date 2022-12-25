@@ -1,4 +1,5 @@
 ﻿using Bloggr.Domain.Exceptions;
+using Bloggr.Domain.Interfaces;
 using Bloggr.Domain.Models;
 using Bloggr.Infrastructure.Interfaces;
 using Bloggr.Infrastructure.Services;

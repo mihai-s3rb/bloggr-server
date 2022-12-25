@@ -8,6 +8,8 @@ using Bloggr.Application.Validators.Post;
 using Bloggr.Infrastructure.Interfaces;
 using Bloggr.WebUI.Filters;
 using Bloggr.Infrastructure.Services;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bloggr.WebUI.Extensions
 {
@@ -37,6 +39,15 @@ namespace Bloggr.WebUI.Extensions
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("Bloggr.Infrastructure"));
             });
+
+            builder.Services.AddAuthentication();
+            // IDENTITY
+            builder.Services.AddIdentityCore<User>(q => q.User.RequireUniqueEmail = true)
+                            .AddEntityFrameworkStores<BloggrContext>()
+                            .AddDefaultTokenProviders();
+
+
+
             builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             //builder.Services.AddValidatorsFromAssemblyContaining<PostValidator>();
             builder.AddVaidators();

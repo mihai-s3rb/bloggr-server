@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Infrastructure.Configurations
 {
-    public class UserConfiguration : BaseEntityConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public override void Configure(EntityTypeBuilder<User> builder)
+        public virtual void Configure(EntityTypeBuilder<User> builder)
         {
-            base.Configure(builder);
-            builder.Property(t => t.Username)
+            builder.Property(t => t.CreationDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Property(t => t.UserName)
                 .IsRequired()
                 .HasMaxLength(20);
-            builder.HasIndex(u => u.Username)
+            builder.HasIndex(u => u.UserName)
                 .IsUnique();
             builder.Property(t => t.FirstName)
                 .HasMaxLength(30);

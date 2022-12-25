@@ -2,6 +2,7 @@
 using Bloggr.Infrastructure.Configurations;
 using Domain.Abstracts;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Context
 {
-    public class BloggrContext : IdentityDbContext
+    public class BloggrContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public BloggrContext(DbContextOptions<BloggrContext> options) : base(options)
         {

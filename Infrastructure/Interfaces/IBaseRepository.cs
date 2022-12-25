@@ -1,6 +1,8 @@
-﻿using Bloggr.Domain.Models;
+﻿using Bloggr.Domain.Interfaces;
+using Bloggr.Domain.Models;
 using Bloggr.Infrastructure.Services;
 using Domain.Abstracts;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
