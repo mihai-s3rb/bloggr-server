@@ -31,6 +31,7 @@ namespace Infrastructure.Context
             new InterestConfiguration().Configure(modelBuilder.Entity<Interest>());
             new InterestPostConfiguration().Configure(modelBuilder.Entity<InterestPost>());
             new InterestUserConfiguration().Configure(modelBuilder.Entity<InterestUser>());
+            new RolesConfiguration().Configure(modelBuilder.Entity<IdentityRole<int>>());
         }
 
         public DbSet<User> Users { get; set; }

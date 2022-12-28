@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Commands.CreateUser
 {
-    public record class CreateUserCommand(CreateUserDto user, IEnumerable<InterestQueryDto> interests) : IRequest<UsersQueryDto>;
+    public record class CreateUserCommand(CreateUserDto user, IEnumerable<InterestQueryDto> interests) : IRequest<UserDto>;
 }

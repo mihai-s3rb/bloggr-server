@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloggr.Application.Users.Commands.CreateUser
+namespace Bloggr.Application.Users
 {
-    public class CreateUserDto
+    public class UserDto
     {
-        public string Username { get; set; }
+        public int Id { get; set; }
 
-        public string Email { get; set; }
+        public string Token { get; set; }
 
-        public string Password { get; set; }
+        public string UserName { get; set; }
 
         public string? FirstName { get; set; }
 
@@ -21,8 +21,13 @@ namespace Bloggr.Application.Users.Commands.CreateUser
 
         public string? Bio { get; set; }
 
+        public string? ProfileImageUrl { get; set; }
+
+        public string? BackgroundImageUrl { get; set; }
+
         public DateTimeOffset BirthDate { get; set; }
 
-        public IEnumerable<InterestQueryDto>? Interests { get; set; }
+        public IEnumerable<InterestQueryDto> Interests { get; set; }
+
     }
 }

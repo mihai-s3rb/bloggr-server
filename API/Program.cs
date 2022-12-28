@@ -11,7 +11,11 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureCustomServices();
+builder.ConfigureBaseServices();
+
+builder.ConfigureIdentiy();
+
+builder.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddSwaggerGen();
 
