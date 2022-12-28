@@ -13,11 +13,10 @@ namespace Bloggr.Domain.Models
         {
             Errors = new List<ErrorModel>();
         }
-        public int StatusCode { get; set; }
 
         public string Message { get; set; }
 
-        public IList<ErrorModel> Errors { get; set; }
+        public List<ErrorModel>? Errors { get; set; }
 
         public override string ToString()
         {

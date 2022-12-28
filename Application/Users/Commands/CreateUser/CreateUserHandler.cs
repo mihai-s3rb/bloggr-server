@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Bloggr.Domain.Models;
 using Microsoft.Data.SqlClient;
 using Bloggr.Application.Interfaces;
+using Bloggr.Domain.Exceptions;
 
 namespace Bloggr.Application.Users.Commands.CreateUser
 {
@@ -54,12 +55,12 @@ namespace Bloggr.Application.Users.Commands.CreateUser
 
             if (!result.Succeeded)
             {
-                var errs = "";
+                var list = new List<string>();
                 foreach (var error in result.Errors)
                 {
-                    errs += error.Description;
+                    list.Add(error.Description);
                 }
-                throw new Exception(errs);
+                throw new CustomException("User could've not been created", list);
             }
 
             await _userManager.AddToRoleAsync(user, "User");

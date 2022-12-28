@@ -20,25 +20,36 @@ namespace Bloggr.WebUI.Middlewares
                 await _next(httpContext);
             } catch(EntityNotFoundException ex)
             {
-                await HandleException(httpContext, ex.Message, 404);
+                await HandleException(httpContext, ex.Message, 404, null);
             }
-            //catch (Exception ex)
-            //{
-            //    await HandleException(httpContext, "An internal server error occured", 500);
-            //}
+            catch (CustomException ex)
+            {
+                await HandleException(httpContext, "An internal server error occured", 500, ex.Errors);
+            }
 
         }
 
-        private async Task HandleException(HttpContext httpContext, string message, int statusCode)
+        private async Task HandleException(HttpContext httpContext, string message, int statusCode, IEnumerable<string>? errors)
         {
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode;
 
-            await httpContext.Response.WriteAsync(new ErrorModel()
+            var errorResponse = new ErrorModel
             {
-                StatusCode = httpContext.Response.StatusCode,
-                Message = message
-            }.ToString());
+                Message = message,
+            };
+            if (errors != null)
+                foreach (var error in errors)
+                {
+                    var errorModel = new ErrorModel
+                    {
+                        Message = error
+                    };
+                    errorResponse.Errors.Add(errorModel);
+
+                }
+            
+            await httpContext.Response.WriteAsync(errorResponse.ToString());
         }
     }
 }
