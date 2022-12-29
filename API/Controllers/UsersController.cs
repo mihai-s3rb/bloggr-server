@@ -16,6 +16,7 @@ using Bloggr.Application.Users.Queries.LoginUser;
 using Bloggr.Domain.Models;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bloggr.WebUI.Controllers
@@ -63,8 +64,9 @@ namespace Bloggr.WebUI.Controllers
             return Accepted(await _mediator.Send(new LoginUser(user)));
         }
 
-
+        
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<UsersQueryDto>> Delete(int id)
         {
             var result = await _mediator.Send(new RemoveUserByIdCommand(id));
@@ -72,6 +74,7 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<UsersQueryDto>> Update([FromBody] UpdateUserDto user, int id)
         {
             return Ok(await _mediator.Send(new UpdateUserCommand(user, user.Interests, id)));
@@ -86,12 +89,14 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPost("{id}/createdInterests")]
+        [Authorize]
         public async Task<ActionResult<InterestQueryDto>> CreateUserInterest(CreateInterestDto interest, int id)
         {
             return Ok(await _mediator.Send(new CreateInterestCommand(interest, id)));
         }
 
         [HttpDelete("{id}/createdInterests")]
+        [Authorize]
         public async Task<ActionResult<InterestQueryDto>> RemoveUserInterest(int id)
         {
             return Ok(await _mediator.Send(new RemoveInterestByIdCommand(id)));

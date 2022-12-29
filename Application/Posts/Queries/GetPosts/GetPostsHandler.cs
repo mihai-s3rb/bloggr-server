@@ -44,9 +44,8 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
                 else if (request.orderBy == "desc")
                     query = query.OrderByDescending(post => post.CreationDate);
             }
-            if (request.interests.Any())
+            if (request.interests != null && request.interests.Any())
             {
-                //.All(interest => request.interests.Contains(interest.Name));
                 query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).All(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
             }
             var includeQuery = query.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);

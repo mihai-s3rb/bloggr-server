@@ -22,6 +22,7 @@ namespace Bloggr.Application.Users.Commands.RemoveUser
 
         public async Task<UsersQueryDto> Handle(RemoveUserByIdCommand request, CancellationToken cancellationToken)
         {
+            
             User user = await _UOW.Users.RemoveById(request.id);
             await _UOW.Save();
             var mappedUser = _mapper.Map<UsersQueryDto>(user); 

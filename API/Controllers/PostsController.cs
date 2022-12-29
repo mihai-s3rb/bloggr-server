@@ -17,6 +17,7 @@ using Bloggr.Domain.Models;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -60,13 +61,16 @@ namespace Bloggr.WebUI.Controllers
         }
         //Create POST
         [HttpPost(Name = "AddPost")]
+        [Authorize]
         public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
         {
+            var x = User.Identity.Name;
             return Ok(await _mediator.Send(new CreatePostCommand(post, post.Interests)));
         }
 
         //DELETE POST
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<PostQueryDto>> Delete(int id)
         {
             var result = await _mediator.Send(new RemovePostByIdCommand(id));
@@ -74,6 +78,7 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<PostQueryDto>> Update([FromBody]UpdatePostDto post, int id)
         {
             return Ok(await _mediator.Send(new UpdatePostCommand(post, post.Interests, id)));
@@ -91,12 +96,14 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPost("{id}/comments")]
+        [Authorize]
         public async Task<ActionResult<CommentQueryDto>> AddComment(CreateCommentDto comment, int id)
         {
             return Ok(await _mediator.Send(new CreateCommentCommand(comment, id)));
         }
 
         [HttpDelete("{id}/comments/{commentId}")]
+        [Authorize]
         public async Task<ActionResult<CommentQueryDto>> RemoveComment(int commentId)
         {
             var result = await _mediator.Send(new RemoveCommentByIdCommand(commentId));
@@ -110,12 +117,14 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPost("{id}/likes")]
+        [Authorize]
         public async Task<ActionResult<LikeQueryDto>> AddLike(CreateLikeDto like, int id)
         {
             return Ok(await _mediator.Send(new CreateLikeCommand(like, id)));
         }
 
         [HttpDelete("{id}/likes/{likeId}")]
+        [Authorize]
         public async Task<ActionResult<LikeQueryDto>> RemoveLike(int likeId)
         {
             var result = await _mediator.Send(new RemoveLikeByIdCommand(likeId));

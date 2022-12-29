@@ -55,6 +55,15 @@ namespace Bloggr.Infrastructure.Repositories
             return entity;
         }
 
+        public async Task<Post> SetPostProps(Post entity, int userId)
+        {
+            entity.NumberOfLikes = await _ctx.Likes.Where(like => like.PostId == entity.Id).CountAsync();
+            entity.NumberOfComments = await _ctx.Comments.Where(like => like.PostId == entity.Id).CountAsync();
+            entity.IsLikedByUser = _ctx.Likes.Where(like => like.PostId == entity.Id).Any(like => like.UserId == userId);
+            //entity.IsBookmarkedByUser
+            return entity;
+        }
+
         public async Task<List<Post>> SetPostListProps(List<Post> entities)
         {
             foreach (var entity in entities)

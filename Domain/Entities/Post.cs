@@ -18,12 +18,6 @@ namespace Domain.Entities
 
         public string? CaptionImageUrl { get; set; }
 
-        [NotMapped]
-        public int NumberOfLikes { get; set; }
-
-        [NotMapped]
-        public int NumberOfComments { get; set; }
-
         public ICollection<InterestPost> InterestPosts { get; set; }
 
         public ICollection<Like>? Likes { get; init; }
@@ -33,5 +27,17 @@ namespace Domain.Entities
         public int? UserId { get; set; }
 
         public User? User { get; set; }
+
+        [NotMapped]
+        public int? NumberOfLikes { get; set; }
+
+        [NotMapped]
+        public int? NumberOfComments { get; set; }
+
+        [NotMapped]
+        public bool? IsLikedByUser { get; set; }
+
+        [NotMapped]
+        public bool? IsBookmarkedByUser { get; set; }
     }
 }

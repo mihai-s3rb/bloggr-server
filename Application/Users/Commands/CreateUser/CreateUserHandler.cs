@@ -44,10 +44,13 @@ namespace Bloggr.Application.Users.Commands.CreateUser
             {
                 foreach (InterestQueryDto interest in request.interests)
                 {
-                    user.InterestUsers.Add(new InterestUser
+                    if(_UOW.Interests.Query().Any(interestDb => interestDb.Id == interest.Id))
                     {
-                        InterestId = interest.Id
-                    });
+                        user.InterestUsers.Add(new InterestUser
+                        {
+                            InterestId = interest.Id
+                        });
+                    }
                 }
             }
             

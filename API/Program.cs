@@ -17,7 +17,7 @@ builder.ConfigureIdentiy();
 
 builder.ConfigureJWT(builder.Configuration);
 
-builder.Services.AddSwaggerGen();
+builder.AddSwaggerCustom();
 
 var app = builder.Build();
 
@@ -32,6 +32,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("_myAllowSpecificOrigins");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.ConfigureCustomExceptionHandler();

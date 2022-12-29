@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Posts.Queries.GetById;
+using Bloggr.Domain.Entities;
 using Bloggr.Infrastructure.Interfaces;
 using Domain.Entities;
 using System;
@@ -31,10 +32,13 @@ namespace Bloggr.Application.Posts.Commands.CreatePost
             {
                 foreach (InterestQueryDto interest in request.interests)
                 {
-                    result.InterestPosts.Add(new InterestPost
+                    if (_UOW.Interests.Query().Any(interestDb => interestDb.Id == interest.Id))
                     {
-                        InterestId = interest.Id
-                    });
+                        result.InterestPosts.Add(new InterestPost
+                        {
+                            InterestId = interest.Id
+                        });
+                    }
                 }
             }
             await _UOW.Save();

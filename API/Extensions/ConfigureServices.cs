@@ -16,6 +16,9 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Bloggr.Application.Interfaces;
 using Bloggr.Application.Services;
+using Microsoft.Extensions.Options;
+using Bloggr.WebUI.Services.AuthorizationHandlers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bloggr.WebUI.Extensions
 {
@@ -52,6 +55,9 @@ namespace Bloggr.WebUI.Extensions
             builder.Services.AddScoped(typeof(IAuthManager), typeof(AuthManager));
             builder.Services.AddAutoMapper(typeof(Program));
 
+            //ADD USER ACCESSOR
+            builder.Services.AddTransient<IUserAccessor, UserAccessor>();
+
             var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
             builder.Services.AddMediatR(assembly);
             builder.Services.AddMediatR(typeof(Program));
@@ -82,11 +88,18 @@ namespace Bloggr.WebUI.Extensions
                     {
                         ValidateIssuer = true,
                         ValidateLifetime = true,
+                        ValidateAudience = false,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = jwtSettings.GetSection("Issuer").Value,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                     };
                 });
+            builder.Services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy("EditPolicy", policy =>
+                    policy.Requirements.Add(new SameAuthorRequirement()));
+            });
+            builder.Services.AddSingleton<IAuthorizationHandler, DocumentAuthorizationHandler>();
         }
         public static void AddSwaggerCustom(this WebApplicationBuilder builder)
         {
