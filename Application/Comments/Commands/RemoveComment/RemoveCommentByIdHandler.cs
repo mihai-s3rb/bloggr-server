@@ -33,15 +33,12 @@ namespace Bloggr.Application.Comments.Commands.RemoveComment
         public async Task<CommentQueryDto> Handle(RemoveCommentByIdCommand request, CancellationToken cancellationToken)
         {
             var commentDb = await _UOW.Comments.GetById(request.id);
-            if(commentDb == null)
-            {
-                throw EntityNotFoundException.OfType<Comment>();
-            }
+
             var authorizationResult = await _authorizationService
             .AuthorizeAsync(_userAccessor.User, commentDb, "EditPolicy");
             if (!authorizationResult.Succeeded)
             {
-               throw new Exception("You are not allowed");
+               throw new NotAuthorizedException("You are not allowed");
             }
             var comment = await _UOW.Comments.RemoveById(request.id);
             await _UOW.Save();

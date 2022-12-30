@@ -22,6 +22,10 @@ namespace Bloggr.WebUI.Middlewares
             {
                 await HandleException(httpContext, ex.Message, 404, null);
             }
+            catch (NotAuthorizedException ex)
+            {
+                await HandleException(httpContext, "You are not allowed to do this", 401, null);
+            }
             catch (CustomException ex)
             {
                 await HandleException(httpContext, "An internal server error occured", 500, ex.Errors);

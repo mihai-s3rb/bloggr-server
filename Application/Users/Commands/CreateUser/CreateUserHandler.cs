@@ -14,6 +14,7 @@ using Bloggr.Domain.Models;
 using Microsoft.Data.SqlClient;
 using Bloggr.Application.Interfaces;
 using Bloggr.Domain.Exceptions;
+using Bloggr.Application.Users.Queries.LoginUser;
 
 namespace Bloggr.Application.Users.Commands.CreateUser
 {
@@ -69,6 +70,15 @@ namespace Bloggr.Application.Users.Commands.CreateUser
             await _userManager.AddToRoleAsync(user, "User");
 
             var mappedResult = _mapper.Map<UserDto>(user);
+            var authenticatedUser = await _authManager.ValidateUser(new LoginUserDto
+            {
+                UserName = user.UserName,
+                Password = request.user.Password
+            }); ;
+            if (authenticatedUser == null)
+            {
+                throw new CustomException("Unable to login");
+            }
             mappedResult.Token = await _authManager.CreateToken();
             return mappedResult;
         }
