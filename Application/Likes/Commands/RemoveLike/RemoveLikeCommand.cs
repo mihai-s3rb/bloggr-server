@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Likes.Commands.RemoveLike
 {
-    public record class RemoveLikeByIdCommand(int id) : IRequest<LikeQueryDto>;
+    public record class RemoveLikeCommand(int postId) : IRequest<LikeQueryDto>;
 }

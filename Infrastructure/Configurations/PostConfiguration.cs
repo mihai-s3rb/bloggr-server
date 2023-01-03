@@ -6,6 +6,7 @@ namespace Bloggr.Infrastructure.Configurations
 {
     public class PostConfiguration : BaseEntityConfiguration<Post>
     {
+        private string captionImageUrl = @"https://www.shutterstock.com/image-vector/vector-graphic-no-thumbnail-symbol-260nw-1391095985.jpg";
         public override void Configure(EntityTypeBuilder<Post> builder)
         {
             base.Configure(builder);
@@ -15,6 +16,10 @@ namespace Bloggr.Infrastructure.Configurations
             builder.Property(t => t.Content)
                 .IsRequired()
                 .HasMaxLength(10000);
+            builder.Property(t => t.CaptionImageUrl)
+                .HasDefaultValue(captionImageUrl);
+            builder.Property(t => t.Views)
+                .HasDefaultValue(0);
 
             //relationships
             builder.HasMany<Comment>(p => p.Comments)

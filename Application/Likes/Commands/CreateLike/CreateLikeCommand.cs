@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Likes.Commands.CreateLike
 {
-    public record class CreateLikeCommand(CreateLikeDto like, int postId) : IRequest<LikeQueryDto>;
+    public record class CreateLikeCommand(int postId) : IRequest<LikeQueryDto>;
 }

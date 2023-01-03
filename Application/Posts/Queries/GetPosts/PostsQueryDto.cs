@@ -14,13 +14,17 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 
         public string Title { get; set; }
 
-        public string ImageCaptionUrl { get; set; }
+        public string CaptionImageUrl { get; set; }
 
         public string Caption { get; set; }
 
-        public int NumberOfLikes { get; set; }
+        public int Views { get; set; }
 
-        public int NumberOfComments { get; set; }
+        public int? NumberOfLikes { get; set; }
+
+        public int? NumberOfComments { get; set; }
+
+        public bool? IsLikedByUser { get; set; }
 
         public int? UserId { get; set; }
         

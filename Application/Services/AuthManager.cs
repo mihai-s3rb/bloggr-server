@@ -1,6 +1,7 @@
 ﻿using Bloggr.Application.Interfaces;
 using Bloggr.Application.Users.Queries.LoginUser;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -74,7 +75,7 @@ namespace Bloggr.Application.Services
 
         public async Task<User?> ValidateUser(LoginUserDto userDto)
         {
-            _user = await _userManager.FindByNameAsync(userDto.UserName);
+            _user = await _userManager.Users.Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).SingleAsync(user => user.UserName == userDto.UserName);
 
             if (_user != null && await _userManager.CheckPasswordAsync(_user, userDto.Password))
                 return _user;

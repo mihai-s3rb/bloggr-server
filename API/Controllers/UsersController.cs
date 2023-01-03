@@ -53,13 +53,13 @@ namespace Bloggr.WebUI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register([FromBody] CreateUserDto user)
+        public async Task<ActionResult<CredentialsModel>> Register([FromBody] CreateUserDto user)
         {
             return Accepted(await _mediator.Send(new CreateUserCommand(user, user.Interests)));
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login([FromBody] LoginUserDto user)
+        public async Task<ActionResult<CredentialsModel>> Login([FromBody] LoginUserDto user)
         {
             return Accepted(await _mediator.Send(new LoginUser(user)));
         }
@@ -75,7 +75,7 @@ namespace Bloggr.WebUI.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<UsersQueryDto>> Update([FromBody] UpdateUserDto user, int id)
+        public async Task<ActionResult<UserDto>> Update([FromBody] UpdateUserDto user, int id)
         {
             return Ok(await _mediator.Send(new UpdateUserCommand(user, user.Interests, id)));
         }

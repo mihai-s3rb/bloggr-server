@@ -64,7 +64,6 @@ namespace Bloggr.WebUI.Controllers
         [Authorize]
         public async Task<ActionResult<PostQueryDto>> Create([FromBody]CreatePostDto post)
         {
-            var x = User.Identity.Name;
             return Ok(await _mediator.Send(new CreatePostCommand(post, post.Interests)));
         }
 
@@ -118,16 +117,16 @@ namespace Bloggr.WebUI.Controllers
 
         [HttpPost("{id}/likes")]
         [Authorize]
-        public async Task<ActionResult<LikeQueryDto>> AddLike(CreateLikeDto like, int id)
+        public async Task<ActionResult<LikeQueryDto>> AddLike(int id)
         {
-            return Ok(await _mediator.Send(new CreateLikeCommand(like, id)));
+            return Ok(await _mediator.Send(new CreateLikeCommand(id)));
         }
 
-        [HttpDelete("{id}/likes/{likeId}")]
+        [HttpDelete("{id}/likes")]
         [Authorize]
-        public async Task<ActionResult<LikeQueryDto>> RemoveLike(int likeId)
+        public async Task<ActionResult<LikeQueryDto>> RemoveLike(int id)
         {
-            var result = await _mediator.Send(new RemoveLikeByIdCommand(likeId));
+            var result = await _mediator.Send(new RemoveLikeCommand(id));
             return Ok(result);
         }
     }

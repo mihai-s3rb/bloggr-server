@@ -9,7 +9,5 @@ namespace Bloggr.Application.Comments.Commands.CreateComment
     public class CreateCommentDto
     {
         public string Content { get; set; }
-
-        public int UserId { get; set; }
     }
 }

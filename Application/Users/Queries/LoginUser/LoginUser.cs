@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Queries.LoginUser
 {
-    public record class LoginUser(LoginUserDto user) : IRequest<UserDto>;
+    public record class LoginUser(LoginUserDto user) : IRequest<CredentialsModel>;
 }

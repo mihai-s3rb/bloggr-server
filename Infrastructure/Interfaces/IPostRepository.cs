@@ -17,8 +17,8 @@ namespace Bloggr.Infrastructure.Interfaces
 
         public Task<Post> Update(Post entity);
 
-        public Task<Post> SetPostProps(Post entity);
+        public Task<Post> SetPostProps(Post entity, int? userId);
 
-        public Task<List<Post>> SetPostListProps(List<Post> entities);
+        public Task<List<Post>> SetPostListProps(List<Post> entities, int? userId);
     }
 }

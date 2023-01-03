@@ -1,17 +1,19 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Users.Queries.GetUsers;
 using Bloggr.Domain.Entities;
 using Bloggr.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Commands.UpdateUser
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, User>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UsersQueryDto>
     {
         private readonly IUnitOfWork _UOW;
         private readonly IMapper _mapper;
@@ -22,26 +24,31 @@ namespace Bloggr.Application.Users.Commands.UpdateUser
             _mapper = mapper;
         }
 
-        public async Task<User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UsersQueryDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userFromDb = await _UOW.Users.Query().Where(user => user.Id == request.userId).FirstOrDefaultAsync();
+            //create new user !!!!
+            var userFromDb = await _UOW.Users.Query().AsNoTracking().Where(user => user.Id == request.userId).FirstOrDefaultAsync();
 
-            User updatedUser = _mapper.Map<UpdateUserDto, User>(request.user, userFromDb);
+            _mapper.Map<UpdateUserDto, User>(request.user, userFromDb);
 
-            updatedUser.InterestUsers = new List<InterestUser>();
+            var list = new List<InterestUser>();
             if (request.interests != null && request.interests.Any())
             {
                 foreach (InterestQueryDto interest in request.interests)
                 {
-                    updatedUser.InterestUsers.Add(new InterestUser
+                    list.Add(new InterestUser
                     {
                         InterestId = interest.Id
                     });
                 }
             }
-            User result = await _UOW.Users.Update(updatedUser);
+            userFromDb.InterestUsers = list;
+            await _UOW.Users.Update(userFromDb);
             await _UOW.Save();
-            return result;
+
+            var updatedUser = await _UOW.Users.Query().Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).Where(user => user.Id == request.userId).FirstOrDefaultAsync();
+            var mappedResult = _mapper.Map<UsersQueryDto>(updatedUser);
+            return mappedResult;
         }
     }
 }

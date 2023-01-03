@@ -16,6 +16,8 @@ namespace Domain.Entities
 
         public string Caption { get; set; }
 
+        public int Views { get; set; }
+
         public string? CaptionImageUrl { get; set; }
 
         public ICollection<InterestPost> InterestPosts { get; set; }

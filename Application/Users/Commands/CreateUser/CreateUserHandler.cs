@@ -15,10 +15,11 @@ using Microsoft.Data.SqlClient;
 using Bloggr.Application.Interfaces;
 using Bloggr.Domain.Exceptions;
 using Bloggr.Application.Users.Queries.LoginUser;
+using Bloggr.Application.Models;
 
 namespace Bloggr.Application.Users.Commands.CreateUser
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, CredentialsModel>
     {
         private readonly IUnitOfWork _UOW;
         private readonly IMapper _mapper;
@@ -33,13 +34,11 @@ namespace Bloggr.Application.Users.Commands.CreateUser
             _authManager = authManager;
         }
 
-        public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<CredentialsModel> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            //make the user
             var user = _mapper.Map<User>(request.user);
-            //User result = await _UOW.Users.Add(user);
 
-
-            //make a service for this
             user.InterestUsers = new List<InterestUser>();
             if (request.interests != null && request.interests.Any())
             {
@@ -55,6 +54,7 @@ namespace Bloggr.Application.Users.Commands.CreateUser
                 }
             }
             
+            //actually create it in db
             var result = await _userManager.CreateAsync(user, request.user.Password);
 
             if (!result.Succeeded)
@@ -67,9 +67,10 @@ namespace Bloggr.Application.Users.Commands.CreateUser
                 throw new CustomException("User could've not been created", list);
             }
 
+            //add to role
             await _userManager.AddToRoleAsync(user, "User");
 
-            var mappedResult = _mapper.Map<UserDto>(user);
+            //valida the user
             var authenticatedUser = await _authManager.ValidateUser(new LoginUserDto
             {
                 UserName = user.UserName,
@@ -79,7 +80,13 @@ namespace Bloggr.Application.Users.Commands.CreateUser
             {
                 throw new CustomException("Unable to login");
             }
-            mappedResult.Token = await _authManager.CreateToken();
+            //send the token and user back
+
+            var mappedResult = new CredentialsModel
+            {
+                Token = await _authManager.CreateToken(),
+                User = _mapper.Map<UsersQueryDto>(authenticatedUser)
+            };
             return mappedResult;
         }
     }

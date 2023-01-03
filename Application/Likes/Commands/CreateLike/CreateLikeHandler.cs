@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Bloggr.Application.Interfaces;
 using Bloggr.Application.Likes.Queries.GetPostLikes;
 using Bloggr.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +15,29 @@ namespace Bloggr.Application.Likes.Commands.CreateLike
     {
         private readonly IUnitOfWork _UOW;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public CreateLikeHandler(IUnitOfWork UOW, IMapper mapper)
+        public CreateLikeHandler(IUnitOfWork UOW, IMapper mapper, IUserAccessor userAccessor)
         {
             _UOW = UOW;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
 
         public async Task<LikeQueryDto> Handle(CreateLikeCommand request, CancellationToken cancellationToken)
         {
-            var like = _mapper.Map<Like>(request.like);
-            like.PostId = request.postId;
+            var userId = _userAccessor.GetUserId();
+
+            var existing = await _UOW.Likes.Query().Where(like => like.UserId == userId && like.PostId == request.postId).FirstOrDefaultAsync();
+            if (existing != null)
+            {
+                throw new Exception("Already liked");
+            }
+            var like = new Like
+            {
+                PostId = request.postId,
+                UserId = userId
+            };
             var result = await _UOW.Likes.Add(like);
             await _UOW.Save();
             var mappedResult = _mapper.Map<LikeQueryDto>(result);
