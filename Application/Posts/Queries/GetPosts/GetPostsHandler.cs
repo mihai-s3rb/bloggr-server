@@ -53,7 +53,7 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             }
             if (request.interests != null && request.interests.Any())
             {
-                query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).All(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
+                query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).Any(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
             }
 
 

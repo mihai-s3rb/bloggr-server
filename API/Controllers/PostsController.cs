@@ -84,14 +84,14 @@ namespace Bloggr.WebUI.Controllers
         }
         //related routes
         [HttpGet("{id}/comments")]
-        public async Task<ActionResult<PagedResultDto<CommentQueryDto>>> GetPostComments(int id, int pageNumber = 1)
+        public async Task<ActionResult<PagedResultDto<CommentQueryDto>>> GetPostComments(int id, string? orderBy, int pageNumber = 1)
         {
             var pageDto = new PageModel
             {
                 PageSize = 10,
                 PageNumber = pageNumber
             };
-            return Ok(await _mediator.Send(new GetPostCommentsQuery(pageDto, id)));
+            return Ok(await _mediator.Send(new GetPostCommentsQuery(pageDto, id, orderBy)));
         }
 
         [HttpPost("{id}/comments")]
