@@ -2,6 +2,7 @@
 using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +23,23 @@ namespace Bloggr.Application.Posts.Commands.UpdatePost
         }
         public async Task<PostQueryDto> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
-            var updatedPost = _mapper.Map<Post>(request.post);
-            updatedPost.Id = request.postId;
-            updatedPost.InterestPosts = new List<InterestPost>();
+            var postFromDb = await _UOW.Posts.Query().AsNoTracking().Where(post => post.Id == request.postId).Include(post => post.InterestPosts).ThenInclude(interestpost => interestpost.Interest).FirstOrDefaultAsync();
+
+
+            _mapper.Map<UpdatePostDto, Post>(request.post, postFromDb);
+
+            postFromDb.InterestPosts = new List<InterestPost>();
             if (request.interests != null && request.interests.Any())
             {
                 foreach (InterestQueryDto interest in request.interests)
                 {
-                    updatedPost.InterestPosts.Add(new InterestPost
+                    postFromDb.InterestPosts.Add(new InterestPost
                     {
                         InterestId = interest.Id
                     });
                 }
             }
-            var result = await _UOW.Posts.Update(updatedPost);
+            var result = await _UOW.Posts.Update(postFromDb);
             await _UOW.Save();
             var mappedResult = _mapper.Map<PostQueryDto>(result);
             return mappedResult;

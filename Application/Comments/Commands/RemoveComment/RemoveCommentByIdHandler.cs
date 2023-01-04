@@ -34,12 +34,12 @@ namespace Bloggr.Application.Comments.Commands.RemoveComment
         {
             var commentDb = await _UOW.Comments.GetById(request.id);
 
-            var authorizationResult = await _authorizationService
-            .AuthorizeAsync(_userAccessor.User, commentDb, "EditPolicy");
-            if (!authorizationResult.Succeeded)
-            {
-               throw new NotAuthorizedException("You are not allowed");
-            }
+            //var authorizationResult = await _authorizationService
+            //.AuthorizeAsync(_userAccessor.User, commentDb, "EditPolicy");
+            //if (!authorizationResult.Succeeded)
+            //{
+            //   throw new NotAuthorizedException("You are not allowed");
+            //}
             var comment = await _UOW.Comments.RemoveById(request.id);
             await _UOW.Save();
             var result = _mapper.Map<CommentQueryDto>(comment);
