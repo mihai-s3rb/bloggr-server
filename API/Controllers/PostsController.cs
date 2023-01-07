@@ -48,7 +48,7 @@ namespace Bloggr.WebUI.Controllers
 
         //GET all POSTS
         [HttpGet(Name = "GetAllPosts")]
-        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] int? id, [FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
+        public async Task<ActionResult<PagedResultDto<PostsQueryDto>>> Get([FromQuery] string? username, [FromQuery] string? input, [FromQuery] string[]? interests, [FromQuery] string? orderBy, int pageNumber = 1)
         {
             //throw EntityNotFoundException.OfType<Post>();
             var pageDto = new PageModel
@@ -56,7 +56,7 @@ namespace Bloggr.WebUI.Controllers
                 PageSize = 10,
                 PageNumber = pageNumber
             };
-            var posts = await _mediator.Send(new GetPostsQuery(pageDto, id, input, interests, orderBy));
+            var posts = await _mediator.Send(new GetPostsQuery(pageDto, username, input, interests, orderBy));
             return Ok(posts);
         }
         //Create POST

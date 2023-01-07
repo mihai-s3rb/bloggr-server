@@ -81,25 +81,25 @@ namespace Bloggr.WebUI.Controllers
         }
 
         //related
-        [HttpGet("{id}/createdInterests")]
-        public async Task<ActionResult<InterestQueryDto>> GetUserInterests(int id)
+        //[HttpGet("{id}/createdInterests")]
+        //public async Task<ActionResult<InterestQueryDto>> GetUserInterests(int id)
+        //{
+        //    return Ok();
+        //    //return Ok(await _mediator.Send(new GetPostInterestsQuery(id)));
+        //}
+
+        [HttpPost("createdInterests")]
+        [Authorize]
+        public async Task<ActionResult<InterestQueryDto>> CreateUserInterest(CreateInterestDto interest)
         {
-            return Ok();
-            //return Ok(await _mediator.Send(new GetPostInterestsQuery(id)));
+            return Ok(await _mediator.Send(new CreateInterestCommand(interest)));
         }
 
-        [HttpPost("{id}/createdInterests")]
-        [Authorize]
-        public async Task<ActionResult<InterestQueryDto>> CreateUserInterest(CreateInterestDto interest, int id)
-        {
-            return Ok(await _mediator.Send(new CreateInterestCommand(interest, id)));
-        }
-
-        [HttpDelete("{id}/createdInterests")]
-        [Authorize]
-        public async Task<ActionResult<InterestQueryDto>> RemoveUserInterest(int id)
-        {
-            return Ok(await _mediator.Send(new RemoveInterestByIdCommand(id)));
-        }
+        //[HttpDelete("{id}/createdInterests")]
+        //[Authorize]
+        //public async Task<ActionResult<InterestQueryDto>> RemoveUserInterest(int id)
+        //{
+        //    return Ok(await _mediator.Send(new RemoveInterestByIdCommand(id)));
+        //}
     }
 }

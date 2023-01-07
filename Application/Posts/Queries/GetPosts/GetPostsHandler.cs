@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetPosts
@@ -32,13 +33,17 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 
             //filtering
             var query = _UOW.Posts.Query();
-            if (request.userId is not null)
-            {
-                query = query.Where(post => post.UserId == request.userId);
-            }
             if(!string.IsNullOrEmpty(request.input))
             {
-                query = query.Where(post => post.Title.Contains(request.input));
+                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+                var str = rgx.Replace(request.input.ToLower().Trim(), "");
+                query = await _UOW.Posts.Search(query, str);
+                query.OrderByDescending(post => post.RANK);
+
+            }
+            if (!string.IsNullOrEmpty(request.username))
+            {
+                query = query.Where(post => post.User.UserName == request.username);
             }
             if (!string.IsNullOrEmpty(request.orderBy))
             {

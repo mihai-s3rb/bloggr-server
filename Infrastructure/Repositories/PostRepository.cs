@@ -4,10 +4,13 @@ using Bloggr.Infrastructure.Interfaces;
 using Bloggr.Infrastructure.Services;
 using Domain.Entities;
 using Infrastructure.Context;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +46,19 @@ namespace Bloggr.Infrastructure.Repositories
             _ctx.Entry(existing).CurrentValues.SetValues(entity);
             existing.InterestPosts = entity.InterestPosts;
             return entity;
+        }
+
+        public async Task<IQueryable<Post>> Search(IQueryable query, string input)
+        {
+            var search = new SqlParameter("@Search", input);
+            var searchQuery = _dbSet.FromSqlRaw(@"
+                        SELECT KEY_TBL.RANK, Posts.*
+                        FROM Posts
+                            INNER JOIN FREETEXTTABLE(Posts,
+                            (Content),
+                            @Search) AS KEY_TBL
+                        ON Posts.Id = KEY_TBL.[KEY]", search);
+            return searchQuery;
         }
 
 

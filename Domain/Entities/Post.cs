@@ -10,6 +10,9 @@ namespace Domain.Entities
 {
     public class Post : BaseEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int RANK { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }
