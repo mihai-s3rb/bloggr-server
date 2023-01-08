@@ -31,7 +31,7 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
         public async Task<PagedResultDto<PostsQueryDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
 
-            //filtering
+            //filtering and sorting
             var query = _UOW.Posts.Query();
             if(!string.IsNullOrEmpty(request.input))
             {
@@ -64,8 +64,6 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             {
                 query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).Any(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
             }
-
-
 
             var includeQuery = query.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);
             var pagedResult = await _UOW.Posts.Paginate(includeQuery, request.pageDto);

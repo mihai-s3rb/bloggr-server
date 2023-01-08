@@ -76,7 +76,7 @@ namespace Bloggr.Application.Services
 
         public async Task<User?> ValidateUser(LoginUserDto userDto)
         {
-            _user = await _userManager.Users.Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).SingleAsync(user => user.UserName == userDto.UserName);
+            _user = await _userManager.Users.Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).FirstOrDefaultAsync(user => user.UserName == userDto.UserName);
             if (_user == null)
                 throw new CustomException("User doesn't exist");
             var checkPassword = await _userManager.CheckPasswordAsync(_user, userDto.Password);

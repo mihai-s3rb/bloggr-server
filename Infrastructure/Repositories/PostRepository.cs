@@ -58,8 +58,6 @@ namespace Bloggr.Infrastructure.Repositories
                             (Content),
                             @Search) AS KEY_TBL
                         ON Posts.Id = KEY_TBL.[KEY]", search);
-            var result = await searchQuery.ToListAsync();
-            var a = "a";
             return searchQuery;
         }
 

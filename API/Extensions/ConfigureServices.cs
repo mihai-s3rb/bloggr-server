@@ -53,6 +53,7 @@ namespace Bloggr.WebUI.Extensions
             builder.AddVaidators();
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(IAuthManager), typeof(AuthManager));
+            builder.Services.AddScoped(typeof(ICustomAuthorizationHandler), typeof(CustomAuthorizationHandler));
             builder.Services.AddAutoMapper(typeof(Program));
 
             //ADD USER ACCESSOR

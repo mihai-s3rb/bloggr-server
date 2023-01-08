@@ -12,34 +12,29 @@ using Microsoft.AspNetCore.Authorization;
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Bloggr.Domain.Exceptions;
+using Bloggr.Application.Models;
 
 namespace Bloggr.Application.Comments.Commands.RemoveComment
 {
     public class RemoveCommentByIdHandler : IRequestHandler<RemoveCommentByIdCommand, CommentQueryDto>
     {
         private readonly IUnitOfWork _UOW;
+        private readonly ICustomAuthorizationHandler _customAuthorizationHandler;
         private readonly IMapper _mapper;
         private readonly IAuthorizationService _authorizationService;
         private readonly IUserAccessor _userAccessor;
 
-        public RemoveCommentByIdHandler(IUnitOfWork UOW, IMapper mapper, IAuthorizationService authorizationService, IUserAccessor userAccessor)
+        public RemoveCommentByIdHandler(IUnitOfWork UOW, IMapper mapper, ICustomAuthorizationHandler customAuthorizationHandler)
         {
             _UOW = UOW;
+            _customAuthorizationHandler = customAuthorizationHandler;
             _mapper = mapper;
-            _authorizationService = authorizationService;
-            _userAccessor = userAccessor;
         }
 
         public async Task<CommentQueryDto> Handle(RemoveCommentByIdCommand request, CancellationToken cancellationToken)
         {
             var commentDb = await _UOW.Comments.GetById(request.id);
-
-            //var authorizationResult = await _authorizationService
-            //.AuthorizeAsync(_userAccessor.User, commentDb, "EditPolicy");
-            //if (!authorizationResult.Succeeded)
-            //{
-            //   throw new NotAuthorizedException("You are not allowed");
-            //}
+            await _customAuthorizationHandler.Authorize(commentDb.Id);
             var comment = await _UOW.Comments.RemoveById(request.id);
             await _UOW.Save();
             var result = _mapper.Map<CommentQueryDto>(comment);

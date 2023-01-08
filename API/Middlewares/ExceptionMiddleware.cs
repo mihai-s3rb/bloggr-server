@@ -28,7 +28,7 @@ namespace Bloggr.WebUI.Middlewares
             }
             catch (CustomException ex)
             {
-                await HandleException(httpContext, "Something went wrong", 500, ex.Errors);
+                await HandleException(httpContext, ex.Message, 500, ex.Errors);
             }
             //catch (Exception ex)
             //{
