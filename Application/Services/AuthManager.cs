@@ -1,5 +1,6 @@
 ﻿using Bloggr.Application.Interfaces;
 using Bloggr.Application.Users.Queries.LoginUser;
+using Bloggr.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -76,10 +77,12 @@ namespace Bloggr.Application.Services
         public async Task<User?> ValidateUser(LoginUserDto userDto)
         {
             _user = await _userManager.Users.Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).SingleAsync(user => user.UserName == userDto.UserName);
-
-            if (_user != null && await _userManager.CheckPasswordAsync(_user, userDto.Password))
-                return _user;
-            return null;
+            if (_user == null)
+                throw new CustomException("User doesn't exist");
+            var checkPassword = await _userManager.CheckPasswordAsync(_user, userDto.Password);
+            if (!checkPassword)
+                throw new CustomException("Password is not matching");
+            return _user;
         }
     }
 }

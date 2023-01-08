@@ -92,7 +92,7 @@ namespace Bloggr.Infrastructure.Repositories
             IEnumerable<User> results = await _dbSet.Where(expression).ToListAsync();
             return results;
         }
-    public async Task<User> Update(User entity)
+        public async Task<User> Update(User entity)
         {
             var existing = await _dbSet.Where(user => user.Id == entity.Id).Include(user => user.InterestUsers).ThenInclude(interestUser => interestUser.Interest).FirstOrDefaultAsync();
             if (existing == null)

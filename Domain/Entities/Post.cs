@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace Domain.Entities
 {
     public class Post : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [NotMapped]
         public int RANK { get; set; }
 
         public string Title { get; set; }
@@ -24,6 +25,8 @@ namespace Domain.Entities
         public string? CaptionImageUrl { get; set; }
 
         public ICollection<InterestPost> InterestPosts { get; set; }
+
+        public ICollection<Bookmark> Bookmarks { get; set; }
 
         public ICollection<Like>? Likes { get; init; }
 

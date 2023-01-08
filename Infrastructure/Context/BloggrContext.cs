@@ -32,6 +32,7 @@ namespace Infrastructure.Context
             new InterestPostConfiguration().Configure(modelBuilder.Entity<InterestPost>());
             new InterestUserConfiguration().Configure(modelBuilder.Entity<InterestUser>());
             new RolesConfiguration().Configure(modelBuilder.Entity<IdentityRole<int>>());
+            new BookmarksConfiguration().Configure(modelBuilder.Entity<Bookmark>());
         }
 
         public DbSet<User> Users { get; set; }
@@ -45,6 +46,8 @@ namespace Infrastructure.Context
         public DbSet<Interest> Interests { get; set; }
 
         public DbSet<InterestPost> InterestPosts { get; set; }
+
+        public DbSet<Bookmark> Bookmarks { get; set; }
 
     }
 }

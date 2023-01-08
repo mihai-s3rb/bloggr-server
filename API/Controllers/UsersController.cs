@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Bloggr.Application.Bookmarks.Commands.CreateBookmark;
+using Bloggr.Application.Bookmarks.Commands.RemoveBookmark;
 using Bloggr.Application.Interests.Commands.CreateInterest;
 using Bloggr.Application.Interests.Commands.RemoveInterest;
 using Bloggr.Application.Interests.Queries.GetInterests;
@@ -95,11 +97,18 @@ namespace Bloggr.WebUI.Controllers
             return Ok(await _mediator.Send(new CreateInterestCommand(interest)));
         }
 
-        //[HttpDelete("{id}/createdInterests")]
-        //[Authorize]
-        //public async Task<ActionResult<InterestQueryDto>> RemoveUserInterest(int id)
-        //{
-        //    return Ok(await _mediator.Send(new RemoveInterestByIdCommand(id)));
-        //}
+        [HttpPost("bookmarks")]
+        [Authorize]
+        public async Task<ActionResult<Post>> AddBookmark(int postId)
+        {
+            return Ok(await _mediator.Send(new CreateBookmarkCommand(postId)));
+        }
+
+        [HttpDelete("bookmarks")]
+        [Authorize]
+        public async Task<ActionResult<Post>> DeleteBookmark(int postId)
+        {
+            return Ok(await _mediator.Send(new RemoveBookmarkCommand(postId)));
+        }
     }
 }

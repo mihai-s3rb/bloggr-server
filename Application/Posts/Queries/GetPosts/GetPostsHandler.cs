@@ -38,8 +38,10 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
                 Regex rgx = new Regex("[^a-zA-Z0-9 -]");
                 var str = rgx.Replace(request.input.ToLower().Trim(), "");
                 query = await _UOW.Posts.Search(query, str);
-                query.OrderByDescending(post => post.RANK);
-
+            }
+            if (_userAccessor.GetUserIdOrNull != null && request.isBookmarked != null && request.isBookmarked == true)
+            {
+                query = query.Where(post => post.Bookmarks.Any(bookmark => bookmark.UserId == _userAccessor.GetUserId()));
             }
             if (!string.IsNullOrEmpty(request.username))
             {
@@ -47,6 +49,8 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             }
             if (!string.IsNullOrEmpty(request.orderBy))
             {
+                if(!string.IsNullOrEmpty(request.input))
+                   //query = query.OrderByDescending(post => post.RANK);
                 if (request.orderBy == "asc")
                     query = query.OrderByDescending(post => post.CreationDate);
                 else if (request.orderBy == "desc")
