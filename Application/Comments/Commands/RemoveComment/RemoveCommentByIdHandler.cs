@@ -34,7 +34,7 @@ namespace Bloggr.Application.Comments.Commands.RemoveComment
         public async Task<CommentQueryDto> Handle(RemoveCommentByIdCommand request, CancellationToken cancellationToken)
         {
             var commentDb = await _UOW.Comments.GetById(request.id);
-            await _customAuthorizationHandler.Authorize(commentDb.Id);
+            await _customAuthorizationHandler.Authorize(commentDb.UserId);
             var comment = await _UOW.Comments.RemoveById(request.id);
             await _UOW.Save();
             var result = _mapper.Map<CommentQueryDto>(comment);

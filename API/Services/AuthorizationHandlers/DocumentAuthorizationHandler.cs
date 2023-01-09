@@ -1,4 +1,5 @@
 ﻿using Bloggr.Application.Models;
+using Bloggr.Domain.Exceptions;
 using Domain.Abstracts;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace Bloggr.WebUI.Services.AuthorizationHandlers
                 context.Succeed(requirement);
             }
 
-            return Task.CompletedTask;
+            throw new NotAuthorizedException("You are not allowed to do this");
         }
     }
 }
