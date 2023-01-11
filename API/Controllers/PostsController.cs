@@ -14,6 +14,8 @@ using Bloggr.Application.Posts.Queries.GetById;
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Domain.Exceptions;
 using Bloggr.Domain.Models;
+using Bloggr.Infrastructure.Interfaces;
+using Bloggr.Infrastructure.Models.Blobs;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -21,6 +23,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client.Extensions.Msal;
 using System.Net;
 
 namespace Bloggr.WebUI.Controllers
@@ -31,11 +34,13 @@ namespace Bloggr.WebUI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IAzureStorage _storage;
 
-        public PostsController(IMediator mediator, IMapper mapper)
+        public PostsController(IMediator mediator, IMapper mapper, IAzureStorage storage)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _storage = storage;
         }
 
         //GET post by ID
@@ -128,6 +133,24 @@ namespace Bloggr.WebUI.Controllers
         {
             var result = await _mediator.Send(new RemoveLikeCommand(id));
             return Ok(result);
+        }
+
+        [HttpPost(nameof(Upload))]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            BlobResponseDto? response = await _storage.UploadAsync(file);
+
+            // Check if we got an error
+            if (response.Error == true)
+            {
+                // We got an error during upload, return an error with details to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, response.Status);
+            }
+            else
+            {
+                // Return a success message to the client about successfull upload
+                return StatusCode(StatusCodes.Status200OK, response);
+            }
         }
     }
 }

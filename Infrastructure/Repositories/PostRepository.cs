@@ -75,8 +75,11 @@ namespace Bloggr.Infrastructure.Repositories
         {
             entity.NumberOfLikes = await _ctx.Likes.Where(like => like.PostId == entity.Id).CountAsync();
             entity.NumberOfComments = await _ctx.Comments.Where(like => like.PostId == entity.Id).CountAsync();
-            if(userId != null)
+            if (userId != null)
+            {
                 entity.IsLikedByUser = _ctx.Likes.Where(like => like.PostId == entity.Id).Any(like => like.UserId == userId);
+                entity.IsBookmarkedByUser = _ctx.Bookmarks.Where(bookmark => bookmark.PostId == entity.Id).Any(bookmark => bookmark.UserId == userId);
+            }
             //entity.IsBookmarkedByUser
             return entity;
         }

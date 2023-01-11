@@ -30,6 +30,7 @@ namespace Bloggr.Application.Bookmarks.Commands.RemoveBookmark
             if (existing == null)
                 throw EntityNotFoundException.OfType<Bookmark>();
             await _UOW.Bookmarks.Remove(existing);
+            await _UOW.Save();
             return existing;
         }
     }

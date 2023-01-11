@@ -59,6 +59,8 @@ namespace Bloggr.WebUI.Extensions
             //ADD USER ACCESSOR
             builder.Services.AddTransient<IUserAccessor, UserAccessor>();
 
+            builder.Services.AddTransient<IAzureStorage, AzureStorage>();
+
             var assembly = AppDomain.CurrentDomain.Load("Bloggr.Application");
             builder.Services.AddMediatR(assembly);
             builder.Services.AddMediatR(typeof(Program));

@@ -26,6 +26,8 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
 
         public bool? IsLikedByUser { get; set; }
 
+        public bool? IsBookmarkedByUser { get; set; }
+
         public int? UserId { get; set; }
         
         public UsersQueryDto User { get; set; }

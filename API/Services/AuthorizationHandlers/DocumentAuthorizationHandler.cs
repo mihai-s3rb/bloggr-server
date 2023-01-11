@@ -19,9 +19,11 @@ namespace Bloggr.WebUI.Services.AuthorizationHandlers
             if (userId.Equals(resourceId))
             {
                 context.Succeed(requirement);
+            } else
+            {
+                throw new NotAuthorizedException("You are not allowed to do this");
             }
-
-            throw new NotAuthorizedException("You are not allowed to do this");
+            return Task.CompletedTask;
         }
     }
 }
