@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Users.Commands.UpdateUser
 {
-    public record class UpdateUserCommand(UpdateUserDto user, IEnumerable<InterestQueryDto>? interests, int userId) : IRequest<UsersQueryDto>;
+    public record class UpdateUserCommand(UpdateUserDto user) : IRequest<UsersQueryDto>;
 }

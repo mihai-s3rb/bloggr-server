@@ -16,6 +16,7 @@ using Bloggr.Application.Users.Queries.GetUserByUsername;
 using Bloggr.Application.Users.Queries.GetUsers;
 using Bloggr.Application.Users.Queries.LoginUser;
 using Bloggr.Domain.Models;
+using Bloggr.WebUI.CustomModelBinder;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -75,11 +76,11 @@ namespace Bloggr.WebUI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPost("update")]
         [Authorize]
-        public async Task<ActionResult<UserDto>> Update([FromBody] UpdateUserDto user, int id)
+        public async Task<ActionResult<UserDto>> Update( [FromForm] UpdateUserDto user)
         {
-            return Ok(await _mediator.Send(new UpdateUserCommand(user, user.Interests, id)));
+            return Ok(await _mediator.Send(new UpdateUserCommand(user)));
         }
 
         //related

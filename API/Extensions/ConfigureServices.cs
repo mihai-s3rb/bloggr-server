@@ -40,8 +40,13 @@ namespace Bloggr.WebUI.Extensions
 
             // Add services to the container.
 
-            builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
-                            .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.AddControllers(options => {
+                options.Filters.Add<ValidationFilter>();
+                options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+                }).AddJsonOptions(x => {
+                                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                                x.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                            });
             //add BloggrContext to API
             builder.Services.AddDbContext<BloggrContext>(options =>
             {
