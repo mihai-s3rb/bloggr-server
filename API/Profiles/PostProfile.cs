@@ -12,7 +12,8 @@ namespace Bloggr.WebUI.Profiles
         public PostProfile()
         {
             CreateMap<CreatePostDto, Post>();
-            CreateMap<UpdatePostDto, Post>();
+            CreateMap<UpdatePostDto, Post>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Post, PostQueryDto>()
                 .ForMember(dest => dest.Interests, opt => opt.MapFrom(x => x.InterestPosts.Select(x => x.Interest)));
             CreateMap<Post, PostsQueryDto>()

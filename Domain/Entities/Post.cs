@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Entities;
+using Domain.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,21 +11,22 @@ namespace Domain.Entities
 {
     public class Post : BaseEntity
     {
+        [NotMapped]
+        public int RANK { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }
 
         public string Caption { get; set; }
 
+        public int Views { get; set; }
+
         public string? CaptionImageUrl { get; set; }
 
-        [NotMapped]
-        public int NumberOfLikes { get; set; }
-
-        [NotMapped]
-        public int NumberOfComments { get; set; }
-
         public ICollection<InterestPost> InterestPosts { get; set; }
+
+        public ICollection<Bookmark> Bookmarks { get; set; }
 
         public ICollection<Like>? Likes { get; init; }
 
@@ -33,5 +35,17 @@ namespace Domain.Entities
         public int? UserId { get; set; }
 
         public User? User { get; set; }
+
+        [NotMapped]
+        public int? NumberOfLikes { get; set; }
+
+        [NotMapped]
+        public int? NumberOfComments { get; set; }
+
+        [NotMapped]
+        public bool? IsLikedByUser { get; set; }
+
+        [NotMapped]
+        public bool? IsBookmarkedByUser { get; set; }
     }
 }

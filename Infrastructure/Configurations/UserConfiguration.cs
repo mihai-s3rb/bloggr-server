@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Infrastructure.Configurations
 {
-    public class UserConfiguration : BaseEntityConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public override void Configure(EntityTypeBuilder<User> builder)
+        private string profileImageUrl = @"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+        private string backgroundImageUrl = @"https://img.freepik.com/free-photo/abstract-smooth-empty-grey-studio-well-use-as-background-business-report-digital-website-template-backdrop_1258-52620.jpg?w=2000";
+
+        public virtual void Configure(EntityTypeBuilder<User> builder)
         {
-            base.Configure(builder);
-            builder.Property(t => t.Username)
+            builder.Property(t => t.CreationDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Property(t => t.UserName)
                 .IsRequired()
                 .HasMaxLength(20);
-            builder.HasIndex(u => u.Username)
+            builder.HasIndex(u => u.UserName)
                 .IsUnique();
             builder.Property(t => t.FirstName)
                 .HasMaxLength(30);
@@ -25,6 +29,10 @@ namespace Bloggr.Infrastructure.Configurations
                 .HasMaxLength(30);
             builder.Property(t => t.Bio)
                 .HasMaxLength(1000);
+            builder.Property(t => t.ProfileImageUrl)
+                .HasDefaultValue(profileImageUrl);
+            builder.Property(t => t.BackgroundImageUrl)
+                .HasDefaultValue(backgroundImageUrl);
 
             //relationships
             builder.HasMany<Post>(u => u.Posts)

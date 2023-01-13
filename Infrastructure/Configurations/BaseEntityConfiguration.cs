@@ -1,4 +1,5 @@
-﻿using Domain.Abstracts;
+﻿using Bloggr.Domain.Interfaces;
+using Domain.Abstracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

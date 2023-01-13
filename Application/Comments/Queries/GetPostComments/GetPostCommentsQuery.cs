@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Comments.Queries.GetPostComments
 {
-    public record class GetPostCommentsQuery(PageModel pageDto, int postId) : IRequest<PagedResultDto<CommentQueryDto>>;
+    public record class GetPostCommentsQuery(PageModel pageDto, int postId, string? orderBy) : IRequest<PagedResultDto<CommentQueryDto>>;
 }

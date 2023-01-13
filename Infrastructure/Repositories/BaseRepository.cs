@@ -1,4 +1,5 @@
 ﻿using Bloggr.Domain.Exceptions;
+using Bloggr.Domain.Interfaces;
 using Bloggr.Domain.Models;
 using Bloggr.Infrastructure.Interfaces;
 using Bloggr.Infrastructure.Services;
@@ -8,8 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
-using System.Web.Http;
-using System.Web.Http.Results;
 
 namespace Bloggr.Infrastructure.Repositories
 {

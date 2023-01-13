@@ -2,7 +2,11 @@
 using Bloggr.Infrastructure.Configurations;
 using Domain.Abstracts;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +16,16 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Context
 {
-    public class BloggrContext : DbContext
+    public class BloggrContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public BloggrContext(DbContextOptions<BloggrContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(x => x.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +38,8 @@ namespace Infrastructure.Context
             new InterestConfiguration().Configure(modelBuilder.Entity<Interest>());
             new InterestPostConfiguration().Configure(modelBuilder.Entity<InterestPost>());
             new InterestUserConfiguration().Configure(modelBuilder.Entity<InterestUser>());
+            new RolesConfiguration().Configure(modelBuilder.Entity<IdentityRole<int>>());
+            new BookmarksConfiguration().Configure(modelBuilder.Entity<Bookmark>());
         }
 
         public DbSet<User> Users { get; set; }
@@ -42,6 +53,8 @@ namespace Infrastructure.Context
         public DbSet<Interest> Interests { get; set; }
 
         public DbSet<InterestPost> InterestPosts { get; set; }
+
+        public DbSet<Bookmark> Bookmarks { get; set; }
 
     }
 }

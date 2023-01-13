@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Interests.Commands.CreateInterest
 {
-    public record class CreateInterestCommand(CreateInterestDto interest, int userId) : IRequest<InterestQueryDto>;
+    public record class CreateInterestCommand(CreateInterestDto interest) : IRequest<InterestQueryDto>;
 }

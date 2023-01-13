@@ -12,8 +12,6 @@ namespace Bloggr.Application.Models.InterestPost
 
         public int PostId { get; set; }
 
-        //public Interest Interest { get; set; }
-
         public int InterestId { get; set; }
     }
 }

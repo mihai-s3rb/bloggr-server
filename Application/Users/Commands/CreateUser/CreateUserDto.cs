@@ -11,11 +11,19 @@ namespace Bloggr.Application.Users.Commands.CreateUser
     {
         public string Username { get; set; }
 
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
 
         public string? Bio { get; set; }
+
+        public string? ProfileImageUrl { get; set; }
+
+        public string? BackgroundImageUrl { get; set; }
 
         public DateTimeOffset BirthDate { get; set; }
 

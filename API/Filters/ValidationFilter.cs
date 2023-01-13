@@ -3,7 +3,6 @@ using Bloggr.Domain.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Web.Http.ModelBinding;
 
 namespace Bloggr.WebUI.Filters
 {
@@ -43,7 +42,6 @@ namespace Bloggr.WebUI.Filters
 
                 var errorResponse = new ErrorModel
                 {
-                    StatusCode = 400,
                     Message = "Validation error"
                 };
                 foreach (var error in errors)
@@ -52,7 +50,6 @@ namespace Bloggr.WebUI.Filters
                     {
                         var errorModel = new ErrorModel
                         {
-                            StatusCode = 500,
                             Message = subError
                         };
                         errorResponse.Errors.Add(errorModel);

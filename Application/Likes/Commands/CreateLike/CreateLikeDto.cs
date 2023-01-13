@@ -8,6 +8,6 @@ namespace Bloggr.Application.Likes.Commands.CreateLike
 {
     public class CreateLikeDto
     {
-        public int UserId { get; set; }
+        
     }
 }

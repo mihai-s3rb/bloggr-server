@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Bloggr.Domain.Models
 {
@@ -13,15 +16,20 @@ namespace Bloggr.Domain.Models
         {
             Errors = new List<ErrorModel>();
         }
-        public int StatusCode { get; set; }
 
         public string Message { get; set; }
 
-        public IList<ErrorModel> Errors { get; set; }
+        public List<ErrorModel>? Errors { get; set; }
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            //return JsonSerializer.Serialize(this);
+            return JsonConvert.SerializeObject(
+                this,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
         }
     }
 }

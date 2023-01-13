@@ -13,6 +13,10 @@ namespace Bloggr.Application.Comments.Queries.GetPostComments
 
         public string Content { get; set; }
 
+        public int UserId { get; set; }
+
+        public int PostId { get; set; }
+
         public UsersQueryDto User { get; set; }
     }
 }

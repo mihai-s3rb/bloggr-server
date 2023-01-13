@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Interfaces;
 using Bloggr.Application.Posts.Queries.GetById;
+using Bloggr.Domain.Entities;
 using Bloggr.Infrastructure.Interfaces;
 using Domain.Entities;
 using System;
@@ -15,15 +17,18 @@ namespace Bloggr.Application.Posts.Commands.CreatePost
     {
         private readonly IUnitOfWork _UOW;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public CreatePostHandler(IUnitOfWork UOW, IMapper mapper)
+        public CreatePostHandler(IUnitOfWork UOW, IMapper mapper, IUserAccessor userAccessor)
         {
             _UOW = UOW;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
         public async Task<PostQueryDto> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
             var post = _mapper.Map<Post>(request.post);
+            post.UserId = _userAccessor.GetUserId();
             var result = await _UOW.Posts.Add(post);
             //make a service for this
             result.InterestPosts = new List<InterestPost>();
@@ -31,10 +36,13 @@ namespace Bloggr.Application.Posts.Commands.CreatePost
             {
                 foreach (InterestQueryDto interest in request.interests)
                 {
-                    result.InterestPosts.Add(new InterestPost
+                    if (_UOW.Interests.Query().Any(interestDb => interestDb.Id == interest.Id))
                     {
-                        InterestId = interest.Id
-                    });
+                        result.InterestPosts.Add(new InterestPost
+                        {
+                            InterestId = interest.Id
+                        });
+                    }
                 }
             }
             await _UOW.Save();

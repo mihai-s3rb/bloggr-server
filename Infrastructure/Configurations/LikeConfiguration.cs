@@ -14,6 +14,18 @@ namespace Bloggr.Infrastructure.Configurations
         public override void Configure(EntityTypeBuilder<Like> builder)
         {
             base.Configure(builder);
+
+            builder.HasKey(like => new { like.PostId, like.UserId });
+
+            builder.HasOne(like => like.Post)
+                 .WithMany(p => p.Likes)
+                 .HasForeignKey(like => like.PostId)
+                 .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder.HasOne(like => like.User)
+                 .WithMany(u => u.Likes)
+                 .HasForeignKey(like => like.UserId)
+                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Domain.Exceptions
 {
-    public class EntityNotFoundException : ApplicationException
+    public class EntityNotFoundException : CustomException
     {
         private EntityNotFoundException(Type entityType, long id) : base($"Entity of type {entityType.Name} with id: {id} not found")
         {
