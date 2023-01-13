@@ -1,4 +1,5 @@
 ﻿using Bloggr.Domain.Models;
+using Domain.Abstracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

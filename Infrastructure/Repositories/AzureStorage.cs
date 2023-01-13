@@ -69,7 +69,8 @@ namespace Bloggr.Infrastructure.Repositories
             try
             {
                 // Get a reference to the blob just uploaded from the API in a container from configuration settings
-                BlobClient client = container.GetBlobClient(blob.FileName);
+                var randomGuid = Guid.NewGuid().ToString();
+                BlobClient client = container.GetBlobClient(blob.FileName + randomGuid);
 
                 // Open a stream for the file we want to upload
                 await using (Stream? data = blob.OpenReadStream())

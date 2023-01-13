@@ -51,7 +51,10 @@ namespace Bloggr.WebUI.Extensions
             builder.Services.AddDbContext<BloggrContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Bloggr.Infrastructure"));
+                    b => {
+                        b.MigrationsAssembly("Bloggr.Infrastructure");
+                        b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                });
             });
             builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             //builder.Services.AddValidatorsFromAssemblyContaining<PostValidator>();

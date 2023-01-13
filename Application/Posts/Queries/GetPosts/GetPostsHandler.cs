@@ -37,35 +37,36 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
             {
                 Regex rgx = new Regex("[^a-zA-Z0-9 -]");
                 var str = rgx.Replace(request.input.ToLower().Trim(), "");
-                query = await _UOW.Posts.Search(query, str);
+                query = query.Where(post => EF.Functions.FreeText(post.Title, str) || EF.Functions.FreeText(post.Content, str));
+                //query = await _UOW.Posts.Search(query, str);
             }
             if (_userAccessor.GetUserIdOrNull != null && request.isBookmarked != null && request.isBookmarked == true)
             {
-                query = query.Where(post => post.Bookmarks.Any(bookmark => bookmark.UserId == _userAccessor.GetUserId()));
+                var userId = _userAccessor.GetUserId();
+                query = query.Where(post => post.Bookmarks.Any(bookmark => bookmark.UserId == userId));
             }
             if (!string.IsNullOrEmpty(request.username))
             {
                 query = query.Where(post => post.User.UserName == request.username);
             }
-            if (!string.IsNullOrEmpty(request.orderBy))
-            {
-                if(!string.IsNullOrEmpty(request.input))
-                   //query = query.OrderByDescending(post => post.RANK);
-                if (request.orderBy == "asc")
-                    query = query.OrderByDescending(post => post.CreationDate);
-                else if (request.orderBy == "desc")
-                    query = query.OrderBy(post => post.CreationDate);
-                else if (request.orderBy == "pop")
-                    query = query.OrderByDescending(post => post.Views);
-                else if (request.orderBy == "rec")
-                    query = query.OrderByDescending(post => post.CreationDate).OrderByDescending(post => post.Views);
-            }
             if (request.interests != null && request.interests.Any())
             {
                 query = query.Where(post => post.InterestPosts.Select(interestPost => interestPost.Interest).Any(interest => request.interests.Contains(interest.Name)) && post.InterestPosts.Count() != 0);
             }
+            var orderedQuery = query.OrderBy(post => post.Id);
+            if (!string.IsNullOrEmpty(request.orderBy))
+            {
+                if (request.orderBy == "asc")
+                    orderedQuery = orderedQuery.ThenBy(post => post.CreationDate);
+                else if (request.orderBy == "desc")
+                    orderedQuery = orderedQuery.ThenByDescending(post => post.CreationDate);
+                else if (request.orderBy == "pop")
+                    orderedQuery = orderedQuery.ThenByDescending(post => post.Views);
+                else
+                    orderedQuery = orderedQuery.ThenByDescending(post => post.CreationDate).ThenByDescending(post => post.Views);
+            }
 
-            var includeQuery = query.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);
+            var includeQuery = orderedQuery.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);
             var pagedResult = await _UOW.Posts.Paginate(includeQuery, request.pageDto);
 
             await _UOW.Posts.SetPostListProps(pagedResult.Result, _userAccessor.GetUserIdOrNull());
