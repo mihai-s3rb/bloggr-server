@@ -11,9 +11,6 @@ namespace Domain.Entities
 {
     public class Post : BaseEntity
     {
-        [NotMapped]
-        public int RANK { get; set; }
-
         public string Title { get; set; }
 
         public string Content { get; set; }

@@ -15,6 +15,8 @@ namespace Bloggr.Application.Posts.Commands.CreatePost
 
         public string Caption { get; set; }
 
+        public string CaptionImageUrl { get; set; }
+
         public IEnumerable<InterestQueryDto>? Interests { get; set; }
     }
 }
