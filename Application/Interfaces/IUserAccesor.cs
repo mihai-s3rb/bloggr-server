@@ -13,5 +13,7 @@ namespace Bloggr.Application.Interfaces
         public int GetUserId();
 
         public int? GetUserIdOrNull();
+
+        public string? GetUserNameOrNull();
     }
 }
