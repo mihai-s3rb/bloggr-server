@@ -5,6 +5,7 @@ using Bloggr.Application.Interests.Commands.CreateInterest;
 using Bloggr.Application.Interests.Commands.RemoveInterest;
 using Bloggr.Application.Interests.Queries.GetInterests;
 using Bloggr.Application.Interests.Queries.GetPostInterests;
+using Bloggr.Application.Messages.Queries;
 using Bloggr.Application.Models;
 using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Application.Users;
@@ -15,6 +16,7 @@ using Bloggr.Application.Users.Queries.GetUserById;
 using Bloggr.Application.Users.Queries.GetUserByUsername;
 using Bloggr.Application.Users.Queries.GetUsers;
 using Bloggr.Application.Users.Queries.LoginUser;
+using Bloggr.Domain.Entities;
 using Bloggr.Domain.Models;
 using Bloggr.WebUI.CustomModelBinder;
 using Domain.Entities;
@@ -110,6 +112,13 @@ namespace Bloggr.WebUI.Controllers
         public async Task<ActionResult<Post>> DeleteBookmark(int postId)
         {
             return Ok(await _mediator.Send(new RemoveBookmarkCommand(postId)));
+        }
+
+        [HttpGet("messagesHistory")]
+        [Authorize]
+        public async Task<ActionResult<CursorPagedResult>> GetMessagesHistory(string username, int cursor)
+        {
+            return Ok(await _mediator.Send(new GetMessagesHistoryQuery(username, cursor)));
         }
     }
 }

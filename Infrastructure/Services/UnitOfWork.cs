@@ -21,6 +21,8 @@ namespace Bloggr.Infrastructure.Services
             InterestPosts = new BaseRepository<InterestPost>(_context);
             InterestUsers = new BaseRepository<InterestUser>(_context);
             Bookmarks = new BaseRepository<Bookmark>(_context);
+            Messages = new BaseRepository<Message>(_context);
+
         }
 
         public IUserRepository Users { get; private set; }
@@ -39,6 +41,7 @@ namespace Bloggr.Infrastructure.Services
 
         public IBaseRepository<Bookmark> Bookmarks { get; private set; }
 
+        public IBaseRepository<Message> Messages { get; private set; }
 
         public void Dispose()
         {

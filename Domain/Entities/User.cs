@@ -35,6 +35,10 @@ namespace Domain.Entities
 
         public ICollection<Bookmark>? Bookmarks { get; set; }
 
+        public ICollection<Message>? SentMessages { get; set; }
+
+        public ICollection<Message>? ReceivedMessages { get; set; }
+
         public ICollection<Comment>? Comments { get; set; }
 
         public ICollection<Like>? Likes { get; set; }
