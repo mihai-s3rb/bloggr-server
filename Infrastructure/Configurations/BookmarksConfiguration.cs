@@ -20,7 +20,7 @@ namespace Bloggr.Infrastructure.Configurations
             builder.HasOne(bookmark => bookmark.Post)
                  .WithMany(p => p.Bookmarks)
                  .HasForeignKey(bookmark => bookmark.PostId)
-                 .OnDelete(DeleteBehavior.ClientCascade);
+                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(bookmark => bookmark.User)
                  .WithMany(u => u.Bookmarks)

@@ -21,8 +21,6 @@ namespace Bloggr.Application.Comments.Commands.RemoveComment
         private readonly IUnitOfWork _UOW;
         private readonly ICustomAuthorizationHandler _customAuthorizationHandler;
         private readonly IMapper _mapper;
-        private readonly IAuthorizationService _authorizationService;
-        private readonly IUserAccessor _userAccessor;
 
         public RemoveCommentByIdHandler(IUnitOfWork UOW, IMapper mapper, ICustomAuthorizationHandler customAuthorizationHandler)
         {

@@ -8,6 +8,6 @@ namespace Bloggr.Application.Interfaces
 {
     public interface ICustomAuthorizationHandler
     {
-        public Task Authorize(int documentUserId);
+        public Task Authorize(int? documentUserId);
     }
 }
