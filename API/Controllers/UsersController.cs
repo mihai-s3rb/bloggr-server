@@ -116,7 +116,7 @@ namespace Bloggr.WebUI.Controllers
 
         [HttpGet("messagesHistory")]
         [Authorize]
-        public async Task<ActionResult<CursorPagedResult>> GetMessagesHistory(string username, int cursor)
+        public async Task<ActionResult<CursorPagedResult>> GetMessagesHistory(string username, int? cursor)
         {
             return Ok(await _mediator.Send(new GetMessagesHistoryQuery(username, cursor)));
         }

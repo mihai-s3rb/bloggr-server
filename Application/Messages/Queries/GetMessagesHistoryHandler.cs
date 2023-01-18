@@ -56,7 +56,7 @@ namespace Bloggr.Application.Messages.Queries
             var pagedResult = new CursorPagedResult
             {
                 NextCursor = nextCursor,
-                Result = _mapper.Map<IEnumerable<MessageDto>>(messages.Take(10))
+                Result = _mapper.Map<IEnumerable<MessageDto>>(messages.Take(10).OrderBy(m => m.CreationDate))
             };
             return pagedResult;
         } 

@@ -16,7 +16,7 @@ namespace Bloggr.Application.Validators.User
             RuleFor(u => u.Email).NotNull().NotEmpty().EmailAddress();
             RuleFor(u => u.FirstName).NotNull().NotEmpty().Length(3, 20);
             RuleFor(u => u.LastName).NotNull().NotEmpty().Length(1, 20);
-            RuleFor(u => u.Bio).NotNull().NotEmpty().Length(5, 20);
+            RuleFor(u => u.Bio).NotNull().NotEmpty().Length(5, 400);
             RuleFor(u => u.BirthDate).NotNull().NotEmpty();
         }
     }
