@@ -30,10 +30,10 @@ namespace Bloggr.WebUI.Middlewares
             {
                 await HandleException(httpContext, ex.Message, 500, ex.Errors);
             }
-            //catch (Exception ex)
-            //{
-            //    await HandleException(httpContext, "An internal server occured", 500, null);
-            //}
+            catch (Exception ex)
+            {
+                await HandleException(httpContext, "An internal server occured", 500, null);
+            }
 
         }
 

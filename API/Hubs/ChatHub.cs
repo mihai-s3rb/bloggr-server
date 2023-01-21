@@ -51,9 +51,9 @@ namespace Bloggr.WebUI.Hubs
                 ReceiverId = existing.Id,
                 Content = message
             };
-
             await _UOW.Messages.Add(messageDto);
-            await Clients.Group(sendToUserName).SendAsync("messageReceived", Context.User.Identity.Name, message);
+            if(!Context.User.Identity.Name.Equals(sendToUserName))
+                await Clients.Group(sendToUserName).SendAsync("messageReceived", Context.User.Identity.Name, message);
             await _UOW.Save();
         }
     }

@@ -62,6 +62,8 @@ namespace Bloggr.Application.Posts.Queries.GetPosts
                     orderedQuery = query.OrderByDescending(post => post.CreationDate);
                 else if (request.orderBy == "pop")
                     orderedQuery = query.OrderByDescending(post => post.Views);
+                else if (request.orderBy == "rec")
+                    orderedQuery = query.OrderBy(post => EF.Functions.Random());
             }
 
             var includeQuery = orderedQuery.Include(post => post.InterestPosts).ThenInclude(interestPost => interestPost.Interest).Include(post => post.User);
