@@ -2,6 +2,7 @@ using Bloggr.Application.Posts.Queries.GetPosts;
 using Bloggr.Infrastructure;
 using Bloggr.Infrastructure.Repositories;
 using Bloggr.WebUI.Extensions;
+using Bloggr.WebUI.Hubs;
 using Domain.Abstracts;
 using FluentValidation;
 using Infrastructure.Context;
@@ -32,11 +33,13 @@ app.UseHttpsRedirection();
 
 app.UseCors("_myAllowSpecificOrigins");
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.ConfigureCustomExceptionHandler();
 
+app.MapHub<ChatHub>("/hub");
 app.MapControllers();
 
 app.Run();

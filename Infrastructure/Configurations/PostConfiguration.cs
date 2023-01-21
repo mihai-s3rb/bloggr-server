@@ -25,11 +25,11 @@ namespace Bloggr.Infrastructure.Configurations
             builder.HasMany<Comment>(p => p.Comments)
                 .WithOne(c => c.Post)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany<Like>(p => p.Likes)
                 .WithOne(l => l.Post)
                 .HasForeignKey(l => l.PostId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

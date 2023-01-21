@@ -1,4 +1,5 @@
 ﻿using Bloggr.Application.Interests.Queries.GetInterests;
+using Bloggr.Application.Models;
 using Bloggr.Application.Users.Queries.GetUsers;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Bloggr.Application.Posts.Queries.GetById
 {
-    public class PostQueryDto
+    public class PostQueryDto : BaseDto
     {
-        public int Id { get; set; }
 
         public string Title { get; set; }
 

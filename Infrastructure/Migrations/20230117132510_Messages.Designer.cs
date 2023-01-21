@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    partial class BloggrContextModelSnapshot : ModelSnapshot
+    [Migration("20230117132510_Messages")]
+    partial class Messages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,11 +70,11 @@ namespace Bloggr.Infrastructure.Migrations
 
             modelBuilder.Entity("Bloggr.Domain.Entities.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("SenderId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -82,17 +85,9 @@ namespace Bloggr.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<int>("ReceiverId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("SenderId", "ReceiverId");
 
                     b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -383,14 +378,14 @@ namespace Bloggr.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d011fdb9-7c6b-4b94-a095-feea8222f372",
+                            ConcurrencyStamp = "a2cbcf0f-7693-4c45-9642-eec461de731c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3d9a707a-adc6-4931-b4ba-7aba6f143ecf",
+                            ConcurrencyStamp = "422eaad3-1556-47b9-a802-6be0f6af7638",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -504,7 +499,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("Bookmarks")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "User")
@@ -561,7 +556,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "User")
@@ -590,13 +585,13 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Interest", "Interest")
                         .WithMany("InterestPosts")
                         .HasForeignKey("InterestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("InterestPosts")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Interest");
@@ -609,7 +604,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "User")

@@ -21,10 +21,6 @@ namespace Bloggr.Application.Users.Commands.CreateUser
 
         public string? Bio { get; set; }
 
-        public string? ProfileImageUrl { get; set; }
-
-        public string? BackgroundImageUrl { get; set; }
-
         public DateTimeOffset BirthDate { get; set; }
 
         public IEnumerable<InterestQueryDto>? Interests { get; set; }

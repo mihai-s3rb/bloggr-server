@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bloggr.Infrastructure.Migrations
 {
     [DbContext(typeof(BloggrContext))]
-    partial class BloggrContextModelSnapshot : ModelSnapshot
+    [Migration("20230118144200_interestpostconfgig")]
+    partial class interestpostconfgig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,14 +386,14 @@ namespace Bloggr.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d011fdb9-7c6b-4b94-a095-feea8222f372",
+                            ConcurrencyStamp = "ec6cfd79-56d2-4ae6-9b37-4eae57db9dcd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3d9a707a-adc6-4931-b4ba-7aba6f143ecf",
+                            ConcurrencyStamp = "7125c2bc-658d-468d-a5b2-b1363393ee18",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -609,7 +612,7 @@ namespace Bloggr.Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "User")

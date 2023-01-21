@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Infrastructure\Bloggr.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Azure\Models\" />
-  </ItemGroup>
-
 </Project>

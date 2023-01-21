@@ -22,13 +22,16 @@ namespace Bloggr.Application.Services
             _userAccessor = userAccessor;
         }
 
-        public async Task Authorize(int documentUserId)
+        public async Task Authorize(int? documentUserId)
         {
-            var authorizationResult = await _authorizationService
-            .AuthorizeAsync(_userAccessor.User, new DocumentDto { UserId = documentUserId }, "EditPolicy");
-            if (!authorizationResult.Succeeded)
+            if (documentUserId != null)
             {
-                throw new NotAuthorizedException("You are not allowed");
+                var authorizationResult = await _authorizationService
+                .AuthorizeAsync(_userAccessor.User, new DocumentDto { UserId = (int)documentUserId }, "EditPolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    throw new NotAuthorizedException("You are not allowed");
+                }
             }
         }
     }

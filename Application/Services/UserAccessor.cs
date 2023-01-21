@@ -42,5 +42,13 @@ namespace Bloggr.Application.Services
             }
             return null;
         }
+        public string? GetUserNameOrNull()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return User.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value;
+            }
+            return null;
+        }
     }
 }

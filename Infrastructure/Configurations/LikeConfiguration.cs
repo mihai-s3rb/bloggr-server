@@ -20,7 +20,7 @@ namespace Bloggr.Infrastructure.Configurations
             builder.HasOne(like => like.Post)
                  .WithMany(p => p.Likes)
                  .HasForeignKey(like => like.PostId)
-                 .OnDelete(DeleteBehavior.ClientCascade);
+                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(like => like.User)
                  .WithMany(u => u.Likes)

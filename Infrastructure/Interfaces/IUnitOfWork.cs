@@ -26,6 +26,8 @@ namespace Bloggr.Infrastructure.Interfaces
 
         IBaseRepository<Bookmark> Bookmarks { get; }
 
+        IBaseRepository<Message> Messages { get; }
+
         public void Dispose();
 
         public Task Save();
