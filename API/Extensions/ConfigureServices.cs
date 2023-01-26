@@ -58,6 +58,7 @@ namespace Bloggr.WebUI.Extensions
                     b => {
                         b.MigrationsAssembly("Bloggr.Infrastructure");
                         b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        b.CommandTimeout(120);
                 });
             });
             builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

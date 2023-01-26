@@ -1,0 +1,35 @@
+.readonly-editor {
+  width: 100%;
+  box-sizing: border-box;
+  cursor: text;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  background: #fefefe;
+}
+.public-DraftEditor-content{
+  height: 100%;
+}
+.toolbar-button-container {
+  display: inline-block;
+}
+.toolbar-image-button {
+  background: #fbfbfb;
+  color: #888;
+  border-radius: 0;
+  font-size: 18px;
+  border: 0;
+  padding-top: 5px;
+  vertical-align: bottom;
+  height: 34px;
+  width: 36px;
+}
+.toolbar-image-button:hover {
+  background-color: #f3f3f3;;
+}
+.toolbar-image-icon {
+  cursor: pointer;
+  fill: #888;
+  height: 24px;
+  width: 24px;
+  overflow: hidden;
+}
