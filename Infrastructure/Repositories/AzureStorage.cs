@@ -22,8 +22,8 @@ namespace Bloggr.Infrastructure.Repositories
 
         public AzureStorage(IConfiguration configuration)
         {
-            _storageConnectionString = Environment.GetEnvironmentVariable("BlobConnectionString") ?? throw new ArgumentNullException();
-            _storageContainerName = Environment.GetEnvironmentVariable("BlobContainerName") ?? throw new ArgumentNullException();
+            _storageConnectionString = Environment.GetEnvironmentVariable("APPSETTING_BlobConnectionString") ?? throw new ArgumentNullException();
+            _storageContainerName = Environment.GetEnvironmentVariable("APPSETTING_BlobContainerName") ?? throw new ArgumentNullException();
         }
 
         public Task<BlobResponseDto> DeleteAsync(string blobFilename)
