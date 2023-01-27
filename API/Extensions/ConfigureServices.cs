@@ -54,7 +54,7 @@ namespace Bloggr.WebUI.Extensions
             //add BloggrContext to API
             builder.Services.AddDbContext<BloggrContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                options.UseSqlServer(Environment.GetEnvironmentVariable("DefaultConnection"),
                     b => {
                         b.MigrationsAssembly("Bloggr.Infrastructure");
                         b.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
