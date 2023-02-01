@@ -11,7 +11,7 @@
 - Global exception middleware to show appropiate error messages
 - Uses Azure Blob Storage to store images
 
-***Frontend:***
+***Frontend:*** ![here](https://github.com/smrazvan/blogr_client_dev)
 - Created using React and Material UI
 - Uses Redux Toolkit for global state management and RTK Query for communicating with the backend API
 - Uses React Router to create routing
